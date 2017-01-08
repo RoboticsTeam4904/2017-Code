@@ -43,12 +43,7 @@ public class RobotMap {
 		
 		public static class PCM {}
 		
-		public static class Pneumatics {
-			public static final int gearXAxisUp = 0;
-			public static final int gearXAxisDown = 1;
-			public static final int gearYAxisRight = 2;
-			public static final int gearYAxisLeft = 3;
-		}
+		public static class Pneumatics {}
 	}
 	
 	public static class Constant {
