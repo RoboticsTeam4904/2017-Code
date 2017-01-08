@@ -1,0 +1,29 @@
+language: java
+jdk:
+- oraclejdk8
+
+# Handle git submodules yourself
+git:
+    submodules: false
+
+before_install:
+# Manually install the ant 1.9.3 for Java 1.8 support
+- wget https://github.com/RoboticsTeam4904/AntMirror/raw/master/apache-ant-1.9.3-bin.tar.bz2 
+- tar xvf apache-ant-1.9.3-bin.tar.bz2
+- test -f /usr/share/ant || sudo mv /usr/share/ant /usr/share/apache-ant-stock
+- sudo mv apache-ant-1.9.3 /usr/share/
+- sudo update-alternatives --install /usr/share/ant ant-bins /usr/share/apache-ant-1.9.3 1
+- sudo update-alternatives --install /usr/bin/ant ant /usr/share/apache-ant-1.9.3/bin/ant 1
+- sudo update-alternatives --config ant-bins
+- sudo update-alternatives --config ant
+# Use sed to replace the SSH URL with the public URL, then initialize submodules
+- sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+- git submodule update --init --recursive
+
+install:
+- git clone https://github.com/RoboticsTeam4904/wpilib-mirror.git ~/wpilib
+
+notifications:
+  email: none
+
+script: ant jar

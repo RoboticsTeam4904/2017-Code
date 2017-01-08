@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="FRC Deployment" default="deploy">
+
+  <!--
+  The following properties can be defined to override system level
+  settings. These should not be touched unless you know what you're
+  doing. The primary use is to override the wpilib version when
+  working with older robots that can't compile with the latest
+  libraries.
+  -->
+
+  <!-- By default the system version of WPI is used -->
+  <!-- <property name="version" value=""/> -->
+
+  <!-- By default the system team number is used -->
+  <!-- <property name="team-number" value=""/> -->
+
+  <!-- By default the target is set to 10.TE.AM.2 -->
+  <!-- <property name="target" value=""/> -->
+
+  <!-- Any other property in build.properties can also be overridden. -->
+  
+  <!-- overwrite java version to 1.8 to bypass Travis problems
+  From http://stackoverflow.com/questions/4206080/how-can-i-allow-an-ant-property-file-to-override-the-value-set-in-another -->
+  <property name="4904-desired-java-version" value="1.8"/>
+  <macrodef name="set" >
+      <attribute name="name"/>
+      <attribute name="value"/>
+      <sequential>
+          <script language="javascript">
+              <![CDATA[
+              project.setProperty("@{name}", "@{value}");
+              ]]>
+          </script>
+      </sequential>
+  </macrodef>
+  <set name="ant.java.version" value="${4904-desired-java-version}"/>
+  <echo>TEAM 4904: Manually set Java version to ${ant.java.version} (desired: ${4904-desired-java-version}) to bypass Travis problems</echo>
+
+  <property file="${user.home}/wpilib/wpilib.properties"/>
+  <property file="build.properties"/>
+  <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
+  
+  <import file="${wpilib.ant.dir}/build.xml"/>
+
+</project> 

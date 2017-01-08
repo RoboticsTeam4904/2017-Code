@@ -1,0 +1,6 @@
+[submodule "src/org/usfirst/frc4904/standard"]
+	path = src/org/usfirst/frc4904/standard
+	url = https://github.com/RoboticsTeam4904/standard
+[submodule "lib/navXLibrary"]
+	path = lib/navXLibrary
+	url = https://github.com/RoboticsTeam4904/navXLibrary.git
