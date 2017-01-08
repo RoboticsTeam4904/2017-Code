@@ -57,6 +57,10 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final double X_SPEED_SCALE = 1;
 			public static final double Y_SPEED_SCALE = 1;
+			public static final double SPEED_GAIN = 1;
+			public static final double SPEED_EXP = 2;
+			public static final double TURN_GAIN = 1;
+			public static final double TURN_EXP = 2;
 			public static final double TURN_SPEED_SCALE = 1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 			public static final double OPERATOR_JOYSTICK_MINIMUM_THRESHOLD = 0.1;
@@ -111,11 +115,11 @@ public class RobotMap {
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
-		Component.leftWheel.setInverted(true);
+		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
-		Component.rightWheel.setInverted(false);
+		// Component.rightWheel.setInverted(false);
 		// Ball Intake
 		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
 		// Ball Dumper
