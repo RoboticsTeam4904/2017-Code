@@ -10,10 +10,10 @@ public class BallInnie extends Motor {
 	}
 	
 	public void initializeSpin() {
-		this.set(1);
+		this.set(1.0);
 	}
 	
 	public void stopSpin() {
-		this.set(0);
+		this.set(0.0);
 	}
 }
