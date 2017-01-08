@@ -5,6 +5,7 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
+import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -76,6 +77,8 @@ public class RobotMap {
 	
 	public static class Component {
 		public static PDP pdp;
+		public static PositionEncodedMotor leftWheel;
+		public static PositionEncodedMotor rightWheel;
 		public static Subsystem[] mainSubsystems;
 	}
 	
