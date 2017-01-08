@@ -20,10 +20,10 @@ public class Dump extends Subsystem {
 	}
 	
 	public void beingSpinOuttake() {
-		Elevator.set(1.0);
+		Outtake.set(1.0);
 	}
 	
 	public void stopSpinOuttake() {
-		Elevator.set(0.0);
+		Outtake.set(0.0);
 	}
 }
