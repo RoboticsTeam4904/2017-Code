@@ -5,8 +5,6 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.Noop;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
@@ -48,7 +46,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void alwaysExecute() {
-		putSDSubsystemSummary();
+		// putSDSubsystemSummary();
 	}
 	
 	@Override
@@ -62,12 +60,11 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void testExecute() {}
-	
-	void putSDSubsystemSummary() {
-		String summary = "";
-		for (Subsystem subsystem : RobotMap.Component.mainSubsystems) {
-			summary += "{" + subsystem.getName() + "} running command {" + subsystem.getCurrentCommand() + "}\n";
-		}
-		SmartDashboard.putString(SmartDashboardKey.SUBSYSTEM_SUMMARY.key, summary);
-	}
+	// void putSDSubsystemSummary() {
+	// String summary = "";
+	// for (Subsystem subsystem : RobotMap.Component.mainSubsystems) {
+	// summary += "{" + subsystem.getName() + "} running command {" + subsystem.getCurrentCommand() + "}\n";
+	// }
+	// SmartDashboard.putString(SmartDashboardKey.SUBSYSTEM_SUMMARY.key, summary);
+	// }
 }
