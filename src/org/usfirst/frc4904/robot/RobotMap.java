@@ -9,6 +9,7 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -125,7 +126,11 @@ public class RobotMap {
 		// Ball Dumper
 		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
 		// Flywheel
-		Component.flywheel = new Flywheel(new VictorSP(Port.PWM.flywheelLeftMotor), new VictorSP(Port.PWM.flywheelRightMotor));
+		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
+		leftFlywheelMotor.setInverted(true);
+		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
+		rightFlywheelMotor.setInverted(false);
+		Component.flywheel = new Flywheel(leftFlywheelMotor, rightFlywheelMotor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);

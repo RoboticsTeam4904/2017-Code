@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Dump extends Subsystem {
 	
-	SpeedController Elevator;
-	SpeedController Outtake;
+	SpeedController elevator;
+	SpeedController outtake;
 	
-	public Dump(SpeedController e, SpeedController o) { // Public Dump - Let Everyone see it!
-		Elevator = e;
-		Outtake = o;
+	public Dump(SpeedController elevator, SpeedController outtake) { // Public Dump - Let Everyone see it!
+		this.elevator = elevator;
+		this.outtake = outtake;
 	}
 	
 	@Override
@@ -20,10 +20,10 @@ public class Dump extends Subsystem {
 	}
 	
 	public void beingSpinOuttake() {
-		Outtake.set(1.0);
+		outtake.set(1.0);
 	}
 	
 	public void stopSpinOuttake() {
-		Outtake.set(0.0);
+		outtake.set(0.0);
 	}
 }
