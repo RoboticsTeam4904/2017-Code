@@ -20,13 +20,35 @@ public class RobotMap {
 			public static final int xboxController = 1;
 		}
 		
-		public static class PWM {}
+		public static class PWM {
+			public static final int leftDriveMotor = 0;
+			public static final int rightDriveMotor = 1;
+			public static final int ballInnie = 2;
+			public static final int trayInnie = 3;
+			public static final int flywheelAMotor = 4;
+			public static final int flywheelBMotor = 5;
+			public static final int vomitElevator = 6;
+			public static final int vomitOuttakeRoller = 7;
+		}
 		
-		public static class CAN {}
+		public static class CAN {
+			public static final int leftEncoder = 0x602;
+			public static final int rightEncoder = 0x603;
+			public static final int trayEncoder = 0x604;
+			public static final int flywheelEncoder = 0x605;
+			public static final int elevatorEncoder = 0x606;
+		}
 		
 		public static class CANMotor {}
 		
 		public static class PCM {}
+		
+		public static class Pneumatics {
+			public static final int gearXAxisUp = 0;
+			public static final int gearXAxisDown = 1;
+			public static final int gearYAxisRight = 2;
+			public static final int gearYAxisLeft = 3;
+		}
 	}
 	
 	public static class Constant {
