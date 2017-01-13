@@ -48,7 +48,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void alwaysExecute() {
-		// putSDSubsystemSummary();
+		putSDSubsystemSummary();
 	}
 	
 	@Override
