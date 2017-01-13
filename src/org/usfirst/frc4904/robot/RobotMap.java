@@ -74,6 +74,7 @@ public class RobotMap {
 			public static final double WHEEL_ENCODER_PPR = 0;
 			public static final double WHEEL_DIAMETER = 0;
 			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
+			public static final double elevatorConstant = 0; // Will change once we get the tool
 		}
 		
 		public static class AutonomousMetric {}
@@ -95,6 +96,7 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
 		public static Dump ballDumper;
+		public static CustomEncoder elevatorEncoder;
 		public static BallInnie ballIntake;
 		public static Subsystem[] mainSubsystems;
 	}
@@ -126,6 +128,7 @@ public class RobotMap {
 		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
 		// Ball Dumper
 		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
+		Component.elevatorEncoder = new CANEncoder(Port.CAN.elevatorEncoder);
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
