@@ -109,6 +109,7 @@ public class RobotMap {
 		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;
+		public static CustomPIDController chassisDrivePID;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -121,7 +122,6 @@ public class RobotMap {
 			public static CustomJoystick stick;
 		}
 	}
-	public static CustomPIDController timPID;
 	
 	public RobotMap() {
 		Component.pdp = new PDP();

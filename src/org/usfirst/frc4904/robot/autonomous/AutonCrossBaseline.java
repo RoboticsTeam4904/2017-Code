@@ -14,7 +14,7 @@ public class AutonCrossBaseline extends CommandGroup {
 	
 	public AutonCrossBaseline() {
 		requires(RobotMap.Component.chassis);
-		addParallel(new ChassisMoveDistance(RobotMap.Component.chassis, AutonCrossBaseline.BreakBaselineDist, RobotMap.timPID, new Kill(this), RobotMap.Component.leftWheelEncoder));
+		addParallel(new ChassisMoveDistance(RobotMap.Component.chassis, AutonCrossBaseline.BreakBaselineDist, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));
 	}
 	
 	// Called just before this Command runs the first time
