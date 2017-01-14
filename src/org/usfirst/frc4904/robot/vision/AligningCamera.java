@@ -11,9 +11,6 @@ public class AligningCamera implements PIDSource {
 	public static final String FIELD_DEGREES = "degrees";
 	public static final String FIELD_DISTANCE = "distance";
 	public static final String FIELD_VISIBLE = "visible";
-	// private double invisibleValue;
-	private double visibleValue;
-	private boolean hasBeenVisible = false;
 	protected NetworkTable cameraTable;
 	private PIDSourceType sourceType;
 	
@@ -38,42 +35,18 @@ public class AligningCamera implements PIDSource {
 		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE, getDegrees() == Float.NaN || getDistance() == Float.NaN);
 	}
 	
-	public boolean isCurrentlyVisible() {
-		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE, Boolean.FALSE);
-	}
-	
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		return sourceType;
 	}
 	
-	// public double pidGetRaw() {
-	// return getDegrees();
-	// }
 	@Override
 	public double pidGet() {
-		return getCorrectedPID(getDegrees(), isCurrentlyVisible());
+		return getDegrees();
 	}
 	
 	@Override
 	public void setPIDSourceType(PIDSourceType sourceType) {
 		this.sourceType = sourceType;
-	}
-	
-	public double getCorrectedPID(double rawValue, boolean isVisible) {
-		if (isVisible) {
-			visibleValue = rawValue;
-			if (!hasBeenVisible) {
-				hasBeenVisible = true;
-			}
-			return visibleValue;
-		} else {
-			// invisibleValue = rawValue;
-			if (!hasBeenVisible) {
-				return Double.NaN;
-			} else {
-				return visibleValue;
-			}
-		}
 	}
 }
