@@ -1,8 +1,8 @@
-package org.usfirst.frc4904.sovereignity.strategies;
+package org.usfirst.frc4904.sovereignty.strategies;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
-import org.usfirst.frc4904.sovereignity.TheRobot;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -10,19 +10,23 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController {
 	
-	protected TheRobot robot;
+	// PID Constants
+	public static double ANGLE_P = 0;
+	public static double ANGLE_I = 0;
+	public static double ANGLE_D = 0;
+	public static final double ANGLE_SETPOINT = 320;
+	public static final double ANGLE_TOLERANCE = 0;
+	//
 	protected AligningCamera camera;
 	protected CustomPIDController pidController;
-	protected static final double angleP = 0;
-	protected static final double angleI = 0;
-	protected static final double angleD = 0;
 	protected boolean onAngle = false;
 	private ChassisMove chassisMove;
 	
-	public GearAlign(TheRobot robot, AligningCamera camera) {
-		this.robot = robot;
+	public GearAlign(AligningCamera camera) {
 		this.camera = camera;
-		pidController = new CustomPIDController(GearAlign.angleP, GearAlign.angleI, GearAlign.angleD, camera);
+		pidController = new CustomPIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, camera);
+		pidController.setAbsoluteTolerance(GearAlign.ANGLE_TOLERANCE);
+		pidController.setOutputRange(-1, 1);
 	}
 	
 	@Override
@@ -38,19 +42,16 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	@Override
 	public double getTurnSpeed() {
 		double pidGet = pidController.get();
-		if (camera.isVisible()) {
-			onAngle = pidController.onTarget();
-			return pidGet;
-		}
-		return 0;
+		onAngle = pidController.onTarget();
+		return pidGet;
 	}
 	
 	@Override
 	public void initialize() {
-		chassisMove = new ChassisMove(robot.chassis, this);
+		chassisMove = new ChassisMove(RobotMap.Component.chassis, this);
 		chassisMove.start();
 		pidController.enable();
-		pidController.setSetpoint(0); // Potentially change this to be the horizontal resolution of the camera / 2
+		pidController.setSetpoint(GearAlign.ANGLE_SETPOINT); // Potentially change this to be the horizontal resolution of the camera / 2
 	}
 	
 	@Override
