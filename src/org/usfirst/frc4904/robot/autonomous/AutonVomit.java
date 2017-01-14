@@ -27,7 +27,7 @@ public class AutonVomit extends CommandGroup {// Vomit autonomously
 		addSequential(new DumpUp());
 		addSequential(new WaitCommand(RobotMap.Constant.AutonomousMetric.WAIT_TIME));
 		addSequential(new DumpDown());
-		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, -1 * AutonVomit.distance2, RobotMap.timPID, new Kill(this), RobotMap.Component.leftWheelEncoder));
+		addParallel(new ChassisMoveDistance(RobotMap.Component.chassis, -1 * AutonVomit.distance2, RobotMap.timPID, new Kill(this), RobotMap.Component.leftWheelEncoder));
 		addSequential(new ChassisTurn(RobotMap.Component.chassis, 45, RobotMap.Component.navX, new Kill(this), RobotMap.timPID));// in degrees
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, AutonVomit.distance3, RobotMap.timPID, new Kill(this), RobotMap.Component.leftWheelEncoder));
 	}
