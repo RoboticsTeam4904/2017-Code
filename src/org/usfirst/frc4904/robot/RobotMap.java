@@ -9,7 +9,9 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
+import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
@@ -38,6 +40,10 @@ public class RobotMap {
 			public static final int flywheelRightMotor = 5;
 			public static final int vomitElevator = 6;
 			public static final int vomitOuttakeRoller = 7;
+		}
+		
+		public static class Serial {
+			public static final int navX = 0;
 		}
 		
 		public static class CAN {
@@ -69,7 +75,7 @@ public class RobotMap {
 		}
 		
 		public static class RobotMetric {
-			public static final double WIDTH = 0;
+			public static final double WIDTH = 0;// all in inches
 			public static final double LENGTH = 0;
 			public static final double WHEEL_ENCODER_PPR = 0;
 			public static final double WHEEL_DIAMETER = 0;
@@ -77,7 +83,9 @@ public class RobotMap {
 			public static final double elevatorConstant = 0; // Will change once we get the tool
 		}
 		
-		public static class AutonomousMetric {}
+		public static class AutonomousMetric {
+			public static final double WAIT_TIME = 0;
+		}
 		
 		public static class FieldMetric {}
 		
@@ -98,6 +106,8 @@ public class RobotMap {
 		public static Dump ballDumper;
 		public static CustomEncoder elevatorEncoder;
 		public static BallInnie ballIntake;
+		public static Chassis chassis;
+		public static NavX navX;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -141,5 +151,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
+		Component.navX = new Serial(Port.Serial.navX);
 	}
 }
