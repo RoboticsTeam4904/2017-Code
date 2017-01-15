@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class AligningCamera implements PIDSource {
-	
 	public static final String TABLE_NAME = "GRIP/myContoursReport";
 	public static final String FIELD_DEGREES = "degrees";
 	public static final String FIELD_DISTANCE = "distance";

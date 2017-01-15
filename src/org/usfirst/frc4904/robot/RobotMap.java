@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * floating around.
  */
 public class RobotMap {
-	
 	public static class Port {
 		public static class HumanInput {
 			public static final int joystick = 0;
@@ -106,7 +105,6 @@ public class RobotMap {
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
 		// Main Subsystems
-		Component.mainSubsystems = new Subsystem[] {};
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
 	}
