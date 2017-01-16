@@ -17,14 +17,20 @@ public class GearIO extends Subsystem {
 		this.gearSlotOpener = gearSlotOpener;
 	}
 	
-	public void IntakeGear() {
-		gearSlotOpener.set(DoubleSolenoid.Value.kForward);// closes gear stuff
-		gearFlap.setAngle(90);// might be inaccurate--will test
+	public enum GearState {
+		INTAKE(90, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse);
+		public final double angle;
+		public final DoubleSolenoid.Value value;// the architecture allowing the enum states to have values
+		
+		private GearState(double angle, DoubleSolenoid.Value value) {
+			this.angle = angle;
+			this.value = value;
+		}
 	}
 	
-	public void OuttakeGear() {
-		gearFlap.setAngle(0);// closes gearFlap
-		gearSlotOpener.set(DoubleSolenoid.Value.kReverse);// opens gear holder
+	public void setGear(GearState state) {
+		gearSlotOpener.set(state.value);
+		gearFlap.setAngle(state.angle);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.

@@ -40,8 +40,7 @@ public class RobotMap {
 			public static final int rightDriveMotor = 1;
 			public static final int flywheelLeftMotor = 2;
 			public static final int flywheelRightMotor = 3;
-			public static final int seesawMotor = 7;
-			public static final int gearFlap = 8;
+			public static final int gearFlap = 7;
 		}
 		
 		public static class Serial {
@@ -112,7 +111,6 @@ public class RobotMap {
 		public static Chassis chassis;
 		public static NavX navX;
 		public static SolenoidShifters gearSlotOpener;
-		public static Motor seesawMotor;
 		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
 	}
@@ -136,7 +134,6 @@ public class RobotMap {
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disablePID();
 		Component.navX = new NavX(SerialPort.Port.kOnboard);// TODO add encoders
-		Component.seesawMotor = new Motor(new VictorSP(Port.PWM.seesawMotor));
 		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
