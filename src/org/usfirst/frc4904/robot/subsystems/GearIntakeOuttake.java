@@ -23,6 +23,7 @@ public class GearIntakeOuttake extends Subsystem {
 	}
 	
 	public void OuttakeGear() {
+		gearFlap.setAngle(0);
 		gearSlotOpener.set(DoubleSolenoid.Value.kReverse);
 	}
 	// Put methods for controlling this subsystem
