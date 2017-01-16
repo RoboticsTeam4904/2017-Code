@@ -18,13 +18,13 @@ public class GearIntakeOuttake extends Subsystem {
 	}
 	
 	public void IntakeGear() {
-		gearSlotOpener.set(DoubleSolenoid.Value.kForward);
-		gearFlap.setAngle(90);
+		gearSlotOpener.set(DoubleSolenoid.Value.kForward);// closes gear stuff
+		gearFlap.setAngle(90);// might be inaccurate--will test
 	}
 	
 	public void OuttakeGear() {
-		gearFlap.setAngle(0);
-		gearSlotOpener.set(DoubleSolenoid.Value.kReverse);
+		gearFlap.setAngle(0);// closes gearFlap
+		gearSlotOpener.set(DoubleSolenoid.Value.kReverse);// opens gear holder
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
