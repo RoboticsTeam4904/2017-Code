@@ -9,36 +9,23 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class IntakeDoorSet extends Command {
-	DoubleSolenoid.Value pineapple;
+	DoubleSolenoid.Value targetState;
 	
-	public IntakeDoorSet(DoubleSolenoid.Value pineapple) {
+	public IntakeDoorSet(DoubleSolenoid.Value targetState) {
 		// Use requires() here to declare subsystem dependencies
 		requires(RobotMap.Component.ballIO);
-		this.pineapple = pineapple;
+		this.targetState = targetState;
 	}
 	
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		RobotMap.Component.ballIO.shifter.set(pineapple);
+		RobotMap.Component.ballIO.shifter.set(targetState);
 	}
-	
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		return true;
 	}
-	
-	// Called once after isFinished returns true
-	@Override
-	protected void end() {}
-	
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	@Override
-	protected void interrupted() {}
 }
