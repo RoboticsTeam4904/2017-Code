@@ -1,9 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.BallInnie;
-import org.usfirst.frc4904.robot.subsystems.Dump;
-import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -104,10 +101,7 @@ public class RobotMap {
 		public static PositionEncodedMotor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static Flywheel flywheel;
-		public static Dump ballDumper;
 		public static GearIO gearIntakeOuttake;
-		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;
 		public static SolenoidShifters gearSlotOpener;
@@ -147,12 +141,10 @@ public class RobotMap {
 		leftFlywheelMotor.setInverted(true);
 		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
 		rightFlywheelMotor.setInverted(false);
-		Component.flywheel = new Flywheel(leftFlywheelMotor, rightFlywheelMotor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
 	}
 }
