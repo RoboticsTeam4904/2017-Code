@@ -9,12 +9,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class GearIntakeOuttake extends Subsystem {
-	Servo gearFlap;
-	DoubleSolenoid gearSlotOpener;
+	public Servo gearFlap;
+	public DoubleSolenoid gearSlotOpener;
 	
 	public GearIntakeOuttake(Servo gearFlap, DoubleSolenoid gearSlotOpener) {
 		this.gearFlap = gearFlap;
 		this.gearSlotOpener = gearSlotOpener;
+	}
+	
+	public void IntakeGear() {
+		gearSlotOpener.set(DoubleSolenoid.Value.kForward);
+		gearFlap.setAngle(90);
+	}
+	
+	public void OuttakeGear() {
+		gearSlotOpener.set(DoubleSolenoid.Value.kReverse);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
