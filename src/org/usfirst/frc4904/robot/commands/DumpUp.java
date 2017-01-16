@@ -17,12 +17,7 @@ public class DumpUp extends Command {
 	
 	@Override
 	protected void execute() {
-		if (RobotMap.Component.elevatorEncoder.get() != RobotMap.Constant.RobotMetric.elevatorConstant) {
-			RobotMap.Component.ballDumper.spinElevator(1.0);
-		} else {
-			RobotMap.Component.ballDumper.stopSpinElevator();
-			RobotMap.Component.ballDumper.beingSpinOuttake(1.0);
-		}
+		RobotMap.Component.ballDumper.spinElevator(1.0);
 	}
 	
 	@Override

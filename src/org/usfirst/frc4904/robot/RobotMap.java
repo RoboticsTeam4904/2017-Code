@@ -15,6 +15,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -51,7 +52,6 @@ public class RobotMap {
 			public static final int rightEncoder = 0x603;
 			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
-			public static final int elevatorEncoder = 0x606;
 		}
 		
 		public static class CANMotor {}
@@ -80,7 +80,6 @@ public class RobotMap {
 			public static final double WHEEL_ENCODER_PPR = 0;
 			public static final double WHEEL_DIAMETER = 0;
 			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
-			public static final double elevatorConstant = 0; // Will change once we get the tool
 		}
 		
 		public static class AutonomousMetric {
@@ -104,10 +103,10 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
 		public static Dump ballDumper;
-		public static CustomEncoder elevatorEncoder;
 		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;
+		public static Motor seesawMotor;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -128,7 +127,8 @@ public class RobotMap {
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
-		Component.leftWheel.disablePID(); // TODO add encoders
+		Component.leftWheel.disablePID();
+		Component.navX = new NavX(SerialPort.Port.kOnboard);// TODO add encoders
 		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
@@ -138,7 +138,6 @@ public class RobotMap {
 		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
 		// Ball Dumper
 		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
-		Component.elevatorEncoder = new CANEncoder(Port.CAN.elevatorEncoder);
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -151,6 +150,5 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
-		Component.navX = new Serial(Port.Serial.navX);
 	}
 }

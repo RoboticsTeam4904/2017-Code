@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -9,7 +8,6 @@ public class Dump extends Subsystem {
 	
 	SpeedController elevator;
 	SpeedController outtake;
-	CustomEncoder elevatorEncoder;
 	
 	public Dump(SpeedController elevator, SpeedController outtake) { // Public Dump - Let Everyone see it!
 		this.elevator = elevator;
