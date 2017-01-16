@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Hopper extends Subsystem {
-	SpeedController agitator;
-	DoubleSolenoid seeSawLeft;
-	DoubleSolenoid seeSawRight;
+	public SpeedController agitator;
+	public DoubleSolenoid seeSawLeft;
+	public DoubleSolenoid seeSawRight;
 	
 	public Hopper(SpeedController agitator, DoubleSolenoid seeSawLeft, DoubleSolenoid seeSawRight) {
 		this.agitator = agitator;
