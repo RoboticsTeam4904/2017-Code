@@ -4,7 +4,7 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.subsystems.BallInnie;
 import org.usfirst.frc4904.robot.subsystems.Dump;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
-import org.usfirst.frc4904.robot.subsystems.GearIntakeOuttake;
+import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -107,7 +107,7 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
 		public static Dump ballDumper;
-		public static GearIntakeOuttake gearIntakeOuttake;
+		public static GearIO gearIntakeOuttake;
 		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;

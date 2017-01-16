@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class GearIntakeOuttake extends Subsystem {
+public class GearIO extends Subsystem {
 	public Servo gearFlap;
 	public DoubleSolenoid gearSlotOpener;
 	
-	public GearIntakeOuttake(Servo gearFlap, DoubleSolenoid gearSlotOpener) {
+	public GearIO(Servo gearFlap, DoubleSolenoid gearSlotOpener) {
 		this.gearFlap = gearFlap;
 		this.gearSlotOpener = gearSlotOpener;
 	}
