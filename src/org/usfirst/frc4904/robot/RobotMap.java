@@ -1,8 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.BallInnie;
-import org.usfirst.frc4904.robot.subsystems.Dump;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -32,12 +30,11 @@ public class RobotMap {
 		public static class PWM {
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
-			public static final int ballInnie = 2;
-			// public static final int trayInnie = 3; ----- PROJECT CURRENTLY PAUSED
-			public static final int flywheelLeftMotor = 4;
-			public static final int flywheelRightMotor = 5;
-			public static final int vomitElevator = 6;
-			public static final int vomitOuttakeRoller = 7;
+			public static final int flywheelLeftMotor = 2;
+			public static final int flywheelRightMotor = 3;
+			public static final int bioTopMotor = 4;
+			public static final int bioLeftMotor = 5;
+			public static final int bioMainMotor = 6;
 		}
 		
 		public static class CAN {
@@ -52,7 +49,10 @@ public class RobotMap {
 		
 		public static class PCM {}
 		
-		public static class Pneumatics {}
+		public static class Pneumatics {
+			public static final int ioShifterUp = 2;
+			public static final int ioShifterDown = 3;
+		}
 	}
 	
 	public static class Constant {
@@ -94,8 +94,6 @@ public class RobotMap {
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
-		public static Dump ballDumper;
-		public static BallInnie ballIntake;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -122,10 +120,6 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
-		// Ball Intake
-		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
-		// Ball Dumper
-		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -137,6 +131,6 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
+		Component.mainSubsystems = new Subsystem[] {Component.flywheel};
 	}
 }
