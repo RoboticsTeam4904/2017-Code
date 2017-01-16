@@ -56,8 +56,8 @@ public class RobotMap {
 		public static class PCM {}
 		
 		public static class Pneumatics {
-			public static int gearSolenoidUp = 0;
-			public static int gearSolenoidDown = 1;
+			public static int gearSolenoidUp = 0;// ports are WIP
+			public static int gearSolenoidDown = 1;// ports are WIP
 		}
 	}
 	
@@ -127,11 +127,11 @@ public class RobotMap {
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disablePID();
-		Component.navX = new NavX(SerialPort.Port.kOnboard);// TODO add encoders
+		Component.navX = new NavX(SerialPort.Port.kOnboard);
 		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
-		Component.rightWheel.disablePID(); // TODO add encoders
+		Component.rightWheel.disablePID();
 		// Component.rightWheel.setInverted(false);
 		// Gear
 		Component.gearFlap = new Servo(Port.PWM.gearFlap);
