@@ -17,6 +17,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -36,12 +37,10 @@ public class RobotMap {
 		public static class PWM {
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
-			public static final int ballInnie = 2;
-			public static final int flywheelLeftMotor = 4;
-			public static final int flywheelRightMotor = 5;
-			public static final int vomitElevator = 6;
+			public static final int flywheelLeftMotor = 2;
+			public static final int flywheelRightMotor = 3;
 			public static final int seesawMotor = 7;
-			public static final int vomitOuttakeRoller = 8;
+			public static final int gearFlap = 8;
 		}
 		
 		public static class Serial {
@@ -110,8 +109,9 @@ public class RobotMap {
 		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;
-		public static SolenoidShifters shifter;
+		public static SolenoidShifters gearSlotOpener;
 		public static Motor seesawMotor;
+		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -141,11 +141,8 @@ public class RobotMap {
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
 		// Gear
-		Component.shifter = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
-		// Ball Intake
-		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
-		// Ball Dumper
-		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
+		Component.gearFlap = new Servo(Port.PWM.gearFlap);
+		Component.gearSlotOpener = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
