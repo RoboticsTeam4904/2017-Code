@@ -123,7 +123,10 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Ball-Intake-Outtake
-		Component.ballIO = new BallIO(new VictorSP(Port.PWM.bioTopMotor), new VictorSP(Port.PWM.bioLeftMotor), new VictorSP(Port.PWM.bioMainMotor), new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
+		Motor bioTopMotor = new Motor(new VictorSP(Port.PWM.bioTopMotor));
+		Motor bioLeftMotor = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
+		Motor bioMainMotor = new Motor(new VictorSP(Port.PWM.bioMainMotor));
+		Component.ballIO = new BallIO(bioTopMotor, bioLeftMotor, bioMainMotor, new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
