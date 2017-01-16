@@ -38,7 +38,7 @@ public class GearIO extends Subsystem {
 	
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new Idle());
+		setDefaultCommand(new Idle(this));
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
