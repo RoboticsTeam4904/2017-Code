@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.BallIntakeOuttake;
+import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -96,7 +96,7 @@ public class RobotMap {
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
-		public static BallIntakeOuttake ballIntakeOuttake;
+		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -122,7 +122,7 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Ball-Intake-Outtake
-		Component.ballIntakeOuttake = new BallIntakeOuttake(new VictorSP(Port.PWM.bioTopMotor), new VictorSP(Port.PWM.bioLeftMotor), new VictorSP(Port.PWM.bioMainMotor), new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
+		Component.ballIO = new BallIO(new VictorSP(Port.PWM.bioTopMotor), new VictorSP(Port.PWM.bioLeftMotor), new VictorSP(Port.PWM.bioMainMotor), new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -134,6 +134,6 @@ public class RobotMap {
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		Component.mainSubsystems = new Subsystem[] {Component.flywheel, Component.ballIntakeOuttake};
+		Component.mainSubsystems = new Subsystem[] {Component.flywheel, Component.ballIO};
 	}
 }
