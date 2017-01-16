@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
+import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
@@ -36,7 +37,6 @@ public class RobotMap {
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
 			public static final int ballInnie = 2;
-			// public static final int trayInnie = 3; ----- PROJECT CURRENTLY PAUSED
 			public static final int flywheelLeftMotor = 4;
 			public static final int flywheelRightMotor = 5;
 			public static final int vomitElevator = 6;
@@ -59,7 +59,10 @@ public class RobotMap {
 		
 		public static class PCM {}
 		
-		public static class Pneumatics {}
+		public static class Pneumatics {
+			public static int gearSolenoidUp = 0;
+			public static int gearSolenoidDown = 1;
+		}
 	}
 	
 	public static class Constant {
@@ -107,6 +110,7 @@ public class RobotMap {
 		public static BallInnie ballIntake;
 		public static Chassis chassis;
 		public static NavX navX;
+		public static SolenoidShifters shifter;
 		public static Motor seesawMotor;
 		public static Subsystem[] mainSubsystems;
 	}
@@ -136,6 +140,8 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
+		// Gear
+		Component.shifter = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
 		// Ball Intake
 		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
 		// Ball Dumper
