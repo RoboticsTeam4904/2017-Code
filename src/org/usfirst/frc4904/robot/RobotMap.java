@@ -30,6 +30,7 @@ public class RobotMap {
 		}
 		
 		public static class PWM {
+			// THE MOTORS AREN'T EXACT - Work In Progress
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
 			public static final int flywheelLeftMotor = 2;
