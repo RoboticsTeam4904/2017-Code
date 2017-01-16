@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot.vision;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class AligningCameraGRIP extends AligningCamera {
-	
 	public static final String TABLE_NAME = "GRIP/myContoursReport";
 	public static final String FIELD_DEGREES = "centerX";
 	public static final String FIELD_DISTANCE = "centerY";
