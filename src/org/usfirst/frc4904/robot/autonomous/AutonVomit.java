@@ -2,8 +2,7 @@ package org.usfirst.frc4904.robot.autonomous;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.commands.DumpDown;
-import org.usfirst.frc4904.robot.commands.DumpUp;
+import org.usfirst.frc4904.robot.commands.BallOuttake;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMoveDistance;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurn;
@@ -17,18 +16,18 @@ public class AutonVomit extends CommandGroup {// Vomit autonomously
 	public static final double distance1 = 67.5 * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE;
 	public static final double distance2 = 73.18 * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE;
 	public static final double distance3 = -15 * RobotMap.Constant.RobotMetric.WHEEL_ENCODER_PPR / RobotMap.Constant.RobotMetric.WHEEL_CIRCUMFERENCE;
+	public static final double turnAngle = 135;
 	
 	public AutonVomit() {
 		requires(RobotMap.Component.chassis);
-		requires(RobotMap.Component.ballDumper);
+		requires(RobotMap.Component.ballIO);
 		addParallel(new ChassisMoveDistance(RobotMap.Component.chassis, AutonVomit.distance1, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));// in inches
-		addSequential(new ChassisTurn(RobotMap.Component.chassis, 135, RobotMap.Component.navX, new Kill(this), RobotMap.Component.chassisDrivePID));// in degrees
-		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, AutonVomit.distance2, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));// CHANGE TIMPID LATER
-		addSequential(new DumpUp());
+		addSequential(new ChassisTurn(RobotMap.Component.chassis, AutonVomit.turnAngle, RobotMap.Component.navX, new Kill(this), RobotMap.Component.chassisDrivePID));// in degrees
+		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, AutonVomit.distance2, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));// ChassisDrivePID is not finished
+		addSequential(new BallOuttake());// time to vomit
 		addSequential(new WaitCommand(RobotMap.Constant.AutonomousMetric.WAIT_TIME));
-		addSequential(new DumpDown());
 		addParallel(new ChassisMoveDistance(RobotMap.Component.chassis, -1 * AutonVomit.distance2, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));
-		addSequential(new ChassisTurn(RobotMap.Component.chassis, 45, RobotMap.Component.navX, new Kill(this), RobotMap.Component.chassisDrivePID));// in degrees
+		addSequential(new ChassisTurn(RobotMap.Component.chassis, 180 - AutonVomit.turnAngle, RobotMap.Component.navX, new Kill(this), RobotMap.Component.chassisDrivePID));// in degrees
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, AutonVomit.distance3, RobotMap.Component.chassisDrivePID, new Kill(this), RobotMap.Component.leftWheelEncoder));
 	}
 	
