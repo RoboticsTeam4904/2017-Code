@@ -39,7 +39,7 @@ public class RobotMap {
 			public static final int flywheelRightMotor = 5;
 			public static final int vomitElevator = 6;
 			public static final int vomitOuttakeRoller = 7;
-			public static final int climbMotor = 3;
+			public static final int climbMotor = 3; // the port, like America's favorite topping for pie, is WIP.
 		}
 		
 		public static class CAN {
@@ -68,7 +68,6 @@ public class RobotMap {
 			public static final double TURN_SPEED_SCALE = 1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 			public static final double OPERATOR_JOYSTICK_MINIMUM_THRESHOLD = 0.1;
-			public static final double CLIMBER_TARGET_SPEED = 0.65;
 		}
 		
 		public static class RobotMetric {
@@ -137,8 +136,7 @@ public class RobotMap {
 		rightFlywheelMotor.setInverted(false);
 		Component.flywheel = new Flywheel(leftFlywheelMotor, rightFlywheelMotor);
 		// Climber
-		Motor climbMotor = new Motor(new VictorSP(Port.PWM.climbMotor));
-		Component.climber = new Climber(climbMotor);
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotor));
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
