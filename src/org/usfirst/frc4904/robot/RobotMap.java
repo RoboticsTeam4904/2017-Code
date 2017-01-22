@@ -1,8 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.BallIO;
-import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -14,7 +12,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -106,12 +103,10 @@ public class RobotMap {
 		public static PositionEncodedMotor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static Flywheel flywheel;
 		public static CustomEncoder elevatorEncoder;
 		public static Chassis chassis;
 		public static NavX navX;
 		public static CustomPIDController chassisDrivePID;
-		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
 	}
 	
@@ -138,23 +133,16 @@ public class RobotMap {
 		// Component.rightWheel.setInverted(false);
 		// Ball Dumper
 		Component.elevatorEncoder = new CANEncoder(Port.CAN.elevatorEncoder);
-		// Ball-Intake-Outtake
-		Motor bioTopMotor = new Motor(new VictorSP(Port.PWM.bioTopMotor));
-		Motor bioLeftMotor = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
-		Motor bioMainMotor = new Motor(new VictorSP(Port.PWM.bioMainMotor));
-		Component.ballIO = new BallIO(bioTopMotor, bioLeftMotor, bioMainMotor, new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
 		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
 		rightFlywheelMotor.setInverted(false);
-		Component.flywheel = new Flywheel(leftFlywheelMotor, rightFlywheelMotor);
 		// Human inputs
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
-		Component.mainSubsystems = new Subsystem[] {Component.flywheel, Component.ballIO};
 	}
 }

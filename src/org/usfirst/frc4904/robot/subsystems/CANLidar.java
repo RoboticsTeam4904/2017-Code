@@ -21,7 +21,10 @@ public class CANLidar extends CustomCAN {
 	}
 	
 	/**
-	 * Read an int from a CAN sensor
+	 *
+	 * @param name
+	 *        /**
+	 *        Read an int from a CAN sensor
 	 *
 	 * @param mode
 	 *        Which mode to read the sensor in (interpreted by the Teensy)
@@ -32,17 +35,18 @@ public class CANLidar extends CustomCAN {
 	 *         If the available data is more than one second old,
 	 *         this function will throw an InvalidSensorException
 	 *         to indicate that.
-	 * 
 	 */
 	public int[] readlidar() throws InvalidSensorException {
-		write(new byte[] {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01});// write to trigger read
+		write(new byte[] {(byte) 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}); // Write to trigger read
 		ByteBuffer rawData = readBuffer();
 		if (rawData != null && rawData.remaining() > 7) {
 			rawData.rewind();
 			long data = Long.reverseBytes(rawData.getLong());
 			int xCoordinate = (int) (data & 0xFFFFFFFF);
 			int yCoordinate = (int) (data >> 32);
-			return new int[] {xCoordinate, yCoordinate};
+			if (yCoordinate == 1) {
+				return new int[] {xCoordinate, yCoordinate};
+			}
 		}
 		return null;
 	}
