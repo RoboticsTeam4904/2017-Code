@@ -63,7 +63,10 @@ public class RobotMap {
 		
 		public static class PCM {}
 		
-		public static class Pneumatics {}
+		public static class Pneumatics {
+			public static int solenoidUp = 0;
+			public static int solenoidDown = 1;
+		}
 	}
 	
 	public static class Component {
@@ -71,6 +74,7 @@ public class RobotMap {
 		public static Chassis chassis;
 		public static PositionEncodedMotor leftWheel;
 		public static PositionEncodedMotor rightWheel;
+		public static SolenoidShifters shifter;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
