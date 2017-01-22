@@ -15,7 +15,17 @@ public class DefaultDriver extends Driver {
 	}
 	
 	@Override
-	public void bindCommands() {}
+	public void bindCommands() {
+		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
+		RobotMap.HumanInput.Driver.xbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.up.whenReleased(normalDrive);
+		RobotMap.HumanInput.Driver.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.down.whenReleased(normalDrive);
+		RobotMap.HumanInput.Driver.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.left.whenReleased(normalDrive);
+		RobotMap.HumanInput.Driver.xbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.right.whenReleased(normalDrive);
+	}
 	
 	@Override
 	public double getX() {
