@@ -21,6 +21,7 @@ public class Robot extends CommandRobotBase {
 		operatorChooser.addDefault(new DefaultOperator());
 		// Initialize SmartDashboard display values
 		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
+		RobotMap.Component.navx.zeroYaw();
 	}
 	
 	@Override

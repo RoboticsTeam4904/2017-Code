@@ -79,8 +79,21 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		public static NavX navx;
+		public static MotionController chassisMC;
+		public static MotionController chassisEncoderMC;
 		// Vision
 		public static AligningCamera alignCamera;
+	}
+	
+	public static class HumanInput {
+		public static class Driver {
+			public static CustomXbox xbox;
+		}
+		
+		public static class Operator {
+			public static CustomJoystick stick;
+		}
 	}
 	
 	public RobotMap() {
@@ -90,6 +103,14 @@ public class RobotMap {
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
+		Component.chassisMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisMC.setInputRange(-180, 180);
+		Component.chassisMC.setContinuous(true);
+		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002, new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// NavX
+		Component.navx = new NavX(SerialPort.Port.kMXP);
 		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
