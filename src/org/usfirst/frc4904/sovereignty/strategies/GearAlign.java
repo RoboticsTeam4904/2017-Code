@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController {
 	// PID Constants
-	public static double ANGLE_P = -0.0015;
-	public static double ANGLE_I = -1.0E-5;
-	public static double ANGLE_D = 0.015;
+	public static final double ANGLE_P = -0.0015;
+	public static final double ANGLE_I = -1.0E-5;
+	public static final double ANGLE_D = 0.015;
 	public static final double ANGLE_SETPOINT = 320;
 	public static final double ANGLE_TOLERANCE = 0.001;
 	protected AligningCamera camera;
