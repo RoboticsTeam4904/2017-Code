@@ -102,6 +102,12 @@ public class RobotMap {
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
+		// NavX
+		Component.navx = new NavX(SerialPort.Port.kMXP);
+		// Component.leftWheel.setInverted(true);
+		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
+		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
+		Component.rightWheel.disablePID(); // TODO add encoders
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
