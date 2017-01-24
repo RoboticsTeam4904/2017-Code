@@ -37,11 +37,19 @@ public class RobotMap {
 			public static final int xboxController = 1;
 		}
 		
+		public static class Motors {
+			public static class CAN {
+				public static int leftDriveA = 1;
+				public static int leftDriveB = 2;
+				public static int rightDriveA = 3;
+				public static int rightDriveB = 4;
+			}
+		}
+		
 		public static class PWM {
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
 			public static final int ballInnie = 2;
-			// public static final int trayInnie = 3; ----- PROJECT CURRENTLY PAUSED
 			public static final int flywheelLeftMotor = 4;
 			public static final int flywheelRightMotor = 5;
 			public static final int vomitElevator = 6;
@@ -49,8 +57,8 @@ public class RobotMap {
 		}
 		
 		public static class CAN {
-			public static final int leftEncoder = 0x602;
-			public static final int rightEncoder = 0x603;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x612;
 			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
