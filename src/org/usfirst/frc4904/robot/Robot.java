@@ -16,18 +16,19 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new Noop());
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
-		driverChooser.addDefault(new DefaultDriver());
-		// Configure operator command chooser
-		operatorChooser.addDefault(new DefaultOperator());
-		// Initialize SmartDashboard display values
-		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
+		driverChooser.addDefault(new NathanGain());
+		driverChooser.addObject(new NathanGain());
+		driverChooser.addObject(new JoystickControl());
+		driverChooser.addObject(new PureStick());
 	}
 	
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new Noop();
+		// teleopCommand = new Noop();
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
+		teleopCommand.start();
 	}
 	
 	/**
