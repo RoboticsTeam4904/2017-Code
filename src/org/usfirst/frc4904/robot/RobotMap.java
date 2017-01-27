@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallInnie;
 import org.usfirst.frc4904.robot.subsystems.Dump;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
+import org.usfirst.frc4904.robot.subsystems.Lidar;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -41,8 +42,7 @@ public class RobotMap {
 			// public static final int trayInnie = 3; ----- PROJECT CURRENTLY PAUSED
 			public static final int flywheelLeftMotor = 4;
 			public static final int flywheelRightMotor = 5;
-			public static final int vomitElevator = 6;
-			public static final int vomitOuttakeRoller = 7;
+			public static final int lidarMotor = 9;// WIP
 		}
 		
 		public static class CAN {
@@ -51,6 +51,7 @@ public class RobotMap {
 			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
+			public static final int lidarTurnEncoder = 0x607;
 		}
 		
 		public static class CANMotor {}
@@ -58,6 +59,9 @@ public class RobotMap {
 		public static class PCM {}
 		
 		public static class Pneumatics {}
+		public static int lidarTurnP = 0;// put these in the constants section of RobotMap
+		public static int lidarTurnI = 0;
+		public static int lidarTurnD = 0;
 	}
 	
 	public static class Component {
@@ -73,6 +77,10 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		// lidar
+		public static CustomPIDController lidarTurnPID;
+		public static CANEncoder lidarTurnEncoder;
+		public static Lidar lidar;
 		// Vision
 		public static AligningCamera alignCamera;
 	}
@@ -89,11 +97,6 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
-		// Ball Intake
-		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
-		// Ball Dumper
-		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
-		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
 		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
@@ -106,6 +109,9 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
+		// lidar
+		Component.lidarTurnEncoder = new CANEncoder(Port.CAN.lidarTurnEncoder);
+		Component.lidar = new Lidar(RobotMap.Component.lidarTurnEncoder, new VictorSP(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
 	}
 }
