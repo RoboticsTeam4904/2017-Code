@@ -10,13 +10,14 @@ public class Lidar extends VelocityEncodedMotor {
 	public static final double LIDAR_TURN_P = 0;// WIP
 	public static final double LIDAR_TURN_I = 0;// WIP
 	public static final double LIDAR_TURN_D = 0;// WIP
+	public static final double LIDAR_P_FORWARDS = 0.3;
 	public static final double LIDAR_DIAMETER = 3.107;// inches;
 	public static final double LIDAR_CIRCUMFERENCE = Lidar.LIDAR_DIAMETER * Math.PI;
 	public static final double LIDAR_RPS = 4;
 	public static final double LIDAR_ENCODER_PPR = 10;// WIP-- carter said I could choose a value
 	
 	public Lidar(CustomEncoder encoder, SpeedController... motors) {// must add lidar data later
-		super("LIDAR", false, new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, encoder), motors);
+		super("LIDAR", false, new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_P_FORWARDS, encoder), motors);
 	}
 	
 	public void setMotor() {
