@@ -33,7 +33,7 @@ public class RobotMap {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
 		}
-		
+
 		public static class PWM {
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
@@ -44,7 +44,7 @@ public class RobotMap {
 			public static final int vomitElevator = 6;
 			public static final int vomitOuttakeRoller = 7;
 		}
-		
+
 		public static class CAN {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
@@ -52,14 +52,14 @@ public class RobotMap {
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
 		}
-		
+
 		public static class CANMotor {}
-		
+
 		public static class PCM {}
-		
+
 		public static class Pneumatics {}
 	}
-	
+
 	public static class Component {
 		public static PDP pdp;
 		public static Chassis chassis;
@@ -76,17 +76,19 @@ public class RobotMap {
 		// Vision
 		public static AligningCamera alignCamera;
 	}
-	
+
 	public RobotMap() {
 		Component.pdp = new PDP();
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
+		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp),
+			new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disablePID(); // TODO add encoders
 		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
+		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp),
+			new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
 		// Ball Intake

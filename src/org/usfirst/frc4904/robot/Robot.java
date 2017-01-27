@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	SmartDashboardModifierImpl pidContainerModifier = new SmartDashboardModifierImpl();
-	
+
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
@@ -26,27 +26,27 @@ public class Robot extends CommandRobotBase {
 		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
 		PIDContainerOrchestrator.getInstance().pushValues(pidContainerModifier);
 	}
-	
+
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new Noop();
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
 	public void teleopExecute() {}
-	
+
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-	
+
 	/**
 	 * This function is called periodically in every robot mode
 	 */
@@ -54,21 +54,21 @@ public class Robot extends CommandRobotBase {
 	public void alwaysExecute() {
 		putSDSubsystemSummary();
 	}
-	
+
 	@Override
 	public void disabledInitialize() {}
-	
+
 	@Override
 	public void disabledExecute() {
 		PIDContainerOrchestrator.getInstance().pullValues(pidContainerModifier);
 	}
-	
+
 	@Override
 	public void testInitialize() {}
-	
+
 	@Override
 	public void testExecute() {}
-	
+
 	void putSDSubsystemSummary() {
 		String summary = "";
 		for (Subsystem subsystem : RobotMap.Component.mainSubsystems) {
@@ -76,17 +76,16 @@ public class Robot extends CommandRobotBase {
 		}
 		SmartDashboard.putString(SmartDashboardKey.SUBSYSTEM_SUMMARY.key, summary);
 	}
-	
+
 	private static class SmartDashboardModifierImpl implements PIDValueModifier {
-		
 		@Override
 		public void pushValue(String key, double value) {
 			SmartDashboard.putNumber(key, value);
 		}
-		
+
 		@Override
 		public double pullValue(String key) {
-			return SmartDashboard.getNumber(key);
+			return SmartDashboard.getNumber(key, 0.0);
 		}
 	}
 }
