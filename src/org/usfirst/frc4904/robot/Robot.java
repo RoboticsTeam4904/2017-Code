@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	
+
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
@@ -23,29 +23,29 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
 	}
-	
+
 	@Override
 	public void teleopInitialize() {
 		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
 	public void teleopExecute() {}
-	
+
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-	
+
 	/**
 	 * This function is called periodically in every robot mode
 	 */
@@ -53,19 +53,19 @@ public class Robot extends CommandRobotBase {
 	public void alwaysExecute() {
 		putSDSubsystemSummary();
 	}
-	
+
 	@Override
 	public void disabledInitialize() {}
-	
+
 	@Override
 	public void disabledExecute() {}
-	
+
 	@Override
 	public void testInitialize() {}
-	
+
 	@Override
 	public void testExecute() {}
-	
+
 	void putSDSubsystemSummary() {
 		String summary = "";
 		for (Subsystem subsystem : RobotMap.Component.mainSubsystems) {

@@ -19,31 +19,31 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	protected CustomPIDController pidController;
 	protected boolean onAngle = false;
 	private ChassisMove chassisMove;
-	
+
 	public GearAlign(AligningCamera camera) {
 		this.camera = camera;
 		pidController = new CustomPIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, camera);
 		pidController.setAbsoluteTolerance(GearAlign.ANGLE_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 	}
-	
+
 	@Override
 	public double getX() {
 		return 0;
 	}
-	
+
 	@Override
 	public double getY() {
 		return 0;
 	}
-	
+
 	@Override
 	public double getTurnSpeed() {
 		double pidGet = pidController.get();
 		onAngle = pidController.onTarget();
 		return pidGet;
 	}
-	
+
 	@Override
 	public void initialize() {
 		chassisMove = new ChassisMove(RobotMap.Component.chassis, this);
@@ -51,22 +51,22 @@ public class GearAlign extends CommandGroup implements ChassisController {
 		pidController.enable();
 		pidController.setSetpoint(GearAlign.ANGLE_SETPOINT); // Potentially change this to be the horizontal resolution of the camera / 2
 	}
-	
+
 	@Override
 	public void execute() {}
-	
+
 	@Override
 	public boolean isFinished() {
 		return onAngle;
 	}
-	
+
 	@Override
 	public void end() {
 		chassisMove.cancel();
 		pidController.reset();
 		onAngle = false;
 	}
-	
+
 	@Override
 	public void interrupted() {
 		end();
