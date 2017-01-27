@@ -2,11 +2,9 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
 	public NathanGain() {
@@ -19,7 +17,6 @@ public class NathanGain extends Driver {
 	
 	@Override
 	public void bindCommands() {
-		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
