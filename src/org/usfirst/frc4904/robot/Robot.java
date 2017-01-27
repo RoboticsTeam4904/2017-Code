@@ -36,7 +36,9 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {}
 	
 	@Override
-	public void autonomousInitialize() {}
+	public void autonomousInitialize() {
+		RobotMap.Component.navx.zeroYaw();
+	}
 	
 	/**
 	 * This function is called periodically during autonomous
