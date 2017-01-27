@@ -8,11 +8,11 @@ public class AligningCameraGRIP extends AligningCamera {
 	public static final String FIELD_DEGREES = "centerX";
 	public static final String FIELD_DISTANCE = "centerY";
 	public static final String FIELD_VISIBLE = "visible";
-	
+
 	public AligningCameraGRIP(PIDSourceType sourceType) {
 		super(sourceType, AligningCameraGRIP.TABLE_NAME);
 	}
-	
+
 	@Override
 	public float getDegrees() {
 		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DEGREES, new double[] {});
@@ -25,7 +25,7 @@ public class AligningCameraGRIP extends AligningCamera {
 			return 0.0f;
 		}
 	}
-	
+
 	@Override
 	public float getDistance() {
 		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DISTANCE, new double[] {});
