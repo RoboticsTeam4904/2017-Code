@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	PIDContainerOrchestrator orchestrator = new PIDContainerOrchestrator();
 	
 	@Override
 	public void initialize() {
@@ -24,7 +23,7 @@ public class Robot extends CommandRobotBase {
 		operatorChooser.addDefault(new DefaultOperator());
 		// Initialize SmartDashboard display values
 		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
-		orchestrator.pushValues(new PIDValueModifier() {
+		PIDContainerOrchestrator.getInstance().pushValues(new PIDValueModifier() {
 			@Override
 			public void pushValue(String key, double value) {
 				SmartDashboard.putNumber(key, value);
