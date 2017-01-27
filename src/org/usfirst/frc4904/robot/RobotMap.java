@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * floating around.
  */
 public class RobotMap {
-	public static class Port {
+	public static class Port { // TODO: Update ports to match those on Timón.
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
