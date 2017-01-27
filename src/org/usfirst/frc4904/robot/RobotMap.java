@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallInnie;
 import org.usfirst.frc4904.robot.subsystems.Dump;
@@ -75,16 +76,6 @@ public class RobotMap {
 	}
 	
 	public static class Constant {
-		public static class HumanInput {
-			public static final double Y_SPEED_SCALE = 1;
-			public static final double TURN_SPEED_SCALE = 1;
-			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
-			public static final double SPEED_GAIN = 1;
-			public static final double SPEED_EXP = 2;
-			public static final double TURN_GAIN = 1;
-			public static final double TURN_EXP = 2;
-		}
-		
 		public static class Chassis {
 			public static double TURN_P = 0.02;
 			public static double TURN_I = 0.001;
@@ -148,7 +139,7 @@ public class RobotMap {
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		HumanInput.Driver.xbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		Component.mainSubsystems = new Subsystem[] {};// Component.ballIntake, Component.ballDumper, Component.flywheel};

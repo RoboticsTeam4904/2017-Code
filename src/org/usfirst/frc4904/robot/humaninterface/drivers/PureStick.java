@@ -24,11 +24,11 @@ public class PureStick extends Driver {
 	
 	@Override
 	public double getY() {
-		return RobotMap.HumanInput.Operator.stick.getY() * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
+		return RobotMap.HumanInput.Operator.stick.getY() * NathanGain.Y_SPEED_SCALE;
 	}
 	
 	@Override
 	public double getTurnSpeed() {
-		return RobotMap.HumanInput.Operator.stick.getX() * RobotMap.Constant.HumanInput.TURN_SPEED_SCALE;
+		return RobotMap.HumanInput.Operator.stick.getX() * NathanGain.TURN_SPEED_SCALE;
 	}
 }

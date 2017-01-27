@@ -7,6 +7,13 @@ import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 
 public class NathanGain extends Driver {
+	public static final double SPEED_GAIN = 1;
+	public static final double TURN_GAIN = 1;
+	public static final double SPEED_EXP = 2;
+	public static final double TURN_EXP = 2;
+	public static final double Y_SPEED_SCALE = 1;
+	public static final double TURN_SPEED_SCALE = 1;
+	
 	public NathanGain() {
 		super("NathanGain");
 	}
@@ -29,14 +36,14 @@ public class NathanGain extends Driver {
 	@Override
 	public double getY() {
 		double rawSpeed = RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
-		double speed = scaleGain(rawSpeed, RobotMap.Constant.HumanInput.SPEED_GAIN, RobotMap.Constant.HumanInput.SPEED_EXP) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
+		double speed = scaleGain(rawSpeed, NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP) * NathanGain.Y_SPEED_SCALE;
 		return speed;
 	}
 	
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.HumanInput.Driver.xbox.leftStick.getX();
-		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP) * RobotMap.Constant.HumanInput.TURN_SPEED_SCALE;
+		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP) * NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
 	}
 }
