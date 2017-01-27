@@ -113,6 +113,6 @@ public class RobotMap {
 		// lidar
 		Component.lidarTurnEncoder = new CANEncoder(Port.CAN.lidarTurnEncoder);
 		Component.lidar = new Lidar(RobotMap.Component.lidarTurnEncoder, new Spark(Port.PWM.lidarMotor));
-		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
+		Component.mainSubsystems = new Subsystem[] {};
 	}
 }
