@@ -12,13 +12,12 @@ import org.usfirst.frc4904.standard.custom.ChassisController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController {
-	// TODO: Adjust formatter to make this readable
 	public static PIDContainer angleContainer = PIDContainerOrchestrator.getInstance()//
-		.createContainer("GearAlign", true) //
-		.set(PIDValueType.P, -0.0015) //
-		.set(PIDValueType.I, -1.0E-5) //
-		.set(PIDValueType.D, 0.015) //
-		.set(PIDValueType.SETPOINT, 320) //
+		.createContainer("GearAlign", true)
+		.set(PIDValueType.P, -0.0015)
+		.set(PIDValueType.I, -1.0E-5)
+		.set(PIDValueType.D, 0.015)
+		.set(PIDValueType.SETPOINT, 320)
 		.set(PIDValueType.TOLERANCE, 0.001);
 	protected PIDContainerWrapper pidWrapper;
 	protected boolean onAngle = false;
