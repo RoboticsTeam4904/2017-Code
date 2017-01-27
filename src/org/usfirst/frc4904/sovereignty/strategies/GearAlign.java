@@ -56,7 +56,9 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	}
 	
 	@Override
-	public void execute() {}
+	public void execute() {
+		pidWrapper.updateController();
+	}
 	
 	@Override
 	public boolean isFinished() {

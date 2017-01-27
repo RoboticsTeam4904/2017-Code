@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	SmartDashboardModifierImpl pidContainerModifier = new SmartDashboardModifierImpl();
 	
 	@Override
 	public void initialize() {
@@ -23,17 +24,7 @@ public class Robot extends CommandRobotBase {
 		operatorChooser.addDefault(new DefaultOperator());
 		// Initialize SmartDashboard display values
 		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
-		PIDContainerOrchestrator.getInstance().pushValues(new PIDValueModifier() {
-			@Override
-			public void pushValue(String key, double value) {
-				SmartDashboard.putNumber(key, value);
-			}
-			
-			@Override
-			public double pullValue(String key) {
-				return SmartDashboard.getNumber(key, 0.0);
-			}
-		});
+		PIDContainerOrchestrator.getInstance().pushValues(pidContainerModifier);
 	}
 	
 	@Override
@@ -69,7 +60,7 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void disabledExecute() {
-		
+		PIDContainerOrchestrator.getInstance().pullValues(pidContainerModifier);
 	}
 	
 	@Override
