@@ -10,7 +10,11 @@ public interface Trimmable {
 	
 	double getTrim();
 	
-	void adjustTrim(boolean positive);
+	default void adjustTrim(boolean positive) {
+		adjustTrim(positive ? getTrimIncrement() : -getTrimIncrement());
+	};
 	
-	void adjustTrim(double change);
+	default void adjustTrim(double change) {
+		setTrim(getTrim() + change);
+	};
 }

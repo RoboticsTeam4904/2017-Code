@@ -58,14 +58,4 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	public double getTrim() {
 		return trimValue;
 	}
-	
-	@Override
-	public void adjustTrim(boolean positive) {
-		adjustTrim(positive ? trimIncrement : -trimIncrement);
-	}
-	
-	@Override
-	public void adjustTrim(double trim) {
-		trimValue += trim;
-	}
 }

@@ -48,14 +48,6 @@ public class TrimmablePIDSensor implements PIDSensor {
 		return trimIncrement;
 	}
 	
-	public void adjustTrim(boolean positive) {
-		adjustTrim(positive ? trimIncrement : -trimIncrement);
-	}
-	
-	public void adjustTrim(double trim) {
-		trimValue += trim;
-	}
-	
 	public void setTrim(double trim) {
 		trimValue = trim;
 	}
