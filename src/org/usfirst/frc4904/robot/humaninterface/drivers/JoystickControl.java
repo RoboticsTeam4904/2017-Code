@@ -15,10 +15,10 @@ public class JoystickControl extends Driver {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
-		RobotMap.Component.HumanInput.Driver.xbox.rb
+		RobotMap.Component.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.Component.xbox.rb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		RobotMap.Component.HumanInput.Driver.xbox.lb
+		RobotMap.Component.xbox.lb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
 
@@ -29,11 +29,11 @@ public class JoystickControl extends Driver {
 
 	@Override
 	public double getY() {
-		return RobotMap.Component.HumanInput.Driver.xbox.leftStick.getY() * NathanGain.Y_SPEED_SCALE;
+		return RobotMap.Component.xbox.leftStick.getY() * NathanGain.Y_SPEED_SCALE;
 	}
 
 	@Override
 	public double getTurnSpeed() {
-		return RobotMap.Component.HumanInput.Driver.xbox.rightStick.getX() * NathanGain.TURN_SPEED_SCALE;
+		return RobotMap.Component.xbox.rightStick.getX() * NathanGain.TURN_SPEED_SCALE;
 	}
 }

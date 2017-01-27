@@ -13,9 +13,9 @@ public class PureStick extends Driver {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.HumanInput.Operator.stick.button1
+		RobotMap.Component.stick.button1
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.HumanInput.Operator.stick.button2
+		RobotMap.Component.stick.button2
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 	}
 
@@ -26,11 +26,11 @@ public class PureStick extends Driver {
 
 	@Override
 	public double getY() {
-		return RobotMap.Component.HumanInput.Operator.stick.getY() * NathanGain.Y_SPEED_SCALE;
+		return RobotMap.Component.stick.getY() * NathanGain.Y_SPEED_SCALE;
 	}
 
 	@Override
 	public double getTurnSpeed() {
-		return RobotMap.Component.HumanInput.Operator.stick.getX() * NathanGain.TURN_SPEED_SCALE;
+		return RobotMap.Component.stick.getX() * NathanGain.TURN_SPEED_SCALE;
 	}
 }
