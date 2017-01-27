@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.Noop;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,7 +33,9 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {}
+	public void teleopExecute() {
+		new Spark(9).set(0.275);
+	}
 	
 	@Override
 	public void autonomousInitialize() {}
