@@ -23,6 +23,20 @@ public class PIDContainerWrapper {
 		this.controller = controller;
 	}
 
+	public PIDContainerWrapper(CustomPIDController controller, String name) {
+		this.controller = controller;
+		container = new PIDContainer(name)
+			.set(PIDValueType.P, controller.getP())
+			.set(PIDValueType.I, controller.getI())
+			.set(PIDValueType.D, controller.getD())
+			.set(PIDValueType.F, controller.getF())
+			.set(PIDValueType.SETPOINT, controller.getSetpoint());
+	}
+
+	public PIDContainer getContainer() {
+		return container;
+	}
+
 	public CustomPIDController getController() {
 		return controller;
 	}

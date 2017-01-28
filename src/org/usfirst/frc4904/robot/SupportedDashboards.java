@@ -1,11 +1,11 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.sovereignty.PIDContainer.PIDValueModifier;
+import org.usfirst.frc4904.sovereignty.PIDContainer.PIDContainerModifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public enum SupportedDashboards {
-	SMARTDASHBOARD(new PIDValueModifier() {
+	SMARTDASHBOARD(new PIDContainerModifier() {
 		@Override
 		public void pushValue(String key, double value) {
 			SmartDashboard.putNumber(key, value);
@@ -16,13 +16,13 @@ public enum SupportedDashboards {
 			return SmartDashboard.getNumber(key, 0.0);
 		}
 	});
-	private final PIDValueModifier modifier;
+	private final PIDContainerModifier modifier;
 
-	private SupportedDashboards(PIDValueModifier modifier) {
+	private SupportedDashboards(PIDContainerModifier modifier) {
 		this.modifier = modifier;
 	}
 
-	public PIDValueModifier getModifier() {
+	public PIDContainerModifier getModifier() {
 		return modifier;
 	}
 }

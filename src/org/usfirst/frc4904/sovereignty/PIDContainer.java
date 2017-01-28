@@ -8,7 +8,7 @@ public class PIDContainer {
 	private final Map<String, Double> values;
 	private final String system;
 
-	public static interface PIDValueModifier {
+	public static interface PIDContainerModifier {
 		void pushValue(String key, double value);
 
 		double pullValue(String key);
@@ -31,13 +31,13 @@ public class PIDContainer {
 		this(new HashMap<String, Double>(), system);
 	}
 
-	public void pushValues(PIDValueModifier modifier) {
+	public void pushValues(PIDContainerModifier modifier) {
 		values.forEach((key, value) -> {
 			modifier.pushValue(key, value);
 		});
 	}
 
-	public void pullValue(PIDValueModifier modifier) {
+	public void pullValue(PIDContainerModifier modifier) {
 		values.forEach((key, value) -> {
 			values.replace(key, modifier.pullValue(key));
 		});
