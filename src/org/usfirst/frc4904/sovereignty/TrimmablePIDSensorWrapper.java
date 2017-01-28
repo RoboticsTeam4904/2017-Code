@@ -6,17 +6,17 @@ import org.usfirst.frc4904.standard.custom.sensors.PIDSensor;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class TrimmablePIDSensor implements PIDSensor {
+public class TrimmablePIDSensorWrapper implements PIDSensor, Trimmable {
 	
 	private double trimIncrement = 0.0;
 	private double trimValue = 0.0;
 	private final PIDSensor sensor;
 	
-	public TrimmablePIDSensor(PIDSensor sensor) {
+	public TrimmablePIDSensorWrapper(PIDSensor sensor) {
 		this.sensor = sensor;
 	}
 	
-	public TrimmablePIDSensor(PIDSource source) {
+	public TrimmablePIDSensorWrapper(PIDSource source) {
 		this(new PIDSensor.PIDSourceWrapper(source));
 	}
 	
@@ -40,15 +40,23 @@ public class TrimmablePIDSensor implements PIDSensor {
 		return sensor.pidGetSafely() + trimValue;
 	}
 	
-	public void setTrimIncrement(double increment) {
-		trimIncrement = increment;
+	@Override
+	public void setTrimIncrement(double trimIncrement) {
+		this.trimIncrement = trimIncrement;
 	}
 	
+	@Override
 	public double getTrimIncrement() {
 		return trimIncrement;
 	}
 	
-	public void setTrim(double trim) {
-		trimValue = trim;
+	@Override
+	public void setTrim(double trimValue) {
+		this.trimValue = trimValue;
+	}
+	
+	@Override
+	public double getTrim() {
+		return trimValue;
 	}
 }

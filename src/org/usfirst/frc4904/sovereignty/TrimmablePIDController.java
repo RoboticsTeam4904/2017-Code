@@ -40,8 +40,8 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	}
 	
 	@Override
-	public void setTrimIncrement(double increment) {
-		trimIncrement = increment;
+	public void setTrimIncrement(double trimIncrement) {
+		this.trimIncrement = trimIncrement;
 	}
 	
 	@Override
@@ -50,8 +50,8 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	}
 	
 	@Override
-	public void setTrim(double trim) {
-		trimValue = trim;
+	public void setTrim(double trimValue) {
+		this.trimValue = trimValue;
 	}
 	
 	@Override
