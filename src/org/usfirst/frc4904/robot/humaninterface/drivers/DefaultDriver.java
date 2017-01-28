@@ -10,9 +10,7 @@ public class DefaultDriver extends Driver {
 	}
 
 	@Override
-	public void bindCommands() {
-
-	}
+	public void bindCommands() {}
 
 	@Override
 	public double getX() {
