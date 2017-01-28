@@ -8,7 +8,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class NathanGain extends Driver {
+strictfp public class NathanGain extends Driver {
 	public static final double SPEED_GAIN = 1;
 	public static final double TURN_GAIN = 1;
 	public static final double SPEED_EXP = 2;
