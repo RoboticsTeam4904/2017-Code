@@ -37,7 +37,7 @@ public class PIDContainer {
 		});
 	}
 
-	public void pullValue(PIDContainerModifier modifier) {
+	public void pullValues(PIDContainerModifier modifier) {
 		values.forEach((key, value) -> {
 			values.replace(key, modifier.pullValue(key));
 		});

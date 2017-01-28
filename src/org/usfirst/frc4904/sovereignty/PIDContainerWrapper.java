@@ -30,7 +30,8 @@ public class PIDContainerWrapper {
 			.set(PIDValueType.I, controller.getI())
 			.set(PIDValueType.D, controller.getD())
 			.set(PIDValueType.F, controller.getF())
-			.set(PIDValueType.SETPOINT, controller.getSetpoint());
+			.set(PIDValueType.SETPOINT, controller.getSetpoint())
+			.set(PIDValueType.TOLERANCE, controller.getAbsoluteTolerance());
 	}
 
 	public PIDContainer getContainer() {
