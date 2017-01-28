@@ -1,10 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
-import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
+import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
+import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.Noop;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,18 +16,19 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new Noop());
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
-		driverChooser.addDefault(new DefaultDriver());
-		// Configure operator command chooser
-		operatorChooser.addDefault(new DefaultOperator());
-		// Initialize SmartDashboard display values
-		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
+		driverChooser.addDefault(new NathanGain());
+		driverChooser.addObject(new NathanGain());
+		driverChooser.addObject(new JoystickControl());
+		driverChooser.addObject(new PureStick());
 	}
 
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new Noop();
+		// teleopCommand = new Noop();
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
+		teleopCommand.start();
 	}
 
 	/**
