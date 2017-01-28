@@ -3,8 +3,6 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.robot.subsystems.BallInnie;
-import org.usfirst.frc4904.robot.subsystems.Dump;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -14,6 +12,7 @@ import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
+import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
@@ -57,7 +56,10 @@ public class RobotMap {
 		
 		public static class PCM {}
 		
-		public static class Pneumatics {}
+		public static class Pneumatics {
+			public static final int solenoidUp = 0;
+			public static final int solenoidDown = 1;
+		}
 	}
 	
 	public static class Component {
@@ -68,11 +70,10 @@ public class RobotMap {
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
-		public static Dump ballDumper;
-		public static BallInnie ballIntake;
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		public static SolenoidShifters shifter;
 		// Vision
 		public static AligningCamera alignCamera;
 	}
@@ -90,9 +91,6 @@ public class RobotMap {
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
 		// Ball Intake
-		Component.ballIntake = new BallInnie(new VictorSP(Port.PWM.ballInnie));
-		// Ball Dumper
-		Component.ballDumper = new Dump(new VictorSP(Port.PWM.vomitElevator), new VictorSP(Port.PWM.vomitOuttakeRoller));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -106,6 +104,7 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] {Component.ballIntake, Component.ballDumper, Component.flywheel};
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.mainSubsystems = new Subsystem[] {};
 	}
 }
