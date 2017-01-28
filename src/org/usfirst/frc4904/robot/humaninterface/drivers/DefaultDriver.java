@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 
 public class DefaultDriver extends Driver {
@@ -11,7 +12,10 @@ public class DefaultDriver extends Driver {
 	}
 	
 	@Override
-	public void bindCommands() {}
+	public void bindCommands() {
+		AutoShifter shiftCommand = new AutoShifter();
+		shiftCommand.start();
+	}
 	
 	@Override
 	public double getX() {
