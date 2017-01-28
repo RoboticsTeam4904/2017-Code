@@ -49,14 +49,15 @@ public class RobotMap {
 		}
 
 		public static class PWM {
-			// THE MOTORS AREN'T EXACT - Work In Progress
+			// SOME MOTORS AREN'T EXACT - work in progress
 			public static final int leftDriveMotor = 0;
 			public static final int rightDriveMotor = 1;
-			public static final int flywheelLeftMotor = 2;
-			public static final int flywheelRightMotor = 3;
-			public static final int bioTopMotor = 4;
-			public static final int bioLeftMotor = 5;
-			public static final int bioMainMotor = 6;
+			public static final int flywheelLeftMotor = 2; // WIP
+			public static final int flywheelRightMotor = 3; // WIP
+			public static final int bioTopMotor = 4; // WIP
+			public static final int bioLeftMotor = 5; // WIP
+			public static final int bioMainMotor = 6; // WIP
+			public static final int ioServo = 7;
 		}
 
 		public static class CAN {
