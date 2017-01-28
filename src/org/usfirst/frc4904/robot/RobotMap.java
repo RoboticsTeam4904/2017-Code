@@ -20,9 +20,9 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -146,13 +146,12 @@ public class RobotMap {
 		Motor bioTopMotor = new Motor(new VictorSP(Port.PWM.bioTopMotor));
 		Motor bioLeftMotor = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
 		Motor bioMainMotor = new Motor(new VictorSP(Port.PWM.bioMainMotor));
-		Component.ballIO = new BallIO(bioTopMotor, bioLeftMotor, bioMainMotor,
-			new DoubleSolenoid(Port.Pneumatics.bioShifterDown, Port.Pneumatics.bioShifterUp));
+		Servo bioServo = new Servo(Port.PWM.ioServo);
+		Component.ballIO = new BallIO(bioTopMotor, bioLeftMotor, bioMainMotor, bioServo);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel,
-			Component.shifter);
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
