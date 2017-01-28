@@ -7,6 +7,7 @@ import java.util.Map;
 public class PIDContainer {
 	private final Map<String, Double> values;
 	private final String system;
+	private final boolean locked;
 
 	public static interface PIDContainerModifier {
 		void pushValue(String key, double value);
@@ -22,13 +23,14 @@ public class PIDContainer {
 		}
 	}
 
-	public PIDContainer(Map<String, Double> values, String system) {
+	public PIDContainer(Map<String, Double> values, String system, boolean locked) {
 		this.system = system;
 		this.values = values;
+		this.locked = locked;
 	}
 
-	public PIDContainer(String system) {
-		this(new HashMap<String, Double>(), system);
+	public PIDContainer(String system, boolean locked) {
+		this(new HashMap<String, Double>(), system, locked);
 	}
 
 	public void pushValues(PIDContainerModifier modifier) {
@@ -54,5 +56,9 @@ public class PIDContainer {
 
 	public double get(PIDValueType valueType) {
 		return values.getOrDefault(valueType, 0.0);
+	}
+
+	public boolean isLocked() {
+		return locked;
 	}
 }

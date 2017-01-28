@@ -11,7 +11,7 @@ import org.usfirst.frc4904.standard.custom.ChassisController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController {
-	public static PIDContainer angleContainer = new PIDContainer("GearAlign")
+	public static PIDContainer angleContainer = new PIDContainer("GearAlign", true)
 		.set(PIDValueType.P, -0.0015)
 		.set(PIDValueType.I, -1.0E-5)
 		.set(PIDValueType.D, 0.015)

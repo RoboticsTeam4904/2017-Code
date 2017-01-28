@@ -23,9 +23,9 @@ public class PIDContainerWrapper {
 		this.controller = controller;
 	}
 
-	public PIDContainerWrapper(CustomPIDController controller, String name) {
+	public PIDContainerWrapper(CustomPIDController controller, String name, boolean locked) {
 		this.controller = controller;
-		container = new PIDContainer(name)
+		container = new PIDContainer(name, locked)
 			.set(PIDValueType.P, controller.getP())
 			.set(PIDValueType.I, controller.getI())
 			.set(PIDValueType.D, controller.getD())
