@@ -122,7 +122,7 @@ public class RobotMap {
 		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disablePID(); // TODO add encoders
 		// Hopper
-		Component.hopper = new Hopper(new VictorSP(Port.PWM.agitatorMotor), new DoubleSolenoid(Port.Pneumatics.seeSawLeftDown, Port.Pneumatics.seeSawLeftUp), new DoubleSolenoid(Port.Pneumatics.seeSawRightDown, Port.Pneumatics.seeSawRightUp));
+		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.seeSawLeftDown, Port.Pneumatics.seeSawLeftUp), new DoubleSolenoid(Port.Pneumatics.seeSawRightDown, Port.Pneumatics.seeSawRightUp));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
