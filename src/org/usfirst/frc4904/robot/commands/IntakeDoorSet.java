@@ -2,27 +2,46 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import org.usfirst.frc4904.robot.subsystems.BallIO;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class IntakeDoorSet extends Command {
-	protected final DoubleSolenoid.Value targetState;
+	protected final Boolean isUp;
 	
-	public IntakeDoorSet(DoubleSolenoid.Value targetState) {
+	public IntakeDoorSet(Boolean targetState) {
 		requires(RobotMap.Component.ballIO);
-		this.targetState = targetState;
+		isUp = targetState;
 	}
 	
 	@Override
 	protected void initialize() {
-		RobotMap.Component.ballIO.shifter.set(targetState);
+		if (isUp) {
+			RobotMap.Component.ballIO.shifter.setAngle(BallIO.intakeAngle);
+		} else {
+			RobotMap.Component.ballIO.shifter.setAngle(BallIO.outtakeAngle);
+		}
 	}
 	
 	@Override
 	protected boolean isFinished() {
 		return true;
+	}
+	
+	@Override
+	protected void execute() {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	protected void end() {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	protected void interrupted() {
+		// TODO Auto-generated method stub
 	}
 }

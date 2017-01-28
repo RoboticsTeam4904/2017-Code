@@ -38,6 +38,7 @@ public class RobotMap {
 			public static final int bioTopMotor = 4; // WIP
 			public static final int bioLeftMotor = 5; // WIP
 			public static final int bioMainMotor = 6; // WIP
+			public static final int ioServo = 7;
 		}
 		
 		public static class CAN {
