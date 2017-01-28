@@ -8,7 +8,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
-strictfp public class NathanGain extends Driver {
+public class NathanGain extends Driver {
 	public static final double SPEED_GAIN = 1;
 	public static final double TURN_GAIN = 1;
 	public static final double SPEED_EXP = 2;
@@ -51,7 +51,7 @@ strictfp public class NathanGain extends Driver {
 		return turnSpeed;
 	}
 	
-	public static class FineModifier implements SpeedModifier {
+	private static class FineModifier implements SpeedModifier {
 		
 		private boolean fineEnabled = false;
 		
@@ -72,7 +72,7 @@ strictfp public class NathanGain extends Driver {
 		}
 	}
 	
-	private class EnableFineModifier extends Command {
+	private static class EnableFineModifier extends Command {
 		
 		private final FineModifier modifier;
 		
