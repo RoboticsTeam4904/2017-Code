@@ -3,8 +3,6 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.sovereignty.PIDContainerOrchestrator;
-import org.usfirst.frc4904.sovereignty.PIDContainerOrchestrator.PIDContainer.PIDValueModifier;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.Noop;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	SmartDashboardModifierImpl pidContainerModifier = new SmartDashboardModifierImpl();
 
 	@Override
 	public void initialize() {
@@ -24,7 +21,6 @@ public class Robot extends CommandRobotBase {
 		operatorChooser.addDefault(new DefaultOperator());
 		// Initialize SmartDashboard display values
 		// SmartDashboard.putNumber(SmartDashboardKey.EXAMPLE.key, 0);
-		PIDContainerOrchestrator.getInstance().pushValues(pidContainerModifier);
 	}
 
 	@Override
@@ -59,9 +55,7 @@ public class Robot extends CommandRobotBase {
 	public void disabledInitialize() {}
 
 	@Override
-	public void disabledExecute() {
-		PIDContainerOrchestrator.getInstance().pullValues(pidContainerModifier);
-	}
+	public void disabledExecute() {}
 
 	@Override
 	public void testInitialize() {}
@@ -75,17 +69,5 @@ public class Robot extends CommandRobotBase {
 			summary += "{" + subsystem.getName() + "} running command {" + subsystem.getCurrentCommand() + "}\n";
 		}
 		SmartDashboard.putString(SmartDashboardKey.SUBSYSTEM_SUMMARY.key, summary);
-	}
-
-	private static class SmartDashboardModifierImpl implements PIDValueModifier {
-		@Override
-		public void pushValue(String key, double value) {
-			SmartDashboard.putNumber(key, value);
-		}
-
-		@Override
-		public double pullValue(String key) {
-			return SmartDashboard.getNumber(key, 0.0);
-		}
 	}
 }

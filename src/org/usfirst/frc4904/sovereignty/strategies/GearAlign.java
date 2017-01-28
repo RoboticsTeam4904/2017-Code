@@ -3,17 +3,15 @@ package org.usfirst.frc4904.sovereignty.strategies;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
-import org.usfirst.frc4904.sovereignty.PIDContainerOrchestrator;
-import org.usfirst.frc4904.sovereignty.PIDContainerOrchestrator.PIDContainer;
-import org.usfirst.frc4904.sovereignty.PIDContainerOrchestrator.PIDContainer.PIDValueType;
+import org.usfirst.frc4904.sovereignty.PIDContainer;
+import org.usfirst.frc4904.sovereignty.PIDContainer.PIDValueType;
 import org.usfirst.frc4904.sovereignty.PIDContainerWrapper;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController {
-	public static PIDContainer angleContainer = PIDContainerOrchestrator.getInstance()//
-		.createContainer("GearAlign", true)
+	public static PIDContainer angleContainer = new PIDContainer("GearAlign")
 		.set(PIDValueType.P, -0.0015)
 		.set(PIDValueType.I, -1.0E-5)
 		.set(PIDValueType.D, 0.015)
