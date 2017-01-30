@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TrimCommand extends Command {
 	public static enum TrimDirection {
-		UP(true), DOWN(false), LEFT(true), RIGHT(true);
+		UP(true), DOWN(false), LEFT(false), RIGHT(true);
 		private boolean positive;
 
 		private TrimDirection(boolean positive) {
