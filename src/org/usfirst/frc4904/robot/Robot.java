@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	Command teleopCommandTwo;
+	Command LidarCommand;
 	
 	@Override
 	public void initialize() {
@@ -30,8 +30,8 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new Noop();
-		teleopCommandTwo = new LidarTurner();
-		teleopCommandTwo.start();
+		LidarCommand = new LidarTurner();
+		LidarCommand.start();
 	}
 	
 	/**

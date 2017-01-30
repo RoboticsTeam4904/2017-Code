@@ -17,7 +17,7 @@ public class Lidar extends VelocityEncodedMotor {
 	public static final double LIDAR_DIAMETER = 3.107;// inches
 	public static final double LIDAR_CIRCUMFERENCE = Lidar.LIDAR_DIAMETER * Math.PI;
 	public static final double LIDAR_RPS = 4;
-	public static final double LIDAR_ENCODER_PPR = 400;// WIP
+	public static final double LIDAR_ENCODER_PPR = 3840;// WIP
 	public double lastRate;
 	
 	@Override
@@ -31,12 +31,7 @@ public class Lidar extends VelocityEncodedMotor {
 	
 	public void setMotor() {
 		enablePID();
-		if (RobotMap.Component.lidarTurnEncoder.getRate() > 1000 || RobotMap.Component.lidarTurnEncoder.getRate() < 0) {
-			LogKitten.wtf(lastRate);
-		} else {
-			LogKitten.wtf(RobotMap.Component.lidarTurnEncoder.getRate());
-		}
-		set(Lidar.LIDAR_RPS * Lidar.LIDAR_ENCODER_PPR);// wont work until AJ fixes error
-		lastRate = RobotMap.Component.lidarTurnEncoder.getRate();
+		LogKitten.wtf(RobotMap.Component.lidarTurnEncoder.getRate());
+		set(Lidar.LIDAR_RPS * Lidar.LIDAR_ENCODER_PPR);
 	}
 }
