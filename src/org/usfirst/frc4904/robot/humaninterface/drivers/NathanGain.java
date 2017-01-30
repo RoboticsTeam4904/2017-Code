@@ -33,6 +33,8 @@ public class NathanGain extends Driver {
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.xbox.b
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.Component.xbox.x
+			.onlyWhileHeld(gearAlign);
 		RobotMap.Component.xbox.dPad.left
 			.whenPressed(new TrimCommand(gearAlign, TrimDirection.LEFT));
 		RobotMap.Component.xbox.dPad.right
