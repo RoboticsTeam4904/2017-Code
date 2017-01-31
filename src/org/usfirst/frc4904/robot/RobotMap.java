@@ -112,11 +112,11 @@ public class RobotMap {
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		// lidar
-		Component.lidarTurnEncoder = new CANEncoder(Port.CAN.lidarTurnEncoder);
+		Component.lidarTurnEncoder = new CANEncoder("LidarEncoder", Port.CAN.lidarTurnEncoder, false);
 		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
 		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
-		Component.lidarMC.setOutputRange(0.1, 0.4);
-		Component.lidar = new Lidar(RobotMap.Component.lidarTurnEncoder, new Spark(Port.PWM.lidarMotor));
+		Component.lidarMC.setOutputRange(0.15, 0.4);
+		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {};
 	}
 }
