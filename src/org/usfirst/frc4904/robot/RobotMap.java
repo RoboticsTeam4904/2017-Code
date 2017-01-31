@@ -16,7 +16,7 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
@@ -68,8 +68,8 @@ public class RobotMap {
 	public static class Component {
 		public static PDP pdp;
 		public static Chassis chassis;
-		public static PositionEncodedMotor leftWheel;
-		public static PositionEncodedMotor rightWheel;
+		public static PositionSensorMotor leftWheel;
+		public static PositionSensorMotor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Flywheel flywheel;
@@ -79,7 +79,7 @@ public class RobotMap {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
 		// lidar
-		public static CustomPIDController lidarTurnPID;
+		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
 		public static Lidar lidar;
 		// Vision
@@ -91,12 +91,13 @@ public class RobotMap {
 		// Chassis
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
-		Component.leftWheel.disablePID(); // TODO add encoders
-		// Component.leftWheel.setInverted(true);
+		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
+		Component.leftWheel.disableMotionController();
+		; // TODO add encoders
+			// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
-		Component.rightWheel.disablePID(); // TODO add encoders
+		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
+		Component.rightWheel.disableMotionController(); // TODO add encoders
 		// Component.rightWheel.setInverted(false);
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -112,6 +113,9 @@ public class RobotMap {
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		// lidar
 		Component.lidarTurnEncoder = new CANEncoder(Port.CAN.lidarTurnEncoder);
+		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC.setOutputRange(0.1, 0.4);
 		Component.lidar = new Lidar(RobotMap.Component.lidarTurnEncoder, new Spark(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {};
 	}

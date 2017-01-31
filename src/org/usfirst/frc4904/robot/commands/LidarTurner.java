@@ -2,21 +2,23 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 
-public class LidarTurner extends Command {
+public class LidarTurner extends MotorConstant {
 	public LidarTurner() {
-		requires(RobotMap.Component.lidar);
+		super(RobotMap.Component.lidar, 240000);// Lidar.LIDAR_RPS * Lidar.LIDAR_ENCODER_PPR);
+	}
+	
+	@Override
+	protected void initialize() {
+		RobotMap.Component.lidar.enableMotionController();
+		super.initialize();
 	}
 	
 	@Override
 	protected void execute() {
-		RobotMap.Component.lidar.setMotor();
-	}
-	
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		LogKitten.wtf(RobotMap.Component.lidarTurnEncoder.getRate() + " " + RobotMap.Component.lidarMC.getError());
+		super.execute();
 	}
 }
