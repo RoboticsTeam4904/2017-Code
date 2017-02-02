@@ -1,9 +1,9 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class EnableFineModifier extends Command {
-
 	private final FineModifier modifier;
 
 	public EnableFineModifier(FineModifier modifier) {

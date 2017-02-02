@@ -1,15 +1,20 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
+
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 
 public class FineModifier implements SpeedModifier {
+	protected boolean fineEnabled = false;
+	protected final double scale;
 
-	private boolean fineEnabled = false;
+	public FineModifier(double scale) {
+		this.scale = scale;
+	}
 
 	@Override
 	public double modify(double speed) {
 		if (fineEnabled) {
-			return speed / 3;
+			return speed / scale;
 		}
 		return speed;
 	}
