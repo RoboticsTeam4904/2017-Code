@@ -6,7 +6,6 @@ import org.usfirst.frc4904.standard.custom.sensors.PIDSensor;
 import edu.wpi.first.wpilibj.PIDSource;
 
 public class TrimmablePIDController extends CustomPIDController implements Trimmable {
-
 	private double trimValue = 0.0;
 	private double trimIncrement = 0.0;
 

@@ -19,7 +19,6 @@ public class NathanGain extends Driver {
 	public static final double TURN_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	// TODO: Look at alternate pattern for storage of this object
 
 	public NathanGain() {
 		super("NathanGain");
