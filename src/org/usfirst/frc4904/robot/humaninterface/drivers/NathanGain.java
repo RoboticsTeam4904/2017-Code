@@ -1,13 +1,16 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.vision.AligningCameraGRIP;
+import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
-import org.usfirst.frc4904.sovereignty.strategies.GearAlign;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
 	public static final double SPEED_GAIN = 1;
@@ -17,7 +20,6 @@ public class NathanGain extends Driver {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	// TODO: Look at alternate pattern for storage of this object
-	private final GearAlign gearAlign = new GearAlign(new AligningCameraGRIP());
 
 	public NathanGain() {
 		super("NathanGain");
@@ -33,9 +35,23 @@ public class NathanGain extends Driver {
 				new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.xbox.b
 				.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.xbox.x.onlyWhileHeld(gearAlign);
-		RobotMap.Component.xbox.dPad.left.whenPressed(new TrimCommand(gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.xbox.dPad.right.whenPressed(new TrimCommand(gearAlign, TrimDirection.RIGHT));
+		RobotMap.Component.xbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
+		RobotMap.Component.xbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.xbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
+
+		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
+		RobotMap.Component.xbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
+				RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.Component.xbox.dPad.up.whenReleased(normalDrive);
+		RobotMap.Component.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
+				RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.Component.xbox.dPad.down.whenReleased(normalDrive);
+		RobotMap.Component.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
+				RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.Component.xbox.dPad.left.whenReleased(normalDrive);
+		RobotMap.Component.xbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
+				RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.Component.xbox.dPad.right.whenReleased(normalDrive);
 	}
 
 	@Override
