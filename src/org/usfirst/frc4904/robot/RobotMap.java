@@ -18,6 +18,7 @@ import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -129,11 +130,11 @@ public class RobotMap {
 			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		// Ball-Intake-Outtake
-		Motor bioTopMotor = new Motor(new VictorSP(Port.PWM.bioTopMotor));
-		Motor bioLeftMotor = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
-		Motor bioMainMotor = new Motor(new VictorSP(Port.PWM.bioMainMotor));
-		Servo bioServo = new Servo(Port.PWM.ioServo);
-		Component.ballIO = new BallIO(bioTopMotor, bioLeftMotor, bioMainMotor, bioServo);
+		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.bioTopMotor));
+		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
+		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.bioMainMotor));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ioServo));
+		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers, ballioDoorServo);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
