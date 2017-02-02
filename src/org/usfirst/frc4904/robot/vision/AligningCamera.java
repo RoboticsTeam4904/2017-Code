@@ -22,6 +22,10 @@ public class AligningCamera implements PIDSource {
 		this(sourceType, AligningCamera.TABLE_NAME);
 	}
 
+	public AligningCamera() {
+		this(PIDSourceType.kDisplacement, AligningCamera.TABLE_NAME);
+	}
+
 	public float getDegrees() {
 		return (float) cameraTable.getNumber(AligningCamera.FIELD_DEGREES, Float.NaN);
 	}
