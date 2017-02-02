@@ -1,6 +1,5 @@
 package org.usfirst.frc4904.sovereignty;
 
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TrimCommand extends Command {
@@ -16,6 +15,7 @@ public class TrimCommand extends Command {
 			return positive;
 		}
 	}
+
 	private final Trimmable trimmable;
 	private final boolean positive;
 
@@ -35,6 +35,6 @@ public class TrimCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 }

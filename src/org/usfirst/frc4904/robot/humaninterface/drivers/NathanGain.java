@@ -1,6 +1,5 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
-
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.vision.AligningCameraGRIP;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
@@ -17,6 +16,7 @@ public class NathanGain extends Driver {
 	public static final double TURN_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
+	// TODO: Look at alternate pattern for storage of this object
 	private final GearAlign gearAlign = new GearAlign(new AligningCameraGRIP());
 
 	public NathanGain() {
@@ -29,16 +29,13 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.xbox.a
-			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.Component.xbox.a.whenPressed(
+				new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.xbox.b
-			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.xbox.x
-			.onlyWhileHeld(gearAlign);
-		RobotMap.Component.xbox.dPad.left
-			.whenPressed(new TrimCommand(gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.xbox.dPad.right
-			.whenPressed(new TrimCommand(gearAlign, TrimDirection.RIGHT));
+				.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.Component.xbox.x.onlyWhileHeld(gearAlign);
+		RobotMap.Component.xbox.dPad.left.whenPressed(new TrimCommand(gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.xbox.dPad.right.whenPressed(new TrimCommand(gearAlign, TrimDirection.RIGHT));
 	}
 
 	@Override
@@ -48,8 +45,7 @@ public class NathanGain extends Driver {
 
 	@Override
 	public double getY() {
-		double rawSpeed = RobotMap.Component.xbox.rt.getX()
-			- RobotMap.Component.xbox.lt.getX();
+		double rawSpeed = RobotMap.Component.xbox.rt.getX() - RobotMap.Component.xbox.lt.getX();
 		double speed = scaleGain(rawSpeed, NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP) * NathanGain.Y_SPEED_SCALE;
 		return speed;
 	}
@@ -57,7 +53,8 @@ public class NathanGain extends Driver {
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.Component.xbox.leftStick.getX();
-		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP) * NathanGain.TURN_SPEED_SCALE;
+		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
+				* NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
 	}
 }
