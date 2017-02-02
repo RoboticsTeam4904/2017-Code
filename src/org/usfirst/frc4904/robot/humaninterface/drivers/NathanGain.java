@@ -6,7 +6,6 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -70,48 +69,4 @@ public class NathanGain extends Driver {
 		return turnSpeed;
 	}
 
-	private static class FineModifier implements SpeedModifier {
-
-		private boolean fineEnabled = false;
-
-		@Override
-		public double modify(double speed) {
-			if (fineEnabled) {
-				return speed / 3;
-			}
-			return speed;
-		}
-
-		public void setFineControl(boolean fine) {
-			fineEnabled = fine;
-		}
-
-		public boolean getFineControl() {
-			return fineEnabled;
-		}
-	}
-
-	private static class EnableFineModifier extends Command {
-
-		private final FineModifier modifier;
-
-		public EnableFineModifier(FineModifier modifier) {
-			this.modifier = modifier;
-		}
-
-		@Override
-		protected void initialize() {
-			modifier.setFineControl(true);
-		}
-
-		@Override
-		protected boolean isFinished() {
-			return false;
-		}
-
-		@Override
-		protected void interrupted() {
-			modifier.setFineControl(false);
-		}
-	}
 }
