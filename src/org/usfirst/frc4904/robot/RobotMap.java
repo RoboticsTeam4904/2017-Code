@@ -96,6 +96,7 @@ public class RobotMap {
 		public static CustomXbox xbox;
 		public static CustomJoystick stick;
 		public static PDP pdp;
+		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
@@ -107,10 +108,9 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		public static AligningCamera alignCamera;
-		public static CustomPIDController chassisMC;
 		public static NavX navx;
-		public static SolenoidShifters shifter;
+		public static MotionController chassisMC;
+		public static AligningCamera alignCamera;
 	}
 
 	public RobotMap() {
