@@ -94,11 +94,11 @@ public class RobotMap {
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static MotionController chassisEncoderMC;
+		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
 		public static NavX navx;
-		public static MotionController chassisMC;
+		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
 	}
 
@@ -106,14 +106,14 @@ public class RobotMap {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
-		Component.chassisMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisMC.setInputRange(-180, 180);
-		Component.chassisMC.setContinuous(true);
+		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisTurnMC.setInputRange(-180, 180);
+		Component.chassisTurnMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002,
+		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
