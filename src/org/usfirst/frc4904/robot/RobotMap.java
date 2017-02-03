@@ -111,6 +111,8 @@ public class RobotMap {
 		Component.chassisMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
@@ -125,9 +127,6 @@ public class RobotMap {
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
