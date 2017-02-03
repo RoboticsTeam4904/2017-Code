@@ -55,10 +55,10 @@ public class RobotMap {
 			public static final int rightDriveMotor = 1;
 			public static final int flywheelLeftMotor = 2; // WIP
 			public static final int flywheelRightMotor = 3; // WIP
-			public static final int bioTopMotor = 4; // WIP
-			public static final int bioLeftMotor = 5; // WIP
-			public static final int bioMainMotor = 6; // WIP
-			public static final int ioServo = 7;
+			public static final int ballioTopMotor = 4; // WIP
+			public static final int ballioLeftMotor = 5; // WIP
+			public static final int ballioMainMotor = 6; // WIP
+			public static final int ballioServo = 7;
 		}
 
 		public static class CAN {
@@ -74,8 +74,8 @@ public class RobotMap {
 		public static class PCM {}
 
 		public static class Pneumatics {
-			public static final int bioShifterUp = 2;
-			public static final int bioShifterDown = 3;
+			public static final int ballioShifterUp = 2;
+			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
 		}
@@ -123,11 +123,12 @@ public class RobotMap {
 			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		// Ball-Intake-Outtake
-		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.bioTopMotor));
-		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
-		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.bioMainMotor));
-		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ioServo));
-		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers, ballioDoorServo);
+		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.ballioTopMotor));
+		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
+		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.ballioMainMotor));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
+		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
+			ballioDoorServo);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
