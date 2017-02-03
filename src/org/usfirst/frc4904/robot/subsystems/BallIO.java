@@ -14,10 +14,14 @@ public class BallIO extends Subsystem {
 
 	public static enum DoorState {
 		INTAKE(0), OUTTAKE(71.03);
-		public final double angle; // the architecture allowing the enum states to have values
+		private final double angle; // the architecture allowing the enum states to have values
 
 		private DoorState(double angle) {
 			this.angle = angle;
+		}
+
+		public double getAngle() {
+			return angle;
 		}
 	}
 	protected DoorState currentState;
@@ -27,7 +31,7 @@ public class BallIO extends Subsystem {
 	}
 
 	public void doorSet(DoorState desiredState) {
-		doorServo.setAngle(desiredState.angle);
+		doorServo.setAngle(desiredState.getAngle());
 		currentState = desiredState;
 	}
 
