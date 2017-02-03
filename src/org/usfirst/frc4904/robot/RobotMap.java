@@ -119,7 +119,6 @@ public class RobotMap {
 			new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
-		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		// Ball-Intake-Outtake
 		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.ballioTopMotor));
 		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
