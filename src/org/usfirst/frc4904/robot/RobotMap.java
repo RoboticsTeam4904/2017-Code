@@ -85,8 +85,8 @@ public class RobotMap {
 	}
 
 	public static class Component {
-		public static CustomXbox xbox;
-		public static CustomJoystick stick;
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
 		public static PDP pdp;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
@@ -97,8 +97,6 @@ public class RobotMap {
 		public static MotionController chassisEncoderMC;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick;
 		public static NavX navx;
 		public static MotionController chassisMC;
 		public static AligningCamera alignCamera;
@@ -134,9 +132,8 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
-		Component.xbox = new CustomXbox(Port.HumanInput.xboxController);
-		Component.stick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.xbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
+		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
+		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
