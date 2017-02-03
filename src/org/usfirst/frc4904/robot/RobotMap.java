@@ -18,6 +18,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -82,6 +83,7 @@ public class RobotMap {
 		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
 		public static Lidar lidar;
+		public static CapSpeedModifier lidarCap;
 		// Vision
 		public static AligningCamera alignCamera;
 	}
@@ -116,6 +118,7 @@ public class RobotMap {
 		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
 		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
 		Component.lidarMC.setOutputRange(0.15, 0.4);
+		Component.lidarCap = new CapSpeedModifier(0.1, 0.4);
 		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {};
 	}
