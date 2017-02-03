@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
-import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -96,7 +95,6 @@ public class RobotMap {
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static MotionController chassisEncoderMC;
-		public static Flywheel flywheel;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
