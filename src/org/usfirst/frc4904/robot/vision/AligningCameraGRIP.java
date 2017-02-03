@@ -13,6 +13,10 @@ public class AligningCameraGRIP extends AligningCamera {
 		super(sourceType, AligningCameraGRIP.TABLE_NAME);
 	}
 
+	public AligningCameraGRIP() {
+		super(PIDSourceType.kDisplacement, AligningCameraGRIP.TABLE_NAME);
+	}
+
 	@Override
 	public float getDegrees() {
 		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DEGREES, new double[] {});
