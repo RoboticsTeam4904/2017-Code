@@ -6,7 +6,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class HighConveyor extends Motor {
+public class Indexer extends Motor {
 	public static enum HighConveyorState {
 		IDLE, ACTIVE;
 	}
@@ -16,11 +16,11 @@ public class HighConveyor extends Motor {
 	public static final double UNLOAD_TIME = 0.2;
 	protected HighConveyorState state = HighConveyorState.IDLE;
 
-	public HighConveyor() {
-		this(HighConveyor.MOTOR);
+	public Indexer() {
+		this(Indexer.MOTOR);
 	}
 
-	public HighConveyor(SpeedController motor) {
+	public Indexer(SpeedController motor) {
 		super(motor);
 	}
 

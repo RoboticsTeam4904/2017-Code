@@ -6,7 +6,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class HighFlywheel extends Motor {
+public class Flywheel extends Motor {
 	public static enum HighFlywheelState {
 		IDLE, ACTIVE;
 	}
@@ -16,12 +16,12 @@ public class HighFlywheel extends Motor {
 	public static final double SHOOTING_SPEED = 0.75;
 	protected HighFlywheelState state;
 
-	public HighFlywheel() {
-		super(HighFlywheel.MOTORS);
+	public Flywheel() {
+		super(Flywheel.MOTORS);
 		state = HighFlywheelState.IDLE;
 	}
 
-	public HighFlywheel(SpeedController leftMotor, SpeedController rightMotor) {
+	public Flywheel(SpeedController leftMotor, SpeedController rightMotor) {
 		super(leftMotor, rightMotor);
 		state = HighFlywheelState.IDLE;
 	}
@@ -32,6 +32,6 @@ public class HighFlywheel extends Motor {
 	}
 
 	public boolean isReady() {
-		return get() >= HighFlywheel.SHOOTING_SPEED;
+		return get() >= Flywheel.SHOOTING_SPEED;
 	}
 }

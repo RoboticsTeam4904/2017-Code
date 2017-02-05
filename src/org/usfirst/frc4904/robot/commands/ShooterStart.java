@@ -6,17 +6,17 @@ import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class HighShooter extends CommandGroup {
-	public HighShooter() {
+public class ShooterStart extends CommandGroup {
+	public ShooterStart() {
 		RunAllSequential sequential = new RunAllSequential(
 			new Command() {
 				@Override
 				protected boolean isFinished() {
-					return RobotMap.Component.highFlywheel.isReady();
+					return RobotMap.Component.flywheel.isReady();
 				}
 			},
-			new HighConveyorLoad());
-		addParallel(new HighFlywheelSpinup());
+			new IndexerLoad());
+		addParallel(new FlywheelSpinup());
 		addParallel(sequential);
 	}
 }

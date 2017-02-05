@@ -2,17 +2,17 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.subsystems.HighConveyor;
+import org.usfirst.frc4904.robot.subsystems.Indexer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HighConveyorLoad extends Command {
-	public HighConveyorLoad() {
-		requires(RobotMap.Component.highConveyor);
+public class IndexerUnload extends Command {
+	public IndexerUnload() {
+		requires(RobotMap.Component.indexer);
 	}
 
 	@Override
 	public void initialize() {
-		RobotMap.Component.highConveyor.set(HighConveyor.LOAD_SPEED);
+		RobotMap.Component.indexer.set(Indexer.UNLOAD_SPEED);
 	}
 
 	@Override
