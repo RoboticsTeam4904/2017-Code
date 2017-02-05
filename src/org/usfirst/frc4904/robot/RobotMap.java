@@ -4,8 +4,8 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
-import org.usfirst.frc4904.robot.subsystems.Indexer;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
+import org.usfirst.frc4904.robot.subsystems.Indexer;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -60,6 +60,7 @@ public class RobotMap {
 			public static final int ballioLeftMotor = 5; // WIP
 			public static final int ballioMainMotor = 6; // WIP
 			public static final int ballioServo = 7;
+			public static final int indexerMotor = 8;
 		}
 
 		public static class CAN {
@@ -128,6 +129,11 @@ public class RobotMap {
 		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
 		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.ballioMainMotor));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
+		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.PWM.flywheelLeftMotor));
+		Motor flywheelRightMotor = new Motor(new CANTalon(Port.PWM.flywheelRightMotor));
+		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
+		Component.indexer = new Indexer(indexerMotor);
+		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor);
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);

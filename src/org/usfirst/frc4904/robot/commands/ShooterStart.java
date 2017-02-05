@@ -17,6 +17,12 @@ public class ShooterStart extends CommandGroup {
 			},
 			new IndexerLoad());
 		addParallel(new FlywheelSpinup());
-		addParallel(sequential);
+		addSequential(new Command() {
+			@Override
+			protected boolean isFinished() {
+				return RobotMap.Component.flywheel.isReady();
+			}
+		});
+		addParallel(new IndexerLoad());
 	}
 }
