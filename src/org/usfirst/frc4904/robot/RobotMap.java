@@ -131,9 +131,9 @@ public class RobotMap {
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
 		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.PWM.flywheelLeftMotor));
 		Motor flywheelRightMotor = new Motor(new CANTalon(Port.PWM.flywheelRightMotor));
+		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor);
 		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
 		Component.indexer = new Indexer(indexerMotor);
-		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor);
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
