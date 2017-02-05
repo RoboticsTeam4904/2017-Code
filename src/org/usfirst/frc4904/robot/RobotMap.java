@@ -1,8 +1,11 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
+import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
+import org.usfirst.frc4904.robot.subsystems.Lidar;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -14,8 +17,11 @@ import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -41,10 +47,14 @@ public class RobotMap {
 			public static final int bioTopMotor = 4; // WIP
 			public static final int bioLeftMotor = 5; // WIP
 			public static final int bioMainMotor = 6; // WIP
+			public static final int lidarMotor = 9;// WIP
 		}
 		
 		public static class Serial {
 			public static final int navX = 0;
+			public static final int ballInnie = 2;
+			// public static final int trayInnie = 3; ----- PROJECT CURRENTLY PAUSED
+			public static final int flywheelLeftMotor = 4;
 		}
 		
 		public static class CAN {
@@ -53,6 +63,7 @@ public class RobotMap {
 			// public static final int trayEncoder = 0x604; ---- not being used anymore
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
+			public static final int lidarTurnEncoder = 0x607;
 		}
 		
 		public static class CANMotor {}
@@ -98,6 +109,11 @@ public class RobotMap {
 		}
 		
 		public static class Component {}
+		
+		public static class Pneumatics {}
+		public static int lidarTurnP = 0;// put these in the constants section of RobotMap
+		public static int lidarTurnI = 0;
+		public static int lidarTurnD = 0;
 	}
 	
 	public static class Component {
@@ -113,6 +129,14 @@ public class RobotMap {
 		public static CustomPIDController chassisDrivePID;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
+		// lidar
+		public static CustomPIDController lidarMC;
+		public static CANEncoder lidarTurnEncoder;
+		public static Lidar lidar;
+		public static CapSpeedModifier lidarCap;
+		// Vision
 	}
 	
 	public static class HumanInput {
@@ -156,5 +180,18 @@ public class RobotMap {
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
 		Component.mainSubsystems = new Subsystem[] {Component.flywheel, Component.ballIO};
+		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
+		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
+		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
+		// Main Subsystems
+		// lidar
+		Component.lidarTurnEncoder = new CANEncoder("LidarEncoder", Port.CAN.lidarTurnEncoder, false);
+		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC.setOutputRange(0.15, 0.4);
+		Component.lidarCap = new CapSpeedModifier(0.1, 0.4);
+		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
+		Component.mainSubsystems = new Subsystem[] {};
 	}
 }
