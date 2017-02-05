@@ -4,6 +4,8 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
+import org.usfirst.frc4904.robot.subsystems.HighConveyor;
+import org.usfirst.frc4904.robot.subsystems.HighFlywheel;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -100,6 +102,8 @@ public class RobotMap {
 		public static NavX navx;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
+		public static HighConveyor highConveyor;
+		public static HighFlywheel highFlywheel;
 	}
 
 	public RobotMap() {
