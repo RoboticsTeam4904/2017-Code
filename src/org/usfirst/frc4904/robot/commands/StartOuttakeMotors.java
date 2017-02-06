@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StartOuttakeMotors extends CommandGroup {
 	
 	public StartOuttakeMotors() {
-		// Use requires() here to declare subsystem dependencies
 		requires(RobotMap.Component.ballIO);
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.topMotor, -1.0));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.leftMotor, 0));
