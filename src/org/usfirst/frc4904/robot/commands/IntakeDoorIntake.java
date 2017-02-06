@@ -3,8 +3,8 @@ package org.usfirst.frc4904.robot.commands;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class IntakeDoorSetIntake extends IntakeDoorSet {
-	public IntakeDoorSetIntake() {
+public class IntakeDoorIntake extends IntakeDoorSet {
+	public IntakeDoorIntake() {
 		super(DoubleSolenoid.Value.kForward);
 	}
 }

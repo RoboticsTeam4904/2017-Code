@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class StartIntakeMotors extends CommandGroup {
+public class RunIntakeMotors extends CommandGroup {
 	
-	public StartIntakeMotors() {
+	public RunIntakeMotors() {
 		// Use requires() here to declare subsystem dependencies
 		requires(RobotMap.Component.ballIO);
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.topMotor, 1.0));
