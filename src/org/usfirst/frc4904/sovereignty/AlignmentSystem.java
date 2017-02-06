@@ -2,14 +2,17 @@ package org.usfirst.frc4904.sovereignty;
 
 
 import org.usfirst.frc4904.robot.vision.AligningCamera;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class AlignmentSystem {
+public class AlignmentSystem implements PIDSource {
 	public enum AlignmentState {
 		IDLE, ACTIVE;
 	}
 	protected final FusedSensor<Double> sensor;
 	protected final FusibleNavX navX;
 	protected AlignmentState state;
+	protected PIDSourceType pidSourceType;
 
 	public AlignmentSystem(AligningCamera camera, FusibleNavX navX) {
 		sensor = new FusedSensor<Double>(camera, navX, Double.NaN);
@@ -28,5 +31,20 @@ public class AlignmentSystem {
 
 	public double getDegrees() {
 		return sensor.getValue();
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		pidSourceType = pidSource;
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return pidSourceType;
+	}
+
+	@Override
+	public double pidGet() {
+		return getDegrees();
 	}
 }
