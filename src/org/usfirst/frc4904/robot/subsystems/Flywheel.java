@@ -16,7 +16,7 @@ public class Flywheel extends VelocitySensorMotor {
 	public static final double FLYWHEEL_TOLERANCE = 0;
 	protected CustomEncoder encoder;
 
-	private Flywheel(SpeedController leftMotor, SpeedController rightMotor, CustomEncoder encoder) {
+	public Flywheel(SpeedController leftMotor, SpeedController rightMotor, CustomEncoder encoder) {
 		super(new CustomPIDController(Flywheel.FLYWHEEL_P, Flywheel.FLYWHEEL_I,
 			Flywheel.FLYWHEEL_D, encoder), leftMotor, rightMotor);
 		motionController.setAbsoluteTolerance(Flywheel.FLYWHEEL_TOLERANCE);
