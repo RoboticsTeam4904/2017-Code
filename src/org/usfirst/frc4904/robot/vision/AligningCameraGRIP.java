@@ -18,28 +18,28 @@ public class AligningCameraGRIP extends AligningCamera {
 	}
 
 	@Override
-	public float getDegrees() {
+	public double getDegrees() {
 		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DEGREES, new double[] {});
 		System.out.println("Degree Data: " + data);
 		if (data.length == 2) {
-			return (float) (data[0] + data[1]) / 2;
+			return (data[0] + data[1]) / 2;
 		} else if (data.length == 1) {
-			return (float) data[0];
+			return data[0];
 		} else {
-			return 0.0f;
+			return 0.0;
 		}
 	}
 
 	@Override
-	public float getDistance() {
+	public double getDistance() {
 		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DISTANCE, new double[] {});
 		System.out.println("Distance Data: " + data);
 		if (data.length == 2) {
-			return (float) (data[0] + data[1]) / 2;
+			return (data[0] + data[1]) / 2;
 		} else if (data.length == 1) {
-			return (float) data[0];
+			return data[0];
 		} else {
-			return 0.0f;
+			return 0.0;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.sovereignty;
 
 
-public interface FusibleSensor<T> {
+public interface Fusible<T> {
 	T getValue();
 
 	boolean trustable();

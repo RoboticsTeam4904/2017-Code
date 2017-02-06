@@ -1,15 +1,15 @@
 package org.usfirst.frc4904.sovereignty;
 
 
-public class FusedSensor<T> implements FusibleSensor<T> {
-	protected final FusibleSensor<T> primarySensor;
-	protected final FusibleSensor<T> fallbackSensor;
-	protected final FusibleSensor<T> lastResortSensor;
+public class FusedSensor<T> implements Fusible<T> {
+	protected final Fusible<T> primarySensor;
+	protected final Fusible<T> fallbackSensor;
+	protected final Fusible<T> lastResortSensor;
 
-	public FusedSensor(FusibleSensor<T> primarySensor, FusibleSensor<T> fallbackSensor, T defaultValue) {
+	public FusedSensor(Fusible<T> primarySensor, Fusible<T> fallbackSensor, T defaultValue) {
 		this.primarySensor = primarySensor;
 		this.fallbackSensor = fallbackSensor;
-		this.lastResortSensor = new FusibleSensor<T>() {
+		this.lastResortSensor = new Fusible<T>() {
 			@Override
 			public T getValue() {
 				return defaultValue;
@@ -22,11 +22,11 @@ public class FusedSensor<T> implements FusibleSensor<T> {
 		};
 	}
 
-	public FusedSensor(FusibleSensor<T> primarySensor, FusibleSensor<T> fallbackSensor) {
+	public FusedSensor(Fusible<T> primarySensor, Fusible<T> fallbackSensor) {
 		this(primarySensor, fallbackSensor, null);
 	}
 
-	protected FusibleSensor<T> getActiveSensor() {
+	protected Fusible<T> getActiveSensor() {
 		if (primarySensor.trustable()) {
 			return primarySensor;
 		} else if (fallbackSensor.trustable()) {
