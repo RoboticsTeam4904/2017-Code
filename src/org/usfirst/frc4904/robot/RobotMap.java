@@ -4,8 +4,6 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
-import org.usfirst.frc4904.robot.subsystems.GearIO;
-import org.usfirst.frc4904.robot.subsystems.Lidar;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -20,10 +18,8 @@ import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -129,7 +125,6 @@ public class RobotMap {
 		public static NavX navX;
 		public static CustomPIDController chassisDrivePID;
 		public static BallIO ballIO;
-		public static GearIO gearIntakeOuttake;
 		public static SolenoidShifters gearSlotOpener;
 		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
@@ -138,7 +133,6 @@ public class RobotMap {
 		// lidar
 		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
-		public static Lidar lidar;
 		public static CapSpeedModifier lidarCap;
 		// Vision
 	}
@@ -179,9 +173,6 @@ public class RobotMap {
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disableMotionController();
 		// Component.rightWheel.setInverted(false);
-		// Gear
-		Component.gearFlap = new Servo(Port.PWM.gearFlap);
-		Component.gearSlotOpener = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
@@ -193,19 +184,12 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
-		Component.mainSubsystems = new Subsystem[] {Component.gearIntakeOuttake, Component.ballIO};
+		Component.mainSubsystems = new Subsystem[] {Component.ballIO};
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
 		// Main Subsystems
-		// lidar
-		Component.lidarTurnEncoder = new CANEncoder("LidarEncoder", Port.CAN.lidarTurnEncoder, false);
-		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
-		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D, Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
-		Component.lidarMC.setOutputRange(0.15, 0.4);
-		Component.lidarCap = new CapSpeedModifier(0.1, 0.4);
-		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {};
 	}
 }
