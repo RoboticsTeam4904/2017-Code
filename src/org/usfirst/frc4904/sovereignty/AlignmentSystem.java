@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class AlignmentSystem implements PIDSource {
-	public enum AlignmentState {
+	public static enum AlignmentState {
 		IDLE, ACTIVE;
 	}
 	protected final FusedSensor<Double> sensor;
