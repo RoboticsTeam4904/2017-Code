@@ -29,6 +29,6 @@ public class Flywheel extends VelocitySensorMotor {
 	}
 
 	public boolean isReady() {
-		return get() >= Flywheel.SHOOTING_SPEED;
+		return motionController.onTarget();
 	}
 }
