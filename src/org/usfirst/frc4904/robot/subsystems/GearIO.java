@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearIO extends Subsystem {
-	public Servo gearFlap;
-	public DoubleSolenoid gearSlotOpener;
+	public final Servo gearFlap;
+	public final DoubleSolenoid gearSlotOpener;
 
 	public GearIO(Servo gearFlap, DoubleSolenoid gearSlotOpener) {
 		this.gearFlap = gearFlap;
