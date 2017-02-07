@@ -16,7 +16,7 @@ public class GearSet extends Command {
 
 	@Override
 	protected void execute() {
-		RobotMap.Component.gearIO.setGear(state);
+		RobotMap.Component.gearIO.setGearState(state);
 	}
 
 	@Override

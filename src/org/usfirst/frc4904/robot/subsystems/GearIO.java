@@ -34,7 +34,7 @@ public class GearIO extends Subsystem {
 		}
 	}
 
-	public void setGear(GearState state) {
+	public void setGearState(GearState state) {
 		gearSlotOpener.set(state.getSolenoidValue());
 		gearFlap.setAngle(state.getAngle());
 	}
