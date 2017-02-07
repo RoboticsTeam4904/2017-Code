@@ -62,6 +62,7 @@ public class RobotMap {
 			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
+			public static final int matchConfigBroadcast = 0x600;
 		}
 
 		public static class Pneumatics {
