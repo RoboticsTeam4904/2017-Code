@@ -23,6 +23,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
 		RobotMap.Component.navx.zeroYaw();
+		operatorChooser.addDefault(new DefaultOperator());
 	}
 
 	@Override
