@@ -93,7 +93,7 @@ public class RobotMap {
 		public static BallIO ballIO;
 		public static Servo gearFlap;
 		public static SolenoidShifters gearSlotOpener;
-		public static GearIO gearIntakeOuttake;
+		public static GearIO gearIO;
 		public static Subsystem[] mainSubsystems;
 		public static NavX navx;
 		public static MotionController chassisTurnMC;

@@ -11,12 +11,12 @@ public class GearSet extends Command {
 
 	public GearSet(GearIO.GearState state) {
 		this.state = state;
-		requires(RobotMap.Component.gearIntakeOuttake);
+		requires(RobotMap.Component.gearIO);
 	}
 
 	@Override
 	protected void execute() {
-		RobotMap.Component.gearIntakeOuttake.setGear(state);
+		RobotMap.Component.gearIO.setGear(state);
 	}
 
 	@Override
