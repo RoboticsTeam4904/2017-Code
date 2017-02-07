@@ -18,7 +18,7 @@ public class GearIO extends Subsystem {
 		this.gearSlotOpener = gearSlotOpener;
 	}
 	
-	public enum GearState {
+	public static enum GearState {
 		INTAKE(90, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse);
 		public final double angle;
 		public final DoubleSolenoid.Value value;// the architecture allowing the enum states to have values
