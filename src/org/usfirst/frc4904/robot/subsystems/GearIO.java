@@ -17,18 +17,26 @@ public class GearIO extends Subsystem {
 
 	public static enum GearState {
 		INTAKE(90, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse);
-		public final double angle;
-		public final DoubleSolenoid.Value value;// the architecture allowing the enum states to have values
-		private GearState(double angle, DoubleSolenoid.Value value) {
+		private final double angle;
+		private final DoubleSolenoid.Value solenoidValue;
 
+		private GearState(double angle, DoubleSolenoid.Value solenoidValue) {
 			this.angle = angle;
-			this.value = value;
+			this.solenoidValue = solenoidValue;
+		}
+
+		public double getAngle() {
+			return angle;
+		}
+
+		public DoubleSolenoid.Value getSolenoidValue() {
+			return solenoidValue;
 		}
 	}
 
 	public void setGear(GearState state) {
-		gearSlotOpener.set(state.value);
-		gearFlap.setAngle(state.angle);
+		gearSlotOpener.set(state.getSolenoidValue());
+		gearFlap.setAngle(state.getAngle());
 	}
 
 	@Override
