@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class BallioIntake extends CommandGroup {
 	public BallioIntake() {
-		super("BallIntake");
+		super("BallioIntake");
 		requires(RobotMap.Component.ballIO);
 		addSequential(new BallioDoorSetIntake());
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.directionalRoller, 1.0));
