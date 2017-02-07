@@ -7,11 +7,11 @@ import org.usfirst.frc4904.robot.subsystems.GearIO.GearState;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GearSet extends Command {
-	GearState state;
-	
+	protected final GearState state;
+
 	public GearSet(GearIO.GearState state) {
-		requires(RobotMap.Component.gearIntakeOuttake);
 		this.state = state;
+		requires(RobotMap.Component.gearIntakeOuttake);
 	}
 
 	@Override
