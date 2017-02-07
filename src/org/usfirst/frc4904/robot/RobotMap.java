@@ -16,7 +16,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
@@ -45,13 +44,11 @@ public class RobotMap {
 			public static final int bioTopMotor = 4; // WIP
 			public static final int bioLeftMotor = 5; // WIP
 			public static final int bioMainMotor = 6; // WIP
-			public static final int lidarMotor = 9;// WIP
 			public static final int gearFlap = 7;
 		}
 		
 		public static class Serial {
 			public static final int navX = 0;
-			public static final int ballInnie = 2;
 			public static final int flywheelLeftMotor = 4;
 		}
 		
@@ -59,8 +56,6 @@ public class RobotMap {
 			public static final int leftEncoder = 0x602;
 			public static final int rightEncoder = 0x603;
 			public static final int flywheelEncoder = 0x605;
-			public static final int elevatorEncoder = 0x606;
-			public static final int lidarTurnEncoder = 0x607;
 		}
 		
 		public static class CANMotor {}
@@ -75,52 +70,12 @@ public class RobotMap {
 		}
 	}
 	
-	public static class Constant {
-		public static class HumanInput {
-			public static final double X_SPEED_SCALE = 1;
-			public static final double Y_SPEED_SCALE = 1;
-			public static final double SPEED_GAIN = 1;
-			public static final double SPEED_EXP = 2;
-			public static final double TURN_GAIN = 1;
-			public static final double TURN_EXP = 2;
-			public static final double TURN_SPEED_SCALE = 1;
-			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
-			public static final double OPERATOR_JOYSTICK_MINIMUM_THRESHOLD = 0.1;
-		}
-		
-		public static class RobotMetric {
-			public static final double WIDTH = 0;// all in inches
-			public static final double LENGTH = 0;
-			public static final double WHEEL_ENCODER_PPR = 0;
-			public static final double WHEEL_DIAMETER = 0;
-			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
-		}
-		
-		public static class AutonomousMetric {
-			public static final double WAIT_TIME = 0;
-		}
-		
-		public static class FieldMetric {}
-		
-		public static class Network {
-			public static final String VISION_GOAL_NETWORK_TABLE_ADDRESS = "GRIP/myContoursReport";
-		}
-		
-		public static class Component {}
-		
-		public static class Pneumatics {}
-		public static int lidarTurnP = 0;// put these in the constants section of RobotMap
-		public static int lidarTurnI = 0;
-		public static int lidarTurnD = 0;
-	}
-	
 	public static class Component {
 		public static PDP pdp;
 		public static PositionSensorMotor leftWheel;
 		public static PositionSensorMotor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static CustomEncoder elevatorEncoder;
 		public static Chassis chassis;
 		public static NavX navX;
 		public static CustomPIDController chassisDrivePID;
@@ -130,11 +85,6 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		// lidar
-		public static CustomPIDController lidarMC;
-		public static CANEncoder lidarTurnEncoder;
-		public static CapSpeedModifier lidarCap;
-		// Vision
 	}
 	
 	public static class HumanInput {
@@ -153,13 +103,10 @@ public class RobotMap {
 		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
-		Component.leftWheel.disableMotionController(); // TODO add encoders
+		Component.leftWheel.disableMotionController();
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
-		Component.rightWheel.disableMotionController(); // TODO add encoders
-		// Component.rightWheel.setInverted(false);
-		// Ball Dumper
-		Component.elevatorEncoder = new CANEncoder(Port.CAN.elevatorEncoder);
+		Component.rightWheel.disableMotionController();
 		// Ball-Intake-Outtake
 		Motor bioTopMotor = new Motor(new VictorSP(Port.PWM.bioTopMotor));
 		Motor bioLeftMotor = new Motor(new VictorSP(Port.PWM.bioLeftMotor));
@@ -168,21 +115,18 @@ public class RobotMap {
 		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
 		Component.leftWheel.disableMotionController();
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
-		// Component.leftWheel.setInverted(true);
 		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disableMotionController();
-		// Component.rightWheel.setInverted(false);
+		// Gear
+		Component.gearFlap = new Servo(Port.PWM.gearFlap);
+		Component.gearSlotOpener = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
 		leftFlywheelMotor.setInverted(true);
 		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
 		rightFlywheelMotor.setInverted(false);
 		// Human inputs
-		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
-		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
-		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
 		Component.mainSubsystems = new Subsystem[] {Component.ballIO};
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
