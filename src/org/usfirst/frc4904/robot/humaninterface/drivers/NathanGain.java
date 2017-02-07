@@ -32,27 +32,27 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.xbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
-		RobotMap.Component.xbox.a.whenPressed(
+		RobotMap.Component.driverXbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
+		RobotMap.Component.driverXbox.a.whenPressed(
 			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		RobotMap.Component.xbox.b
+		RobotMap.Component.driverXbox.b
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.xbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
-		RobotMap.Component.xbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.xbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
+		RobotMap.Component.driverXbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
+		RobotMap.Component.driverXbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.driverXbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
-		RobotMap.Component.xbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
-			RobotMap.Component.navx, RobotMap.Component.chassisMC));
-		RobotMap.Component.xbox.dPad.up.whenReleased(normalDrive);
-		RobotMap.Component.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
-			RobotMap.Component.navx, RobotMap.Component.chassisMC));
-		RobotMap.Component.xbox.dPad.down.whenReleased(normalDrive);
-		RobotMap.Component.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
-			RobotMap.Component.navx, RobotMap.Component.chassisMC));
-		RobotMap.Component.xbox.dPad.left.whenReleased(normalDrive);
-		RobotMap.Component.xbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
-			RobotMap.Component.navx, RobotMap.Component.chassisMC));
-		RobotMap.Component.xbox.dPad.right.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		RobotMap.Component.driverXbox.dPad.up.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		RobotMap.Component.driverXbox.dPad.down.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		RobotMap.Component.driverXbox.dPad.left.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class NathanGain extends Driver {
 
 	@Override
 	public double getY() {
-		double rawSpeed = RobotMap.Component.xbox.rt.getX() - RobotMap.Component.xbox.lt.getX();
+		double rawSpeed = RobotMap.Component.driverXbox.rt.getX() - RobotMap.Component.driverXbox.lt.getX();
 		double speed = scaleGain(modifier.modify(rawSpeed), NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP)
 			* NathanGain.Y_SPEED_SCALE;
 		return speed;
@@ -70,7 +70,7 @@ public class NathanGain extends Driver {
 
 	@Override
 	public double getTurnSpeed() {
-		double rawTurnSpeed = RobotMap.Component.xbox.leftStick.getX();
+		double rawTurnSpeed = RobotMap.Component.driverXbox.leftStick.getX();
 		double turnSpeed = scaleGain(modifier.modify(rawTurnSpeed), NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
 			* NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
