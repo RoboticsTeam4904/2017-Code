@@ -21,6 +21,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
@@ -92,7 +93,7 @@ public class RobotMap {
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Servo gearFlap;
-		public static SolenoidShifters gearSlotOpener;
+		public static DoubleSolenoid gearSlotOpener;
 		public static GearIO gearIO;
 		public static Subsystem[] mainSubsystems;
 		public static NavX navx;
@@ -128,7 +129,8 @@ public class RobotMap {
 			ballioDoorServo);
 		// GearIO
 		Component.gearFlap = new Servo(Port.PWM.gearFlap);
-		Component.gearSlotOpener = new SolenoidShifters((Port.Pneumatics.gearSolenoidUp), (Port.Pneumatics.gearSolenoidDown));
+		Component.gearSlotOpener = new DoubleSolenoid(Port.Pneumatics.gearSolenoidUp, Port.Pneumatics.gearSolenoidDown);
+		Component.gearIO = new GearIO(Component.gearFlap, Component.gearSlotOpener);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
