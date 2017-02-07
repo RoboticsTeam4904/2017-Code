@@ -104,6 +104,7 @@ public class RobotMap {
 		public static SolenoidShifters gearSlotOpener;
 		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
+		public static MotionController chassisTurnMC;
 	}
 
 	public static class HumanInput {
