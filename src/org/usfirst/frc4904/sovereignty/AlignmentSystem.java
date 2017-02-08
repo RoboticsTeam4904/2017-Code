@@ -2,6 +2,8 @@ package org.usfirst.frc4904.sovereignty;
 
 
 import org.usfirst.frc4904.robot.vision.AligningCamera;
+import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
@@ -15,7 +17,7 @@ public class AlignmentSystem implements PIDSource {
 	protected PIDSourceType pidSourceType;
 
 	public AlignmentSystem(AligningCamera camera, FusibleNavX navX) {
-		sensor = new FusedSensor<Double>(camera, navX, Double.NaN);
+		sensor = new FusedSensor<Double>(camera, navX);
 		this.navX = navX;
 		state = AlignmentState.IDLE;
 	}
@@ -30,7 +32,13 @@ public class AlignmentSystem implements PIDSource {
 	}
 
 	public double getDegrees() {
-		return sensor.getValue();
+		try {
+			return sensor.getValueDangerously();
+		}
+		catch (InvalidSensorException ex) {
+			LogKitten.wtf("AlignmentSystem: no sensors were available.");
+			return Double.NaN;
+		}
 	}
 
 	@Override

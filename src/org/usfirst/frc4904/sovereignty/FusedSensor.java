@@ -1,6 +1,8 @@
 package org.usfirst.frc4904.sovereignty;
 
 
+import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
+
 public class FusedSensor<T> implements Fusible<T> {
 	protected final Fusible<T> primarySensor;
 	protected final Fusible<T> fallbackSensor;
@@ -35,9 +37,22 @@ public class FusedSensor<T> implements Fusible<T> {
 		return lastResortSensor;
 	}
 
+	public T getValueDangerously() throws InvalidSensorException {
+		T value = getActiveSensor().getValue();
+		if (value != null) {
+			throw new InvalidSensorException();
+		}
+		return value;
+	}
+
 	@Override
 	public T getValue() {
-		return getActiveSensor().getValue();
+		T value = null;
+		try {
+			value = getValueDangerously();
+		}
+		catch (InvalidSensorException ex) {}
+		return value;
 	}
 
 	@Override

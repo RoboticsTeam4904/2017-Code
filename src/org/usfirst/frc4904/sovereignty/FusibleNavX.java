@@ -18,7 +18,7 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 
 	@Override
 	public boolean trustable() {
-		return true;
+		return isMagnetometerCalibrated();
 	}
 
 	public void zeroRelativeOffset() {

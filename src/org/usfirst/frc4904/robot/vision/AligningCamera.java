@@ -28,7 +28,7 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	}
 
 	public double getDegrees() {
-		return (float) cameraTable.getNumber(AligningCamera.FIELD_DEGREES, Double.NaN);
+		return cameraTable.getNumber(AligningCamera.FIELD_DEGREES, Double.NaN);
 	}
 
 	public double getDistance() {
@@ -36,7 +36,7 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	}
 
 	public boolean isVisible() {
-		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE, getDegrees() == Double.NaN || getDistance() == Double.NaN);
+		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE, Double.isNaN(getDegrees()) || Double.isNaN(getDistance()));
 	}
 
 	@Override
