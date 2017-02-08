@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class GearIO extends Subsystem {
 	public final Servo gearFlap;
 	public final DoubleSolenoid gearSlotOpener;
+	protected GearState currentState;
 
 	public GearIO(Servo gearFlap, DoubleSolenoid gearSlotOpener) {
 		this.gearFlap = gearFlap;
 		this.gearSlotOpener = gearSlotOpener;
+		setGearState(GearState.INTAKE);
 	}
 
 	public static enum GearState {
@@ -34,9 +36,14 @@ public class GearIO extends Subsystem {
 		}
 	}
 
+	public GearState getState() {
+		return currentState;
+	}
+
 	public void setGearState(GearState state) {
 		gearSlotOpener.set(state.getSolenoidValue());
 		gearFlap.setAngle(state.getAngle());
+		currentState = state;
 	}
 
 	@Override
