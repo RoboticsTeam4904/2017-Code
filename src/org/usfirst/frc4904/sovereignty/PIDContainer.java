@@ -23,8 +23,8 @@ public class PIDContainer {
 	}
 
 	public PIDContainer(Map<String, Double> values, String system) {
-		this.system = system;
 		this.values = values;
+		this.system = system;
 	}
 
 	public PIDContainer(String system) {
