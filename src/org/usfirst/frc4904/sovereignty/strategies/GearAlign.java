@@ -25,9 +25,9 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	private ChassisMove chassisMove;
 
 	public GearAlign(AligningCamera camera) {
-		pidWrapper = new PIDContainerWrapper(GearAlign.angleContainer, new TrimmablePIDController(camera));
+		pidController = new TrimmablePIDController(camera);
+		pidWrapper = new PIDContainerWrapper(GearAlign.angleContainer, pidController);
 		pidWrapper.updateController();
-		pidController = (TrimmablePIDController) pidWrapper.getController();
 		pidController.setOutputRange(-1, 1);
 	}
 
