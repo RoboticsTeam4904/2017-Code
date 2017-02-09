@@ -2,9 +2,7 @@ package org.usfirst.frc4904.sovereignty.strategies;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.AlignmentSystem;
-import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.sovereignty.Trimmable;
 import org.usfirst.frc4904.sovereignty.TrimmablePIDController;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -24,11 +22,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	private ChassisMove chassisMove;
 
 	public GearAlign() {
-		this(RobotMap.Component.alignCamera, RobotMap.Component.navx);
-	}
-
-	public GearAlign(AligningCamera camera, FusibleNavX navX) {
-		this(new AlignmentSystem(camera, navX));
+		this(new AlignmentSystem(RobotMap.Component.alignCamera, RobotMap.Component.navx));
 	}
 
 	public GearAlign(AlignmentSystem alignSystem) {
