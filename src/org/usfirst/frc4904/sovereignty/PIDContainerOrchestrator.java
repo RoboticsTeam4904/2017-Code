@@ -13,7 +13,7 @@ public class PIDContainerOrchestrator {
 		containers = new HashMap<String, PIDContainer>();
 	}
 
-	public static PIDContainerOrchestrator getInstance() {
+	public static synchronized PIDContainerOrchestrator getInstance() {
 		if (PIDContainerOrchestrator.singleton == null) {
 			PIDContainerOrchestrator.singleton = new PIDContainerOrchestrator();
 		}
@@ -39,13 +39,13 @@ public class PIDContainerOrchestrator {
 	}
 
 	public void pushValues(PIDContainerModifier modifier) {
-		containers.forEach((key, value) -> {
+		containers.values().forEach((value) -> {
 			value.pushValues(modifier);
 		});
 	}
 
 	public void pullValues(PIDContainerModifier modifier) {
-		containers.forEach((key, value) -> {
+		containers.values().forEach((value) -> {
 			if (!value.isLocked()) {
 				value.pullValues(modifier);
 			}
