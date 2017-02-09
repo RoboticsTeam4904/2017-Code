@@ -97,9 +97,4 @@ public class FusedSensor<T> implements Fusible<T> {
 		}
 		return false;
 	}
-
-	@Override
-	public String getName() {
-		return "FusedSensor";
-	}
 }

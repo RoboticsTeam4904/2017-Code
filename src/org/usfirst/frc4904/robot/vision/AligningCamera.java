@@ -63,9 +63,4 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	public boolean trustable() {
 		return isVisible();
 	}
-
-	@Override
-	public String getName() {
-		return "AligningCamera";
-	}
 }
