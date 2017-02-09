@@ -22,11 +22,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	private ChassisMove chassisMove;
 
 	public GearAlign() {
-		this(new AlignmentSystem(RobotMap.Component.alignCamera, RobotMap.Component.navx));
-	}
-
-	public GearAlign(AlignmentSystem alignSystem) {
-		this.alignSystem = alignSystem;
+		alignSystem = new AlignmentSystem(RobotMap.Component.alignCamera, RobotMap.Component.navx);
 		pidController = new TrimmablePIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, alignSystem);
 		pidController.setAbsoluteTolerance(GearAlign.ANGLE_TOLERANCE);
 		pidController.setOutputRange(-1, 1);

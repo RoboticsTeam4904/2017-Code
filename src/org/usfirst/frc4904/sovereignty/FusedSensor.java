@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.sovereignty;
 
 
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 
 public class FusedSensor<T> implements Fusible<T> {
@@ -26,6 +27,11 @@ public class FusedSensor<T> implements Fusible<T> {
 			public boolean trustable() {
 				return false;
 			}
+
+			@Override
+			public String getName() {
+				return "LastResortSensor";
+			}
 		};
 	}
 
@@ -41,6 +47,11 @@ public class FusedSensor<T> implements Fusible<T> {
 			@Override
 			public boolean trustable() {
 				return false;
+			}
+
+			@Override
+			public String getName() {
+				return "LastResortSensor";
 			}
 		};
 	}
@@ -59,9 +70,10 @@ public class FusedSensor<T> implements Fusible<T> {
 	}
 
 	public T getValueDangerously() throws InvalidSensorException {
-		T value = getActiveSensor().getValue();
+		Fusible<T> activeSensor = getActiveSensor();
+		T value = activeSensor.getValue();
 		if (value == null) {
-			throw new InvalidSensorException();
+			throw new InvalidSensorException(activeSensor.getName() + " returned null.");
 		}
 		return value;
 	}
@@ -72,7 +84,9 @@ public class FusedSensor<T> implements Fusible<T> {
 		try {
 			value = getValueDangerously();
 		}
-		catch (InvalidSensorException ex) {}
+		catch (InvalidSensorException ex) {
+			LogKitten.ex(ex);
+		}
 		return value;
 	}
 
@@ -82,5 +96,10 @@ public class FusedSensor<T> implements Fusible<T> {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return "FusedSensor";
 	}
 }
