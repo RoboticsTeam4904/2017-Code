@@ -8,7 +8,27 @@ public class FusedSensor<T> implements Fusible<T> {
 	protected final Fusible<T> fallbackSensor;
 	protected final Fusible<T> lastResortSensor;
 
-	public FusedSensor(Fusible<T> primarySensor, Fusible<T> fallbackSensor, T defaultValue) {
+	public FusedSensor(T defaultValue, Fusible<T> primarySensor, Fusible<T>... sensors) {
+		Fusible<T> lastSensor = sensors[sensors.length - 1];
+		for (int i = sensors.length - 2; i > 0; i++) {
+			lastSensor = new FusedSensor<T>(sensors[i], lastSensor);
+		}
+		this.primarySensor = primarySensor;
+		this.fallbackSensor = lastSensor;
+		this.lastResortSensor = new Fusible<T>() {
+			@Override
+			public T getValue() {
+				return defaultValue;
+			}
+
+			@Override
+			public boolean trustable() {
+				return false;
+			}
+		};
+	}
+
+	public FusedSensor(T defaultValue, Fusible<T> primarySensor, Fusible<T> fallbackSensor) {
 		this.primarySensor = primarySensor;
 		this.fallbackSensor = fallbackSensor;
 		this.lastResortSensor = new Fusible<T>() {
@@ -25,7 +45,7 @@ public class FusedSensor<T> implements Fusible<T> {
 	}
 
 	public FusedSensor(Fusible<T> primarySensor, Fusible<T> fallbackSensor) {
-		this(primarySensor, fallbackSensor, null);
+		this(null, primarySensor, fallbackSensor);
 	}
 
 	protected Fusible<T> getActiveSensor() {
