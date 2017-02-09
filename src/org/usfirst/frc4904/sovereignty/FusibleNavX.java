@@ -28,4 +28,9 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 	public void setRelativeOffset(double relativeOffset) {
 		this.relativeOffset = relativeOffset;
 	}
+
+	@Override
+	public String getName() {
+		return "NavX";
+	}
 }
