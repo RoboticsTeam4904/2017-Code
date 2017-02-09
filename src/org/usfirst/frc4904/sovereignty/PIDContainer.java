@@ -32,15 +32,11 @@ public class PIDContainer {
 	}
 
 	public void pushValues(PIDContainerModifier modifier) {
-		values.forEach((key, value) -> {
-			modifier.pushValue(key, value);
-		});
+		values.forEach(modifier::pushValue);
 	}
 
 	public void pullValues(PIDContainerModifier modifier) {
-		values.forEach((key, value) -> {
-			values.replace(key, modifier.pullValue(key));
-		});
+		values.replaceAll((key, value) -> modifier.pullValue(key));
 	}
 
 	public String getSystem() {
