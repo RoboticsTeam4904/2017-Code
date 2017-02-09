@@ -6,11 +6,13 @@ import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.PIDContainer;
 import org.usfirst.frc4904.sovereignty.PIDContainer.PIDValueType;
 import org.usfirst.frc4904.sovereignty.PIDContainerWrapper;
+import org.usfirst.frc4904.sovereignty.Trimmable;
+import org.usfirst.frc4904.sovereignty.TrimmablePIDController;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class GearAlign extends CommandGroup implements ChassisController {
+public class GearAlign extends CommandGroup implements ChassisController, Trimmable {
 	public static PIDContainer angleContainer = new PIDContainer("GearAlign")
 		.set(PIDValueType.P, -0.0015)
 		.set(PIDValueType.I, -1.0E-5)
@@ -19,12 +21,14 @@ public class GearAlign extends CommandGroup implements ChassisController {
 		.set(PIDValueType.TOLERANCE, 0.001);
 	protected PIDContainerWrapper pidWrapper;
 	protected boolean onAngle = false;
+	private final TrimmablePIDController pidController;
 	private ChassisMove chassisMove;
 
 	public GearAlign(AligningCamera camera) {
-		pidWrapper = new PIDContainerWrapper(GearAlign.angleContainer, camera);
+		pidWrapper = new PIDContainerWrapper(GearAlign.angleContainer, new TrimmablePIDController(camera));
 		pidWrapper.updateController();
-		pidWrapper.getController().setOutputRange(-1, 1);
+		pidController = (TrimmablePIDController) pidWrapper.getController();
+		pidController.setOutputRange(-1, 1);
 	}
 
 	@Override
@@ -48,7 +52,7 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	public void initialize() {
 		chassisMove = new ChassisMove(RobotMap.Component.chassis, this);
 		chassisMove.start();
-		pidWrapper.getController().enable();
+		pidController.enable();
 		pidWrapper.updateController();
 	}
 
@@ -65,12 +69,32 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	@Override
 	public void end() {
 		chassisMove.cancel();
-		pidWrapper.getController().reset();
+		pidController.reset();
 		onAngle = false;
 	}
 
 	@Override
 	public void interrupted() {
 		end();
+	}
+
+	@Override
+	public void setTrimIncrement(double increment) {
+		pidController.setTrimIncrement(increment);
+	}
+
+	@Override
+	public double getTrimIncrement() {
+		return pidController.getTrimIncrement();
+	}
+
+	@Override
+	public void setTrim(double trim) {
+		pidController.setTrim(trim);
+	}
+
+	@Override
+	public double getTrim() {
+		return pidController.getTrim();
 	}
 }
