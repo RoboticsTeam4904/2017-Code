@@ -8,11 +8,12 @@ public class FusedSensor<T> implements Fusible<T> {
 	protected final Fusible<T> fallbackSensor;
 	protected final Fusible<T> lastResortSensor;
 
-	public FusedSensor(T defaultValue, Fusible<T> primarySensor, Fusible<T>... sensors) {
+	public FusedSensor(T defaultValue, Fusible<T> primarySensor, Fusible<T> secondarySensor, Fusible<T>... sensors) {
 		Fusible<T> lastSensor = sensors[sensors.length - 1];
-		for (int i = sensors.length - 2; i > 0; i++) {
-			lastSensor = new FusedSensor<T>(sensors[i], lastSensor);
+		for (int i = sensors.length - 2; i >= 0; i--) {
+			lastSensor = new FusedSensor<>(sensors[i], lastSensor);
 		}
+		lastSensor = new FusedSensor<>(secondarySensor, lastSensor);
 		this.primarySensor = primarySensor;
 		this.fallbackSensor = lastSensor;
 		this.lastResortSensor = new Fusible<T>() {
