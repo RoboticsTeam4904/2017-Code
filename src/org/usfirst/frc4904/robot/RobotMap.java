@@ -1,10 +1,9 @@
 package org.usfirst.frc4904.robot;
 
+
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.robot.subsystems.BallInnie;
-import org.usfirst.frc4904.robot.subsystems.Dump;
-import org.usfirst.frc4904.robot.subsystems.Flywheel;
+import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -18,12 +17,13 @@ import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-
 import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -39,23 +39,21 @@ public class RobotMap {
 			public static final int xboxController = 1;
 		}
 
-		public static class Motors {
-			public static class CAN {
-				public static int leftDriveA = 1;
-				public static int leftDriveB = 2;
-				public static int rightDriveA = 3;
-				public static int rightDriveB = 4;
-			}
+		public static class CANMotor {
+			public static final int ballioDirectionalRoller = 1;
+			public static final int ballioHopperRollers = 2;
+			public static final int ballioElevatorAndIntakeRoller = 3;
 		}
 
 		public static class PWM {
-			public static final int leftDriveMotor = 0;
-			public static final int rightDriveMotor = 1;
-			public static final int ballInnie = 2;
-			public static final int flywheelLeftMotor = 4;
-			public static final int flywheelRightMotor = 5;
-			public static final int vomitElevator = 6;
-			public static final int vomitOuttakeRoller = 7;
+			// SOME MOTORS AREN'T EXACT - work in progress
+			public static int leftDriveA = 1;
+			public static int leftDriveB = 2;
+			public static int rightDriveA = 3;
+			public static int rightDriveB = 4;
+			public static final int flywheelLeftMotor = 5; // WIP
+			public static final int flywheelRightMotor = 6; // WIP
+			public static final int ballioDoorServo = 8;
 		}
 
 		public static class CAN {
@@ -66,15 +64,11 @@ public class RobotMap {
 			public static final int elevatorEncoder = 0x606;
 		}
 
-		public static class CANMotor {
-		}
-
-		public static class PCM {
-		}
-
 		public static class Pneumatics {
-			public static int solenoidUp = 0;
-			public static int solenoidDown = 1;
+			public static final int ballioShifterUp = 2;
+			public static final int ballioShifterDown = 3;
+			public static final int solenoidUp = 0;
+			public static final int solenoidDown = 1;
 		}
 	}
 
@@ -83,56 +77,57 @@ public class RobotMap {
 	}
 
 	public static class Component {
-		public static CustomXbox xbox;
-		public static CustomJoystick stick;
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
 		public static PDP pdp;
+		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static MotionController chassisEncoderMC;
-		public static Flywheel flywheel;
-		public static Dump ballDumper;
-		public static BallInnie ballIntake;
+		public static MotionController chassisDriveMC;
+		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick;
-		public static AligningCamera alignCamera;
-		public static CustomPIDController chassisMC;
 		public static NavX navx;
-		public static SolenoidShifters shifter;
+		public static MotionController chassisTurnMC;
+		public static AligningCamera alignCamera;
 	}
 
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
-		Component.chassisMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisMC.setInputRange(-180, 180);
-		Component.chassisMC.setContinuous(true);
+		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisTurnMC.setInputRange(-180, 180);
+		Component.chassisTurnMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002,
-				new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
-				new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
-				new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
-		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel,
-				Component.shifter);
+		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
+			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
+		// Ball-Intake-Outtake
+		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+		ballioDirectionalRoller.setInverted(true);
+		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
+		ballioHopperRollers.setInverted(true);
+		Motor ballioElevatorAndIntakeRoller = new Motor(new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
+		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
+			ballioDoorServo);
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
-		Component.xbox = new CustomXbox(Port.HumanInput.xboxController);
-		Component.stick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.xbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
+		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
+		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] { Component.chassis };
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
 	}
 }

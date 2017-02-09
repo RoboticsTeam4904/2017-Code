@@ -4,6 +4,7 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
+import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -22,6 +23,8 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new NathanGain());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
+		RobotMap.Component.navx.zeroYaw();
+		operatorChooser.addDefault(new DefaultOperator());
 	}
 
 	@Override
@@ -38,7 +41,9 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {}
 
 	@Override
-	public void autonomousInitialize() {}
+	public void autonomousInitialize() {
+		RobotMap.Component.navx.zeroYaw();
+	}
 
 	/**
 	 * This function is called periodically during autonomous
