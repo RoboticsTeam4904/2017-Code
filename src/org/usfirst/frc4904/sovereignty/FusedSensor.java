@@ -59,7 +59,7 @@ public class FusedSensor<T> implements Fusible<T> {
 
 	public T getValueDangerously() throws InvalidSensorException {
 		T value = getActiveSensor().getValue();
-		if (value != null) {
+		if (value == null) {
 			throw new InvalidSensorException();
 		}
 		return value;
