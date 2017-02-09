@@ -25,7 +25,7 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 		setRelativeOffset(getAngle());
 	}
 
-	public void setRelativeOffset(double offset) {
-		relativeOffset = offset;
+	public void setRelativeOffset(double relativeOffset) {
+		this.relativeOffset = relativeOffset;
 	}
 }
