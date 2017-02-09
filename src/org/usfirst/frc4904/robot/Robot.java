@@ -76,8 +76,27 @@ public class Robot extends CommandRobotBase {
 	public void testExecute() {}
 
 	byte[] matchConfigurationCANData() {
+		// Game time will generally be in the 0-150 second range.
+		// All Java bytes are signed, so anything >127 will overflow into the negatives.
+		// However, the Teensy can read them as unsigned, so we're all good.
+		byte gameTime = (byte) Math.round(DriverStation.getInstance().getMatchTime());
+		byte gameMode = -1; // default/unknown
+		if (DriverStation.getInstance().isDisabled()) {
+			gameMode = 0;
+		}
+		if (DriverStation.getInstance().isAutonomous()) {
+			gameMode = 1;
+		}
+		if (DriverStation.getInstance().isEnabled()) {
+			gameMode = 2;
+		}
+		if (DriverStation.getInstance().isTest()) {
+			gameMode = 3;
+		}
 		return new byte[] {(byte) DriverStation.getInstance().getAlliance().ordinal(),
-				(byte) DriverStation.getInstance().getLocation(), 0, 0, 0, 0, 0, 0};
+				(byte) DriverStation.getInstance().getLocation(), gameMode, gameTime,
+				0, 0, 0,
+				0};
 	}
 
 	void putSDSubsystemSummary() {
