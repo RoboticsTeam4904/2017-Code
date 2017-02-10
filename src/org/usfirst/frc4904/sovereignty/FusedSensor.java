@@ -93,9 +93,6 @@ public class FusedSensor<T> implements Fusible<T> {
 
 	@Override
 	public boolean trustable() {
-		if (primarySensor.trustable() || fallbackSensor.trustable()) {
-			return true;
-		}
-		return false;
+		return primarySensor.trustable() || fallbackSensor.trustable();
 	}
 }
