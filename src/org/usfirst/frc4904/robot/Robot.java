@@ -1,15 +1,19 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.Noop;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	Command AutoShifter;
 	
 	@Override
 	public void initialize() {
@@ -26,13 +30,18 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new Noop();
+		AutoShifter = new AutoShifter();
+		AutoShifter.start();
 	}
 	
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {}
+	public void teleopExecute() {
+		RobotMap.Component.teensyStick.button4.whenPressed(new Kill(AutoShifter));
+		RobotMap.Component.teensyStick.button4.whenReleased(AutoShifter);
+	}
 	
 	@Override
 	public void autonomousInitialize() {}
