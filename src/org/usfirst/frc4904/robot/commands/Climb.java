@@ -15,7 +15,7 @@ public class Climb extends MotorSet {
 
 	@Override
 	public void execute() {
-		set(axis.pidGet());
+		set(Math.max(0, axis.pidGet())); // No, really, always feed positive values to the climber motor
 		super.execute();
 	}
 }
