@@ -2,7 +2,7 @@ package org.usfirst.frc4904.sovereignty.strategies;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.sovereignty.AlignmentSystem;
+import org.usfirst.frc4904.sovereignty.AligningSystem;
 import org.usfirst.frc4904.sovereignty.Trimmable;
 import org.usfirst.frc4904.sovereignty.TrimmablePIDController;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -16,13 +16,13 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	public static double ANGLE_D = 0.015;
 	public static final double ANGLE_SETPOINT = 320;
 	public static final double ANGLE_TOLERANCE = 0.001;
-	protected AlignmentSystem alignSystem;
+	protected AligningSystem alignSystem;
 	protected TrimmablePIDController pidController;
 	protected boolean onAngle = false;
 	private ChassisMove chassisMove;
 
 	public GearAlign() {
-		alignSystem = new AlignmentSystem(RobotMap.Component.alignCamera, RobotMap.Component.navx);
+		alignSystem = new AligningSystem(RobotMap.Component.alignCamera, RobotMap.Component.navx);
 		pidController = new TrimmablePIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, alignSystem);
 		pidController.setAbsoluteTolerance(GearAlign.ANGLE_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
