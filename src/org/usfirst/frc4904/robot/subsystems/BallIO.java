@@ -30,7 +30,7 @@ public class BallIO extends Subsystem {
 		return currentState;
 	}
 
-	public void doorSet(DoorState desiredState) {
+	public void setDoorState(DoorState desiredState) {
 		doorServo.setAngle(desiredState.getAngle());
 		currentState = desiredState;
 	}
@@ -40,7 +40,7 @@ public class BallIO extends Subsystem {
 		this.elevatorAndIntakeRoller = elevatorAndIntakeRoller;
 		this.hopperRollers = hopperRollers;
 		this.doorServo = doorServo;
-		doorSet(BallIO.DoorState.INTAKE);
+		setDoorState(BallIO.DoorState.INTAKE);
 	}
 
 	@Override
