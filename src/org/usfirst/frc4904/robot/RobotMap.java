@@ -54,7 +54,8 @@ public class RobotMap {
 			public static int leftDriveB = 2;
 			public static int rightDriveA = 3;
 			public static int rightDriveB = 4;
-			public static final int climbMotor = 5; // the port, like America's favorite topping for pie, is WIP.
+			public static final int climbMotorA = 5;
+			public static final int climbMotorB = 6;
 			public static final int ballioDoorServo = 8;
 		}
 
@@ -124,7 +125,7 @@ public class RobotMap {
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		// Climber
-		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotor));
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
