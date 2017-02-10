@@ -39,6 +39,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
 
 		public static class Motors {
@@ -90,6 +91,7 @@ public class RobotMap {
 	public static class Component {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static PDP pdp;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
@@ -140,6 +142,7 @@ public class RobotMap {
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
