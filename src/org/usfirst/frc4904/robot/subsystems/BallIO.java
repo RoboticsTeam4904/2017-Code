@@ -11,6 +11,10 @@ public class BallIO extends Subsystem {
 	public final Motor elevatorAndIntakeRoller;
 	public final Motor hopperRollers;
 	public final ServoSubsystem doorServo;
+	public static final double DIRECTIONAL_ROLLER_INTAKE_SPEED = 0.25;
+	public static final double DIRECTIONAL_ROLLER_OUTTAKE_SPEED = -1;
+	public static final double ELEVATOR_AND_INTAKE_ROLLER_FORWARD_SPEED = 1;
+	public static final double HOPPER_ROLLERS_FORWARD_SPEED = 1;
 
 	public static enum DoorState {
 		INTAKE(0), OUTTAKE(71.03);
