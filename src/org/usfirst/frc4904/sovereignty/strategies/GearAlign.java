@@ -47,6 +47,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 
 	@Override
 	public void initialize() {
+		alignSystem.start();
 		chassisMove = new ChassisMove(RobotMap.Component.chassis, this);
 		chassisMove.start();
 		pidController.enable();
@@ -64,6 +65,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	@Override
 	public void end() {
 		chassisMove.cancel();
+		alignSystem.cancel();
 		pidController.reset();
 		onAngle = false;
 	}

@@ -30,7 +30,7 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 
 	@Override
 	public boolean trustable() {
-		return isMagnetometerCalibrated();
+		return isConnected();
 	}
 
 	public void setMode(NavxMode mode) {

@@ -41,7 +41,7 @@ public class AlignmentSystem implements PIDSource {
 			return sensor.getValueDangerously();
 		}
 		catch (InvalidSensorException ex) {
-			LogKitten.wtf("AlignmentSystem: no sensors were available.");
+			LogKitten.ex(ex);
 			return Double.NaN;
 		}
 	}

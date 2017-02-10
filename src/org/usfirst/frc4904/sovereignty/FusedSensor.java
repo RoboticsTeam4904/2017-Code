@@ -9,6 +9,7 @@ public class FusedSensor<T> implements Fusible<T> {
 	protected final Fusible<T> fallbackSensor;
 	protected final Fusible<T> lastResortSensor;
 
+	@SafeVarargs
 	public FusedSensor(T defaultValue, Fusible<T> primarySensor, Fusible<T> secondarySensor, Fusible<T>... sensors) {
 		Fusible<T> lastSensor = sensors[sensors.length - 1];
 		for (int i = sensors.length - 2; i >= 0; i--) {
