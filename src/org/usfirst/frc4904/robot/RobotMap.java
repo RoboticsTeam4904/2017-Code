@@ -3,7 +3,6 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -18,7 +17,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.PositionSensorMotor;
-import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
@@ -36,6 +34,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
 
 		public static class Motors {
@@ -90,6 +89,7 @@ public class RobotMap {
 	public static class Component {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static PDP pdp;
 		public static PositionSensorMotor leftWheel;
 		public static PositionSensorMotor rightWheel;
@@ -100,7 +100,6 @@ public class RobotMap {
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
-		public static BallIO ballIO;
 		public static SolenoidShifters gearSlotOpener;
 		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
@@ -114,6 +113,7 @@ public class RobotMap {
 
 		public static class Operator {
 			public static CustomJoystick stick;
+			public static CustomJoystick teensyStick;
 		}
 		public static NavX navx;
 		public static MotionController chassisTurnMC;
@@ -148,7 +148,6 @@ public class RobotMap {
 		rightFlywheelMotor.setInverted(false);
 		// Human inputs
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
-		Component.mainSubsystems = new Subsystem[] {Component.ballIO};
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navX = new NavX(SerialPort.Port.kMXP);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
@@ -158,20 +157,14 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Ball-Intake-Outtake
-		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.ballioTopMotor));
-		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
-		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.ballioMainMotor));
-		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
-		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
-			ballioDoorServo);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.mainSubsystems = new Subsystem[] {};
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
 	}
 }

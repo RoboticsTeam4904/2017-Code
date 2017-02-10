@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.commands.TeensyJoystickReader;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -9,11 +10,13 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	Command teensyJoystick;
 
 	@Override
 	public void initialize() {
@@ -42,7 +45,11 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {}
+	public void teleopExecute() {
+		RobotMap.Component.teensyStick.button1.whenPressed(teleopCommand);
+		teensyJoystick = new TeensyJoystickReader();
+		teensyJoystick.start();
+	}
 
 	@Override
 	public void autonomousInitialize() {
