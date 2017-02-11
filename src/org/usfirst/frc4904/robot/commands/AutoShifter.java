@@ -24,6 +24,7 @@ public class AutoShifter extends Command {
 	public static final double MEDIUM_THROTTLE = AutoShifter.SLOW_THROTTLE * 1.875;
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
 	public static final double SPEED_LIST_MAX_LENGTH = 5;
+	public static final double LAST_SHIFT_TIME = 5000;
 
 	public AutoShifter() {
 		shifter = RobotMap.Component.chassis.getShifter();
@@ -39,7 +40,8 @@ public class AutoShifter extends Command {
 			speeds.remove(speeds.getFirst());
 		}
 		speedDiffAvg = (speeds.getLast() - speeds.getFirst()) / (speeds.size() - 1);// acceleration
-		if (((leftEncoder.getRate() - rightEncoder.getRate()) < AutoShifter.RATE_DIFF)) {// only if driving straight
+		if (((leftEncoder.getRate() - rightEncoder.getRate()) < AutoShifter.RATE_DIFF)
+			&& shifter.timeSinceLastShift() > AutoShifter.LAST_SHIFT_TIME) {// only if driving straight and we haven't manually shifted in 5 seconds
 			double throttle = 0.0;
 			for (double motorSpeed : RobotMap.Component.chassis.getMotorSpeeds()) {
 				throttle += motorSpeed;
@@ -47,14 +49,14 @@ public class AutoShifter extends Command {
 			throttle /= RobotMap.Component.chassis.getMotorSpeeds().length;
 			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && speedDiffAvg > AutoShifter.RAPID_ACCELERATION
 				&& throttle > AutoShifter.FAST_THROTTLE) {// 4 ft/s
-				shifter.shift(SolenoidShifters.ShiftState.UP);
+				shifter.shift(SolenoidShifters.ShiftState.UP, true);
 			}
 			if (Math.abs(speed) < AutoShifter.FAST_RATE && speedDiffAvg < AutoShifter.RAPID_DECELERATION
 				&& throttle > AutoShifter.MEDIUM_THROTTLE) {
-				shifter.shift(SolenoidShifters.ShiftState.DOWN);
+				shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
 			}
 			if (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE) {
-				shifter.shift(SolenoidShifters.ShiftState.DOWN);
+				shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
 			}
 		}
 	}
