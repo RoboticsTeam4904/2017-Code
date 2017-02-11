@@ -53,6 +53,7 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navX, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.button1.whenPressed(normalDrive);
 	}
 
 	@Override

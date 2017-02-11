@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.commands.TeensyJoystickReader;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -36,20 +35,14 @@ public class Robot extends CommandRobotBase {
 
 	@Override
 	public void teleopInitialize() {
-		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-		teleopCommand.start();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {
-		RobotMap.Component.teensyStick.button1.whenPressed(teleopCommand);
-		teensyJoystick = new TeensyJoystickReader();
-		teensyJoystick.start();
-	}
+	public void teleopExecute() {}
 
 	@Override
 	public void autonomousInitialize() {
