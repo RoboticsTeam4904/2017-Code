@@ -2,6 +2,8 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.SetOverride;
+import org.usfirst.frc4904.robot.commands.ShooterStart;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
@@ -20,6 +22,8 @@ public class NathanGain extends Driver {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double FINE_SCALE = 2;
+	public static final int SHOOTER_SLIDER = 0;
+	public static double shooterSetValue;
 	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
 
 	public NathanGain() {
@@ -53,6 +57,10 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.button3
+			.whenPressed(new SetOverride(true, new ShooterStart()));
+		RobotMap.Component.teensyStick.button3.whenReleased(new SetOverride(false, new ShooterStart()));
+		NathanGain.shooterSetValue = RobotMap.Component.teensyStick.getAxis(NathanGain.SHOOTER_SLIDER);
 	}
 
 	@Override
