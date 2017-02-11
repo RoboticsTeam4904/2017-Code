@@ -7,13 +7,10 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class AutoShifter extends Command {
 	public CustomEncoder leftEncoder;
 	public CustomEncoder rightEncoder;
-	public SolenoidShifters shifter = RobotMap.Component.shifter;
+	public SolenoidShifters shifter;
 	public LinkedList<Double> speeds;
 	public double speed;
 	public double speedDiffAvg = 0;
@@ -26,8 +23,10 @@ public class AutoShifter extends Command {
 	public static final double SLOW_THROTTLE = 0.4;
 	public static final double MEDIUM_THROTTLE = AutoShifter.SLOW_THROTTLE * 1.875;
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
+	public static final double SPEED_LIST_MAX_LENGTH = 5;
 
 	public AutoShifter() {
+		shifter = RobotMap.Component.chassis.getShifter();
 		leftEncoder = RobotMap.Component.leftWheelEncoder;
 		rightEncoder = RobotMap.Component.rightWheelEncoder;
 	}
@@ -36,7 +35,7 @@ public class AutoShifter extends Command {
 	protected void execute() {
 		speed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		speeds.add(speed);
-		if (speeds.size() > 5) {
+		if (speeds.size() > AutoShifter.SPEED_LIST_MAX_LENGTH) {
 			speeds.remove(speeds.getFirst());
 		}
 		speedDiffAvg = (speeds.getLast() - speeds.getFirst()) / (speeds.size() - 1);// acceleration
@@ -46,15 +45,15 @@ public class AutoShifter extends Command {
 				throttle += motorSpeed;
 			}
 			throttle /= RobotMap.Component.chassis.getMotorSpeeds().length;
-			if (leftEncoder.getRate() > AutoShifter.MEDIUM_RATE && speedDiffAvg > AutoShifter.RAPID_ACCELERATION
+			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && speedDiffAvg > AutoShifter.RAPID_ACCELERATION
 				&& throttle > AutoShifter.FAST_THROTTLE) {// 4 ft/s
 				shifter.shift(SolenoidShifters.ShiftState.UP);
 			}
-			if (leftEncoder.getRate() < AutoShifter.FAST_RATE && speedDiffAvg < AutoShifter.RAPID_DECELERATION
+			if (Math.abs(speed) < AutoShifter.FAST_RATE && speedDiffAvg < AutoShifter.RAPID_DECELERATION
 				&& throttle > AutoShifter.MEDIUM_THROTTLE) {
 				shifter.shift(SolenoidShifters.ShiftState.DOWN);
 			}
-			if (leftEncoder.getRate() < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE) {
+			if (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE) {
 				shifter.shift(SolenoidShifters.ShiftState.DOWN);
 			}
 		}
