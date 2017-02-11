@@ -22,7 +22,8 @@ public class AutoShifter extends Command {
 	public static final double MEDIUM_THROTTLE = AutoShifter.SLOW_THROTTLE * 1.875;
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
 	public static final double SPEED_LIST_MAX_LENGTH = 5;
-	public static final double LAST_SHIFT_TIME = 5000;
+	public static final double LAST_MANUAL_SHIFT_TIME = 5000;
+	public static final double LAST_AUTO_SHIFT_TIME = 500;
 
 	public AutoShifter() {
 		shifter = RobotMap.Component.chassis.getShifter();
@@ -39,7 +40,8 @@ public class AutoShifter extends Command {
 		}
 		double speedDiffAvg = (speeds.getLast() - speeds.getFirst()) / (speeds.size() - 1);// acceleration
 		if (leftEncoder.getRate() - rightEncoder.getRate() < AutoShifter.RATE_DIFF
-			&& shifter.timeSinceLastShift() > AutoShifter.LAST_SHIFT_TIME) {// only if driving straight and we haven't manually shifted in 5 seconds
+			&& shifter.timeSinceLastManualShift() > AutoShifter.LAST_MANUAL_SHIFT_TIME
+			&& shifter.timeSinceLastAutoShift() > AutoShifter.LAST_AUTO_SHIFT_TIME) {// only if driving straight and we haven't manually shifted in 5 seconds or autoshifted in 0.5 seconds
 			double throttle = 0.0;
 			for (double motorSpeed : RobotMap.Component.chassis.getMotorSpeeds()) {
 				throttle += motorSpeed;
