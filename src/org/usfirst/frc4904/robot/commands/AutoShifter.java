@@ -22,8 +22,8 @@ public class AutoShifter extends Command {
 	public static final double MEDIUM_THROTTLE = AutoShifter.SLOW_THROTTLE * 1.875;
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
 	public static final double SPEED_LIST_MAX_LENGTH = 5;
-	public static final double LAST_MANUAL_SHIFT_TIME = 5000;
-	public static final double LAST_AUTO_SHIFT_TIME = 500;
+	public static final double LAST_MANUAL_SHIFT_TIME = 5000; // TODO
+	public static final double LAST_AUTO_SHIFT_TIME = 500;// TODO
 
 	public AutoShifter() {
 		shifter = RobotMap.Component.chassis.getShifter();
