@@ -10,6 +10,7 @@ public class AligningSystem implements PIDSource {
 	public static enum AligningState {
 		IDLE, ACTIVE;
 	}
+	public static final double ANGLE_TOLERANCE = 2;
 	protected final FusedSensor<Double> sensorSystem;
 	protected final AligningCamera camera;
 	protected final FusibleNavX navX;
@@ -17,7 +18,7 @@ public class AligningSystem implements PIDSource {
 	protected PIDSourceType pidSourceType;
 
 	public AligningSystem(AligningCamera camera, FusibleNavX navX) {
-		sensorSystem = new FusedSensor<Double>(0.0d, camera, navX);
+		sensorSystem = new FusedSensor<Double>(camera, navX);
 		this.camera = camera;
 		this.navX = navX;
 		state = AligningState.IDLE;
@@ -37,6 +38,9 @@ public class AligningSystem implements PIDSource {
 	public double getDegrees() {
 		Fusible<Double> sensor = sensorSystem.getActiveSensor();
 		Double value = sensor.getValue();
+		if (value == null) {
+			return 0.0d;
+		}
 		if (sensor instanceof AligningCamera) {
 			navX.setTargetAngle(value);
 			navX.zeroRelativeOffset();

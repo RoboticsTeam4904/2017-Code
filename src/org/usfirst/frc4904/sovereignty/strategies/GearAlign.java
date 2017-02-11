@@ -94,4 +94,12 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	public double getTrim() {
 		return pidController.getTrim();
 	}
+
+	public boolean isAligned() {
+		Double value = alignSystem.getDegrees();
+		if (value == null || Math.abs(value) > GearAlign.ANGLE_TOLERANCE) {
+			return false;
+		}
+		return true;
+	}
 }

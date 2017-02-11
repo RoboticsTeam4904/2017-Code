@@ -21,6 +21,7 @@ public class NathanGain extends Driver {
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double FINE_SCALE = 2;
 	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
+	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
 
 	public NathanGain() {
 		super("NathanGain");
@@ -32,6 +33,7 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
+		alignAssist.start();
 		RobotMap.Component.driverXbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
 		RobotMap.Component.driverXbox.a.whenPressed(
 			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
