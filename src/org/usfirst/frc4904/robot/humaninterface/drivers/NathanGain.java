@@ -56,7 +56,7 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		(new Climb(new PIDSource() { // Construct a PIDSource inline so we can process and pass the axis value here
+		new Climb(new PIDSource() { // Construct a PIDSource inline so we can process and pass the axis value here
 			@Override
 			public double pidGet() {
 				double climberSpeed = -RobotMap.Component.driverXbox.rightStick.getY(); // Inverted airplane-style analog control
@@ -70,7 +70,7 @@ public class NathanGain extends Driver {
 			public PIDSourceType getPIDSourceType() {
 				return null;
 			}
-		})).start();
+		}).start();
 	}
 
 	@Override
