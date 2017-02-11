@@ -54,7 +54,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		Command autoShifter = new AutoShifter();
+		Command autoShifter = new AutoShifter(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder,
+			RobotMap.Component.rightWheelEncoder);
 		autoShifter.start();
 	}
 

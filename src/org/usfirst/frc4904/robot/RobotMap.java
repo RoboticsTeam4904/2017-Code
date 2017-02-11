@@ -14,7 +14,7 @@ import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.chassis.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
@@ -80,7 +80,7 @@ public class RobotMap {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
 		public static PDP pdp;
-		public static SolenoidShifters shifter;
+		public static AutoSolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
@@ -96,7 +96,7 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
@@ -128,7 +128,7 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
 	}
 }
