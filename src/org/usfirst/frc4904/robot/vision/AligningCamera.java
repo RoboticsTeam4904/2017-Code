@@ -11,6 +11,7 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	public static final String FIELD_DEGREES = "degrees";
 	public static final String FIELD_DISTANCE = "distance";
 	public static final String FIELD_VISIBLE = "visible";
+	public static final String FIELD_TRUSTABLE = "trustable";
 	protected NetworkTable cameraTable;
 	private PIDSourceType sourceType;
 
@@ -36,7 +37,8 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	}
 
 	public boolean isVisible() {
-		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE, Double.isNaN(getDegrees()) || Double.isNaN(getDistance()));
+		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE,
+			!Double.isNaN(getDegrees()) || !Double.isNaN(getDistance()));
 	}
 
 	@Override
@@ -61,6 +63,7 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 
 	@Override
 	public boolean trustable() {
-		return isVisible();
+		return cameraTable.getBoolean(AligningCamera.FIELD_TRUSTABLE,
+			!Double.isNaN(getDegrees()) || !Double.isNaN(getDistance()));
 	}
 }
