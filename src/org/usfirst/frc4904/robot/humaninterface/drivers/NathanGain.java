@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
@@ -53,6 +54,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		Command autoShifter = new AutoShifter();
+		autoShifter.start();
 	}
 
 	@Override

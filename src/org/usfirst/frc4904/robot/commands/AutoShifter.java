@@ -8,12 +8,10 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoShifter extends Command {
-	public CustomEncoder leftEncoder;
-	public CustomEncoder rightEncoder;
+	protected CustomEncoder leftEncoder;
+	protected CustomEncoder rightEncoder;
 	public SolenoidShifters shifter;
 	public LinkedList<Double> speeds;
-	public double speed;
-	public double speedDiffAvg = 0;
 	public static final double RAPID_ACCELERATION = 8;// WIP
 	public static final double RAPID_DECELERATION = 2;// WIP
 	public static final double RATE_DIFF = 100; // encoder ticks--WIP
@@ -34,13 +32,13 @@ public class AutoShifter extends Command {
 
 	@Override
 	protected void execute() {
-		speed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
+		double speed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		speeds.add(speed);
-		if (speeds.size() > AutoShifter.SPEED_LIST_MAX_LENGTH) {
-			speeds.remove(speeds.getFirst());
+		while (speeds.size() > AutoShifter.SPEED_LIST_MAX_LENGTH) {
+			speeds.removeFirst();
 		}
-		speedDiffAvg = (speeds.getLast() - speeds.getFirst()) / (speeds.size() - 1);// acceleration
-		if (((leftEncoder.getRate() - rightEncoder.getRate()) < AutoShifter.RATE_DIFF)
+		double speedDiffAvg = (speeds.getLast() - speeds.getFirst()) / (speeds.size() - 1);// acceleration
+		if (leftEncoder.getRate() - rightEncoder.getRate() < AutoShifter.RATE_DIFF
 			&& shifter.timeSinceLastShift() > AutoShifter.LAST_SHIFT_TIME) {// only if driving straight and we haven't manually shifted in 5 seconds
 			double throttle = 0.0;
 			for (double motorSpeed : RobotMap.Component.chassis.getMotorSpeeds()) {

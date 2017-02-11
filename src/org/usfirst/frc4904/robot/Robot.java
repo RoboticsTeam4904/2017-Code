@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
@@ -35,8 +34,6 @@ public class Robot extends CommandRobotBase {
 		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
-		autoShifter = new AutoShifter();
-		autoShifter.start();
 	}
 
 	/**
