@@ -12,7 +12,7 @@ public class AutoShifter extends Command {
 	protected CustomEncoder leftEncoder;
 	protected CustomEncoder rightEncoder;
 	protected AutoSolenoidShifters shifter;
-	protected LinkedList<Double> speeds;
+	protected LinkedList<Double> speeds = new LinkedList<Double>();
 	public static final double RAPID_ACCELERATION = 8;// WIP
 	public static final double RAPID_DECELERATION = 2;// WIP
 	public static final double RATE_DIFF = 100; // encoder ticks--WIP
