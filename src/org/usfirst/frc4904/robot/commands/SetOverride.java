@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetOverride extends Command {
 	public boolean override;
-	public ShooterStart command;
+	public OverridableCommand command;
 
-	public SetOverride(boolean override, ShooterStart command) {
+	public SetOverride(boolean override, OverridableCommand command) {
 		this.override = override;
 		this.command = command;
 	}
@@ -19,7 +19,6 @@ public class SetOverride extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

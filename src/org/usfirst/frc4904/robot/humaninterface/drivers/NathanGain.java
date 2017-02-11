@@ -57,7 +57,7 @@ public class NathanGain extends Driver {
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.button5.whenPressed(new SetOverride(true, new ShooterStart()));
-		RobotMap.Component.teensyStick.button5.whenReleased(new SetOverride(true, new ShooterStart()));
+		RobotMap.Component.teensyStick.button5.whenReleased(new SetOverride(false, new ShooterStart()));
 	}
 
 	@Override

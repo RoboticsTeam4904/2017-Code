@@ -7,7 +7,7 @@ import org.usfirst.frc4904.standard.commands.RunIf;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ShooterStart extends CommandGroup {
+public class ShooterStart extends CommandGroup implements OverridableCommand {
 	public final static double unloadDuration = 0.25; // TODO
 	public boolean antiJamOverride;
 
@@ -23,10 +23,12 @@ public class ShooterStart extends CommandGroup {
 		addParallel(new IndexerLoad());
 	}
 
+	@Override
 	public void setOverride(boolean override) {
 		antiJamOverride = override;
 	}
 
+	@Override
 	public boolean getOverride() {
 		return antiJamOverride;
 	}
