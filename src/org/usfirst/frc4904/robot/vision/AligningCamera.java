@@ -38,7 +38,7 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 
 	public boolean isVisible() {
 		return cameraTable.getBoolean(AligningCamera.FIELD_VISIBLE,
-			!Double.isNaN(getDegrees()) || !Double.isNaN(getDistance()));
+			!Double.isNaN(getDegrees()) && !Double.isNaN(getDistance()));
 	}
 
 	@Override
@@ -64,6 +64,6 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	@Override
 	public boolean trustable() {
 		return cameraTable.getBoolean(AligningCamera.FIELD_TRUSTABLE,
-			!Double.isNaN(getDegrees()) || !Double.isNaN(getDistance()));
+			!Double.isNaN(getDegrees()) && !Double.isNaN(getDistance()));
 	}
 }
