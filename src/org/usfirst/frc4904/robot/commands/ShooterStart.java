@@ -9,14 +9,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ShooterStart extends CommandGroup {
 	public final static double unloadDuration = 0.25; // TODO
-
-	boolean anything() {
-		return true;
-	}
+	public boolean antiJamOverride;
 
 	public ShooterStart() {
 		addParallel(new FlywheelSpinup());
-		addParallel(new RunIf(new RunFor(new IndexerUnload(), ShooterStart.unloadDuration), this::antiJamOn));
+		addParallel(new RunIf(new RunFor(new IndexerUnload(), ShooterStart.unloadDuration), this::getOverride));
 		addSequential(new Command() {
 			@Override
 			protected boolean isFinished() {
@@ -26,7 +23,11 @@ public class ShooterStart extends CommandGroup {
 		addParallel(new IndexerLoad());
 	}
 
-	private boolean antiJamOn() {
-		return !RobotMap.Component.teensyStick.button5.get();
+	public void setOverride(boolean override) {
+		antiJamOverride = override;
+	}
+
+	public boolean getOverride() {
+		return antiJamOverride;
 	}
 }
