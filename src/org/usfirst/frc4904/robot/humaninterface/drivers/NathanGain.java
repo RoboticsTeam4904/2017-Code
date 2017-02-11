@@ -5,8 +5,6 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
-import org.usfirst.frc4904.sovereignty.strategies.GearAlign;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
@@ -36,17 +34,6 @@ public class NathanGain extends Driver {
 	@Override
 	public void bindCommands() {
 		alignAssist.start();
-		RobotMap.Component.driverXbox.back.toggleWhenPressed(new Command() {
-			@Override
-			public void initialize() {
-				GearAlign.HELLA = !GearAlign.HELLA;
-			}
-
-			@Override
-			protected boolean isFinished() {
-				return false;
-			}
-		});
 		RobotMap.Component.driverXbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
 		RobotMap.Component.driverXbox.a.whenPressed(
 			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
@@ -80,7 +67,6 @@ public class NathanGain extends Driver {
 		double rawSpeed = RobotMap.Component.driverXbox.rt.getX() - RobotMap.Component.driverXbox.lt.getX();
 		double speed = scaleGain(modifier.modify(rawSpeed), NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP)
 			* NathanGain.Y_SPEED_SCALE;
-		LogKitten.wtf("DRIVE SPEED: " + speed);
 		return speed;
 	}
 
@@ -89,7 +75,6 @@ public class NathanGain extends Driver {
 		double rawTurnSpeed = RobotMap.Component.driverXbox.leftStick.getX();
 		double turnSpeed = scaleGain(modifier.modify(rawTurnSpeed), NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
 			* NathanGain.TURN_SPEED_SCALE;
-		LogKitten.wtf("TURN SPEED:  " + turnSpeed);
 		return turnSpeed;
 	}
 }

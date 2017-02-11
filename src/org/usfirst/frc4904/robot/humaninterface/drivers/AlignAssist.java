@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignAssist extends Command {
 	private final GearAlign gearAlign;
+	private final FineModifier fineModifier;
 	private final EnableFineModifier enableFineModifier;
 
 	public AlignAssist(GearAlign gearAlign, FineModifier fineModifier) {
 		this.gearAlign = gearAlign;
+		this.fineModifier = fineModifier;
 		enableFineModifier = new EnableFineModifier(fineModifier);
 	}
 
