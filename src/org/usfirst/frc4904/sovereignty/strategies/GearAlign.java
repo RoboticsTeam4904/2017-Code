@@ -19,6 +19,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	protected AligningSystem alignSystem;
 	protected TrimmablePIDController pidController;
 	protected boolean onAngle = false;
+	public static boolean HELLA = false;
 	private ChassisMove chassisMove;
 
 	public GearAlign() {
@@ -97,9 +98,10 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 
 	public boolean isAligned() {
 		Double value = alignSystem.getDegrees();
-		if (value == null || Math.abs(value) > GearAlign.ANGLE_TOLERANCE) {
-			return false;
-		}
-		return true;
+		return GearAlign.HELLA;
+		// if (value == null || Math.abs(value) > GearAlign.ANGLE_TOLERANCE) {
+		// return false;
+		// }
+		// return true;
 	}
 }
