@@ -11,8 +11,6 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
@@ -41,8 +39,10 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.b
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
-		RobotMap.Component.driverXbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.driverXbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
+		RobotMap.Component.driverXbox.lb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.driverXbox.rb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
@@ -56,21 +56,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		new Climb(new PIDSource() { // Construct a PIDSource inline so we can process and pass the axis value here
-			@Override
-			public double pidGet() {
-				double climberSpeed = -RobotMap.Component.driverXbox.rightStick.getY(); // Inverted airplane-style analog control
-				return Math.max(0, climberSpeed); // Never drive the climber at a negative speed
-			}
-
-			@Override
-			public void setPIDSourceType(PIDSourceType pidSource) {}
-
-			@Override
-			public PIDSourceType getPIDSourceType() {
-				return null;
-			}
-		}).start();
+		// Inverted airplane-style analog control
+		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 	}
 
 	@Override

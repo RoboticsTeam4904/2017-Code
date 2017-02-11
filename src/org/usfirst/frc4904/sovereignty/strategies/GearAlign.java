@@ -72,22 +72,22 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	public void interrupted() {
 		end();
 	}
-	
+
 	@Override
 	public void setTrimIncrement(double increment) {
 		pidController.setTrimIncrement(increment);
 	}
-	
+
 	@Override
 	public double getTrimIncrement() {
 		return pidController.getTrimIncrement();
 	}
-	
+
 	@Override
 	public void setTrim(double trim) {
 		pidController.setTrim(trim);
 	}
-	
+
 	@Override
 	public double getTrim() {
 		return pidController.getTrim();
