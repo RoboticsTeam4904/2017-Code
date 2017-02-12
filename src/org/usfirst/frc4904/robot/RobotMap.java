@@ -37,6 +37,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
 
 		public static class CANMotor {
@@ -89,6 +90,7 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static FusibleNavX navx;
 		public static MotionController chassisMC;
 		public static AligningCamera alignCamera;
@@ -124,6 +126,7 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems

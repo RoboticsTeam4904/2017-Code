@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
+import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
@@ -55,6 +56,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.button6.whenPressed(new Kill(alignAssist));
+		RobotMap.Component.teensyStick.button6.whenReleased(alignAssist);
 	}
 
 	@Override
