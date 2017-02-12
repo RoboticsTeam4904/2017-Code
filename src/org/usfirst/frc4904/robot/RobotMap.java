@@ -42,19 +42,14 @@ public class RobotMap {
 			public static final int teensyStick = 2;
 		}
 
-		public static class Motors {
-			public static class CAN {
-				public static int leftDriveA = 1;
-				public static int leftDriveB = 2;
-				public static int rightDriveA = 3;
-				public static int rightDriveB = 4;
-			}
+		public static class CANMotor {
+			public static final int ballioDirectionalRoller = 1;
+			public static final int ballioHopperRollers = 2;
+			public static final int ballioElevatorAndIntakeRoller = 3;
 		}
 
 		public static class PWM {
 			// SOME MOTORS AREN'T EXACT - work in progress
-			public static final int leftDriveMotor = 0;
-			public static final int rightDriveMotor = 1;
 			public static final int flywheelLeftMotor = 2; // WIP
 			public static final int flywheelRightMotor = 3; // WIP
 			public static final int ballioTopMotor = 4; // WIP
@@ -62,6 +57,10 @@ public class RobotMap {
 			public static final int ballioMainMotor = 6; // WIP
 			public static final int ballioServo = 7;
 			public static final int indexerMotor = 8;
+			public static int leftDriveA = 1;
+			public static int leftDriveB = 2;
+			public static int rightDriveA = 3;
+			public static int rightDriveB = 4;
 		}
 
 		public static class CAN {
@@ -71,10 +70,6 @@ public class RobotMap {
 			public static final int flywheelEncoder = 0x605;
 			public static final int elevatorEncoder = 0x606;
 		}
-
-		public static class CANMotor {}
-
-		public static class PCM {}
 
 		public static class Pneumatics {
 			public static final int ballioShifterUp = 2;
@@ -123,9 +118,9 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
-			new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
+			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
-			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		// Ball-Intake-Outtake
 		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.ballioTopMotor));
 		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));

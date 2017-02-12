@@ -8,11 +8,11 @@ package org.usfirst.frc4904.robot.commands;
  */
 public interface OverridableCommand {
 	/**
-	 * sets an internal override to an boolean you give it
+	 * sets an override to an boolean you give it
 	 * 
 	 * @param override
 	 */
-	void setOverride(boolean override);
+	void setOverride(boolean setValue);
 
 	/**
 	 * returns if override is on or off

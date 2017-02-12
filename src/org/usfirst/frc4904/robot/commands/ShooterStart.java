@@ -13,7 +13,7 @@ public class ShooterStart extends CommandGroup implements OverridableCommand {
 
 	public ShooterStart() {
 		addParallel(new FlywheelSpinup());
-		addParallel(new RunIf(new RunFor(new IndexerUnload(), ShooterStart.unloadDuration), this::getOverride));
+		addParallel(new RunIf(new RunFor(new IndexerUnload(), ShooterStart.unloadDuration), this::getNotOverride));// only anti-jam if not overrided
 		addSequential(new Command() {
 			@Override
 			protected boolean isFinished() {
@@ -24,12 +24,16 @@ public class ShooterStart extends CommandGroup implements OverridableCommand {
 	}
 
 	@Override
-	public void setOverride(boolean override) {
-		antiJamOverride = override;
+	public void setOverride(boolean setValue) {
+		antiJamOverride = setValue;
 	}
 
 	@Override
 	public boolean getOverride() {
 		return antiJamOverride;
+	}
+
+	public boolean getNotOverride() {
+		return !antiJamOverride;
 	}
 }
