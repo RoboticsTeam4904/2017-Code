@@ -15,17 +15,19 @@ public class CANInformer extends Command {
 	}
 	protected final CANMessageSupplier messageSupplier;
 	protected int numberOfIterationsRemaining;
-	protected CustomCAN canSender;
+	protected final CustomCAN canSender;
+	private boolean runsDefinitely = true;
 
 	/**
-	 * Create a CANInformer command for a given CAN id and message supplier for a certain number of iterations
+	 * Create a CANInformer command for a given CAN id
+	 * and message supplier for a certain number of iterations.
 	 * 
 	 * @param id
 	 *        the CAN id to send the messages to
 	 * @param numberOfIterations
 	 *        the number of messages to send in total
 	 * @param messageSupplier
-	 *        a supplier functionx
+	 *        a supplier function
 	 */
 	public CANInformer(int id, int numberOfIterations, CANMessageSupplier messageSupplier) {
 		setRunWhenDisabled(true);
@@ -34,13 +36,23 @@ public class CANInformer extends Command {
 		canSender = new CustomCAN("CANInformer@" + id, id);
 	}
 
+	/**
+	 * Create a CANInformer command for a given CAN id
+	 * and message supplier that runs indefinitely.
+	 * 
+	 * @param id
+	 *        the CAN id to send the messages to
+	 * @param messageSupplier
+	 *        a supplier function
+	 */
 	public CANInformer(int id, CANMessageSupplier messageSupplier) {
-		this(id, -1, messageSupplier);
+		this(id, 0, messageSupplier);
+		runsDefinitely = false;
 	}
 
 	@Override
 	protected void execute() {
-		if (numberOfIterationsRemaining > -1) {
+		if (numberOfIterationsRemaining > 0) {
 			--numberOfIterationsRemaining;
 		}
 		canSender.write(messageSupplier.getCANMessage());
@@ -48,6 +60,6 @@ public class CANInformer extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return numberOfIterationsRemaining == 0;
+		return runsDefinitely && numberOfIterationsRemaining <= 0;
 	}
 }
