@@ -4,8 +4,6 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 
 public class DefaultDriver extends Driver {
-	public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
-
 	public DefaultDriver() {
 		super("DefaultDriver");
 	}
