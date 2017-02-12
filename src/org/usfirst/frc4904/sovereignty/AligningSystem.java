@@ -3,10 +3,11 @@ package org.usfirst.frc4904.sovereignty;
 
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX.NavxMode;
+import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class AligningSystem implements PIDSource {
+public class AligningSystem implements PIDSource, Fusible<Double> {
 	public static enum AligningState {
 		IDLE, ACTIVE;
 	}
@@ -37,6 +38,7 @@ public class AligningSystem implements PIDSource {
 
 	public double getDegrees() {
 		Fusible<Double> sensor = sensorSystem.getActiveSensor();
+		LogKitten.wtf("Sensor: " + sensor.getName());
 		Double value = sensor.getValue();
 		if (value == null) {
 			return 0.0d;
@@ -61,5 +63,15 @@ public class AligningSystem implements PIDSource {
 	@Override
 	public double pidGet() {
 		return getDegrees();
+	}
+
+	@Override
+	public Double getValue() {
+		return sensorSystem.getValue();
+	}
+
+	@Override
+	public boolean trustable() {
+		return sensorSystem.trustable();
 	}
 }

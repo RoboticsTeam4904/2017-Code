@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.vision;
 
 
 import org.usfirst.frc4904.sovereignty.Fusible;
+import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -63,7 +64,11 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 
 	@Override
 	public boolean trustable() {
-		return cameraTable.getBoolean(AligningCamera.FIELD_TRUSTABLE,
+		boolean value = cameraTable.getBoolean(AligningCamera.FIELD_TRUSTABLE,
 			!Double.isNaN(getDegrees()) && !Double.isNaN(getDistance()));
+		LogKitten.wtf("Camera Trustable: " + value);
+		LogKitten.wtf("Camera Degrees:   " + getDegrees());
+		LogKitten.wtf("Camera Distance:  " + getDistance());
+		return value;
 	}
 }
