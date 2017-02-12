@@ -11,7 +11,7 @@ import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DefaultOperator extends Operator {
-	protected static final double INTAKE_THRESHOLD = 0.25;
+	public static final double INTAKE_THRESHOLD = 0.25;
 
 	public DefaultOperator() {
 		super("DefaultOperator");
