@@ -25,8 +25,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addDefault(new DefaultDriver());
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
-		// Initialize SmartDashboard display values
-		driverChooser.addDefault(new NathanGain());
+		// Initialize SmartDashboard display values;
 		driverChooser.addObject(new NathanGain());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
