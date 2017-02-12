@@ -34,12 +34,10 @@ public class NathanGain extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.Component.driverXbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
-		RobotMap.Component.driverXbox.a.whenPressed(
-			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		RobotMap.Component.driverXbox.b
-			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		RobotMap.Component.driverXbox.lb
+			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.rb
+			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
