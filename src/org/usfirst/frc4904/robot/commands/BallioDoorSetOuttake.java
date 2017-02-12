@@ -5,6 +5,6 @@ import org.usfirst.frc4904.robot.subsystems.BallIO;
 
 public class BallioDoorSetOuttake extends BallioDoorSet {
 	public BallioDoorSetOuttake() {
-		super(BallIO.DoorState.INTAKE);
+		super(BallIO.DoorState.OUTTAKE);
 	}
 }
