@@ -10,10 +10,11 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 	}
 	protected double relativeOffset = 0;
 	protected double targetAngle = 0;
-	protected NavxMode mode = NavxMode.STANDARD;
+	protected NavxMode mode;
 
 	public FusibleNavX(Port port) {
 		super(port);
+		mode = NavxMode.STANDARD;
 	}
 
 	@Override
