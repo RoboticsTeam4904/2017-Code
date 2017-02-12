@@ -40,7 +40,7 @@ public class DefaultOperator extends Operator {
 		}
 
 		public ThresholdCommand(Command command, Supplier<Double> axis, double threshold) {
-			this(command, axis, threshold, true);
+			this(command, axis, threshold, false);
 		}
 
 		protected boolean pastThreshold(double value) {
