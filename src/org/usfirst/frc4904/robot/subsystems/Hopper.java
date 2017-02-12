@@ -27,7 +27,7 @@ public class Hopper extends Subsystem {
 		return currentState;
 	}
 
-	public void setHopperState(HopperState desiredState) {
+	public void setState(HopperState desiredState) {
 		leftSolenoid.set(desiredState.getValue());
 		rightSolenoid.set(desiredState.getValue());
 		currentState = desiredState;
@@ -36,7 +36,7 @@ public class Hopper extends Subsystem {
 	public Hopper(DoubleSolenoid leftSolenoid, DoubleSolenoid rightSolenoid) {
 		this.leftSolenoid = leftSolenoid;
 		this.rightSolenoid = rightSolenoid;
-		setHopperState(HopperState.BALLIO);
+		setState(HopperState.BALLIO);
 	}
 
 	@Override

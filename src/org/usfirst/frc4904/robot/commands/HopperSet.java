@@ -15,7 +15,7 @@ public class HopperSet extends Command {
 
 	@Override
 	protected void initialize() {
-		RobotMap.Component.hopper.setHopperState(targetState);
+		RobotMap.Component.hopper.setState(targetState);
 	}
 
 	@Override
