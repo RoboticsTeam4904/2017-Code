@@ -132,14 +132,7 @@ public class RobotMap {
 		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp),
 			new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
 		Component.rightWheel.disableMotionController();
-		Component.leftWheel = new PositionSensorMotor("leftWheel", new AccelerationCap(Component.pdp),
-			new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
-		Component.leftWheel.disableMotionController();
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.rightWheel = new PositionSensorMotor("rightWheel", new AccelerationCap(Component.pdp),
-			new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
-		Component.rightWheel.disableMotionController();
 		// Gear
 		// Flywheel
 		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
