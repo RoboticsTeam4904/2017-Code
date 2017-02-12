@@ -10,7 +10,7 @@ public class Hopper extends Subsystem {
 	protected final DoubleSolenoid rightSolenoid;
 
 	public static enum HopperState {
-		BALLIO(DoubleSolenoid.Value.kForward), SHOOTER(DoubleSolenoid.Value.kReverse);
+		BALLIO(DoubleSolenoid.Value.kReverse), SHOOTER(DoubleSolenoid.Value.kForward);
 		private final DoubleSolenoid.Value value;
 
 		private HopperState(DoubleSolenoid.Value value) {
