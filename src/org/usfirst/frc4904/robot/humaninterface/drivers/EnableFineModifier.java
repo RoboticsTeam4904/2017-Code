@@ -16,6 +16,11 @@ public class EnableFineModifier extends Command {
 	}
 
 	@Override
+	protected void execute() {
+		modifier.setFineControl(true);
+	}
+
+	@Override
 	protected boolean isFinished() {
 		return false;
 	}
