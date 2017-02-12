@@ -20,7 +20,7 @@ public class FusibleNavX extends NavX implements Fusible<Double> {
 	public Double getValue() {
 		switch (mode) {
 			default:
-				return null;
+				throw new IllegalStateException("NavX must have a NavXMode state");
 			case STANDARD:
 				return getAngle();
 			case ALIGNMENT:
