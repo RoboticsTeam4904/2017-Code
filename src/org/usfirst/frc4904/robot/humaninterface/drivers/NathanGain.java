@@ -2,7 +2,11 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.Climb;
+import org.usfirst.frc4904.robot.commands.HopperSetBallio;
+import org.usfirst.frc4904.robot.commands.HopperSetShooter;
+import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
@@ -56,6 +60,10 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.button7.whenPressed(new SetOverride(true, new BallioOuttake()));
+		RobotMap.Component.teensyStick.button7.whenReleased(new SetOverride(false, new BallioOuttake()));
+		RobotMap.Component.teensyStick.button8.whenPressed(new HopperSetBallio());
+		RobotMap.Component.teensyStick.button9.whenPressed(new HopperSetShooter());
 		// Inverted airplane-style analog control
 		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 	}
