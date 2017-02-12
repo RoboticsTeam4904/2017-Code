@@ -138,8 +138,8 @@ public class RobotMap {
 		Motor flywheelRightMotor = new Motor(new CANTalon(Port.CANMotor.flywheelRightMotor));
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
 		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor, flywheelEncoder);
-		Motor indexerMotor = new Motor(new VictorSP(Port.PWM.indexerMotor));
-		Component.shooter = new Shooter(Component.flywheel, indexerMotor);
+		Motor indexer = new Motor(new VictorSP(Port.PWM.indexerMotor));
+		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
