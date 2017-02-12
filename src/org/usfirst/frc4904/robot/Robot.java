@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.commands.ErikLogger;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	ErikLogger logger = new ErikLogger();
 
 	@Override
 	public void initialize() {
@@ -32,6 +34,7 @@ public class Robot extends CommandRobotBase {
 		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
+		logger.start();
 	}
 
 	/**

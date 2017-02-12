@@ -10,34 +10,54 @@ import edu.wpi.first.wpilibj.command.Command;
  * TEMPORARY - DO NOT MERGE
  */
 public class ErikLogger extends Command {
+	public static final String PREFIX = "Erik";
+	public static final int TICK_THROTTLE = 5;
+	private int ticksSinceLast = ErikLogger.TICK_THROTTLE;
+	private int totalTicks = 0;
+
 	public ErikLogger() {
+		setRunWhenDisabled(true);
 		setInterruptible(false);
 	}
 
 	@Override
+	public void initialize() {}
+
+	@Override
 	public void execute() {
-		LogKitten.d("PDP voltage: " + RobotMap.Component.pdp.getVoltage());
-		LogKitten.d("PDP temperature: " + RobotMap.Component.pdp.getTemperature());
-		LogKitten.d("PDP total current: " + RobotMap.Component.pdp.getTotalCurrent());
-		LogKitten.d("PDP total power: " + RobotMap.Component.pdp.getTotalPower());
-		LogKitten.d("PDP total energy: " + RobotMap.Component.pdp.getTotalEnergy());
-		for (int i = 0; i <= 15; i++) {
-			LogKitten.d("PDP channel " + i + " current: " + RobotMap.Component.pdp.getCurrent(i));
+		if (ticksSinceLast < ErikLogger.TICK_THROTTLE) {
+			ticksSinceLast++;
+			return;
 		}
-		LogKitten.d("NavX yaw: " + RobotMap.Component.navx.getYaw());
-		LogKitten.d("NavX y acceleration: " + RobotMap.Component.navx.getWorldLinearAccelY());
-		LogKitten.d("Right Encoder get: " + RobotMap.Component.rightWheelEncoder.get());
-		LogKitten.d("Left Encoder get: " + RobotMap.Component.leftWheelEncoder.get());
+		totalTicks++;
+		prefixedLog("-------------------");
+		prefixedLog("PDP voltage: " + RobotMap.Component.pdp.getVoltage());
+		prefixedLog("PDP temperature: " + RobotMap.Component.pdp.getTemperature());
+		prefixedLog("PDP total current: " + RobotMap.Component.pdp.getTotalCurrent());
+		prefixedLog("PDP total power: " + RobotMap.Component.pdp.getTotalPower());
+		prefixedLog("PDP total energy: " + RobotMap.Component.pdp.getTotalEnergy());
+		for (int i = 0; i <= 15; i++) {
+			prefixedLog("PDP channel " + i + " current: " + RobotMap.Component.pdp.getCurrent(i));
+		}
+		prefixedLog("NavX yaw: " + RobotMap.Component.navx.getYaw());
+		prefixedLog("NavX y acceleration: " + RobotMap.Component.navx.getWorldLinearAccelY());
+		prefixedLog("Right Encoder get: " + RobotMap.Component.rightWheelEncoder.get());
+		prefixedLog("Left Encoder get: " + RobotMap.Component.leftWheelEncoder.get());
 		Motor[] motors = {RobotMap.Component.leftWheel, RobotMap.Component.rightWheel,
 				RobotMap.Component.ballIO.directionalRoller, RobotMap.Component.ballIO.elevatorAndIntakeRoller,
 				RobotMap.Component.ballIO.hopperRollers};
 		for (Motor motor : motors) {
-			LogKitten.d("Motor get (" + motor.getName() + "): " + motor.get());
+			prefixedLog("Motor get (" + motor.getName() + "): " + motor.get());
 		}
+		ticksSinceLast = 0;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		return false;
+	}
+
+	protected void prefixedLog(String log) {
+		LogKitten.d(ErikLogger.PREFIX + "(" + totalTicks + "): " + log);
 	}
 }
