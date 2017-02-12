@@ -22,7 +22,7 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final double FINE_SCALE = 3;
+	public static final double FINE_SCALE = 2;
 	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
 	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
 	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
