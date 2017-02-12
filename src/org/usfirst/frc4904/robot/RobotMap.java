@@ -58,9 +58,7 @@ public class RobotMap {
 			public static final int leftDriveB = 2;
 			public static final int rightDriveA = 3;
 			public static final int rightDriveB = 4;
-			public static final int flywheelLeftMotor = 5; // WIP
-			public static final int flywheelRightMotor = 6; // WIP
-			public static final int indexerMotor = 7;
+			public static final int indexerMotor = 5;
 			public static final int ballioDoorServo = 8;
 		}
 
@@ -138,12 +136,11 @@ public class RobotMap {
 		// Climber
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		// Shooter
-		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.PWM.flywheelLeftMotor));
-		Motor flywheelRightMotor = new Motor(new CANTalon(Port.PWM.flywheelRightMotor));
+		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.CANMotor.flywheelLeftMotor));
+		Motor flywheelRightMotor = new Motor(new CANTalon(Port.CANMotor.flywheelRightMotor));
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
 		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor, flywheelEncoder);
-		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
-		Component.indexer = new Indexer(indexerMotor);
+		Motor indexerMotor = new Motor(new VictorSP(Port.PWM.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexerMotor);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
