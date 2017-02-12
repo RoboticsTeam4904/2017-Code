@@ -32,6 +32,12 @@ public class AutoShifter extends Command {
 		this.rightEncoder = rightEncoder;
 	}
 
+	public AutoShifter() {
+		shifter = RobotMap.Component.shifter;
+		leftEncoder = RobotMap.Component.leftWheelEncoder;
+		rightEncoder = RobotMap.Component.rightWheelEncoder;
+	}
+
 	@Override
 	protected void execute() {
 		double speed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
