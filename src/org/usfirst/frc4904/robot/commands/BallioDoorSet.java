@@ -15,7 +15,7 @@ public class BallioDoorSet extends Command {
 
 	@Override
 	protected void initialize() {
-		RobotMap.Component.ballIO.doorSet(targetState);
+		RobotMap.Component.ballIO.setDoorState(targetState);
 	}
 
 	@Override
