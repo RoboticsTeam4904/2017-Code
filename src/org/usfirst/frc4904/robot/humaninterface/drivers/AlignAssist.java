@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.sovereignty.strategies.GearAlign;
-import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignAssist extends Command {
@@ -18,8 +17,6 @@ public class AlignAssist extends Command {
 
 	@Override
 	public void execute() {
-		LogKitten.wtf("Gear Align: " + gearAlign.isAligned());
-		LogKitten.wtf("Fine Mod:   " + enableFineModifier.isRunning());
 		if (gearAlign.isAligned() && !enableFineModifier.isRunning()) {
 			enableFineModifier.start();
 		} else if (!gearAlign.isAligned() && enableFineModifier.isRunning()) {
