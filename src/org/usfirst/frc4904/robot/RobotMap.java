@@ -128,7 +128,6 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
 	}
 }
