@@ -7,6 +7,7 @@ import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Indexer;
+import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -102,6 +103,7 @@ public class RobotMap {
 		public static AligningCamera alignCamera;
 		public static Indexer indexer;
 		public static Flywheel flywheel;
+		public static Shooter shooter;
 	}
 
 	public RobotMap() {
@@ -142,6 +144,7 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor, flywheelEncoder);
 		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
 		Component.indexer = new Indexer(indexerMotor);
+		Component.shooter = new Shooter(Component.flywheel, indexerMotor);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
@@ -149,6 +152,6 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter};
 	}
 }
