@@ -7,8 +7,8 @@ import org.usfirst.frc4904.standard.commands.RunFor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ShooterStart extends CommandGroup {
-	public ShooterStart() {
+public class Shoot extends CommandGroup {
+	public Shoot() {
 		addParallel(new FlywheelSpinup());
 		addParallel(new RunFor(new IndexerUnload(), Shooter.INDEXER_UNLOAD_TIME));
 		addSequential(new Command() {
