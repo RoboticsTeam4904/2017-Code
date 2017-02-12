@@ -52,10 +52,10 @@ public class RobotMap {
 		}
 
 		public static class PWM {
-			public static int leftDriveA = 1;
-			public static int leftDriveB = 2;
-			public static int rightDriveA = 3;
-			public static int rightDriveB = 4;
+			public static final int leftDriveA = 1;
+			public static final int leftDriveB = 2;
+			public static final int rightDriveA = 3;
+			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
 		}
 
