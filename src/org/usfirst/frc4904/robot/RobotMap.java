@@ -3,6 +3,8 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.subsystems.BallIO;
+import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -42,16 +44,17 @@ public class RobotMap {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
+			public static final int climbMotorA = 4;
+			public static final int climbMotorB = 5;
+			public static final int flywheelLeftMotor = 6; // WIP
+			public static final int flywheelRightMotor = 7; // WIP
 		}
 
 		public static class PWM {
-			// SOME MOTORS AREN'T EXACT - work in progress
-			public static int leftDriveA = 1;
-			public static int leftDriveB = 2;
-			public static int rightDriveA = 3;
-			public static int rightDriveB = 4;
-			public static final int flywheelLeftMotor = 5; // WIP
-			public static final int flywheelRightMotor = 6; // WIP
+			public static final int leftDriveA = 1;
+			public static final int leftDriveB = 2;
+			public static final int rightDriveA = 3;
+			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
 		}
 
@@ -96,6 +99,7 @@ public class RobotMap {
 		public static SolenoidShifters gearSlotOpener;
 		public static Servo gearFlap;
 		public static Subsystem[] mainSubsystems;
+
 		public static MotionController chassisTurnMC;
 	}
 
@@ -108,6 +112,7 @@ public class RobotMap {
 			public static CustomJoystick stick;
 			public static CustomJoystick teensyStick;
 		}
+		public static Climber climber;
 		public static NavX navx;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
@@ -137,18 +142,24 @@ public class RobotMap {
 		// Human inputs
 		Component.navX = new NavX(SerialPort.Port.kOnboard);
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
-		Component.navX = new NavX(SerialPort.Port.kMXP);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+		
 		// Ball-Intake-Outtake
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
 		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
+		Motor ballioElevatorAndIntakeRoller = new Motor(new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
+		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
+			ballioDoorServo);
+		// Climber
+		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
@@ -157,6 +168,7 @@ public class RobotMap {
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
-		Component.mainSubsystems = new Subsystem[] {};
+		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
 	}
 }
