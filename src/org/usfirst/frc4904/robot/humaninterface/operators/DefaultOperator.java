@@ -22,7 +22,7 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
-		new ThresholdCommand(new BallioIntake(), RobotMap.Component.operatorStick::getY, DefaultOperator.INTAKE_THRESHOLD, true)
+		new ThresholdCommand(new BallioIntake(), RobotMap.Component.operatorStick::getY, DefaultOperator.INTAKE_THRESHOLD)
 			.start();
 	}
 
