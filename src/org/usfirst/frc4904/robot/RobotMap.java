@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
@@ -132,7 +131,7 @@ public class RobotMap {
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
-		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
+		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
