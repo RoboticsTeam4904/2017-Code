@@ -9,10 +9,10 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoShifter extends Command {
-	protected CustomEncoder leftEncoder;
-	protected CustomEncoder rightEncoder;
-	protected AutoSolenoidShifters shifter;
-	protected LinkedList<Double> speeds = new LinkedList<Double>();
+	protected final CustomEncoder leftEncoder;
+	protected final CustomEncoder rightEncoder;
+	protected final AutoSolenoidShifters shifter;
+	protected final LinkedList<Double> speeds = new LinkedList<Double>();
 	public static final double RAPID_ACCELERATION = 8;// WIP
 	public static final double RAPID_DECELERATION = 2;// WIP
 	public static final double RATE_DIFF = 100; // encoder ticks--WIP
@@ -51,16 +51,14 @@ public class AutoShifter extends Command {
 			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && Math.abs(speedDiffAvg) > AutoShifter.RAPID_ACCELERATION
 				&& throttle > AutoShifter.FAST_THROTTLE) { // 4 ft/s
 				shifter.shift(SolenoidShifters.ShiftState.UP, true);
-			} else if (Math.abs(speed) < AutoShifter.FAST_RATE && Math.abs(speedDiffAvg) < AutoShifter.RAPID_DECELERATION
-				&& throttle > AutoShifter.MEDIUM_THROTTLE) {
-				shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
-			} else if (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE) {
+			} else if ((Math.abs(speed) < AutoShifter.FAST_RATE && Math.abs(speedDiffAvg) < AutoShifter.RAPID_DECELERATION
+				&& throttle > AutoShifter.MEDIUM_THROTTLE)
+				|| (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE)) {
 				shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
 			}
 		}
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		return false;
