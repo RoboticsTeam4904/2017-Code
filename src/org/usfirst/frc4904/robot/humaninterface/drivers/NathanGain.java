@@ -20,7 +20,7 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final double FINE_SCALE = 2;
+	public static final double FINE_SCALE = 3;
 	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
 
 	public NathanGain() {
