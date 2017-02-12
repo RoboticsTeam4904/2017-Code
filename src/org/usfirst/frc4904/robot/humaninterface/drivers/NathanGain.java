@@ -3,6 +3,7 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.AutoShifter;
+import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
@@ -23,6 +24,7 @@ public class NathanGain extends Driver {
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double FINE_SCALE = 2;
 	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
+	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
 
 	public NathanGain() {
 		super("NathanGain");
@@ -34,31 +36,35 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
+		alignAssist.start();
 		RobotMap.Component.driverXbox.y.toggleWhenPressed(new EnableFineModifier(modifier));
 		RobotMap.Component.driverXbox.a.whenPressed(
 			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.b
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
-		RobotMap.Component.driverXbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.driverXbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
+		RobotMap.Component.driverXbox.lb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.driverXbox.rb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
-			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.up.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
-			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.down.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
-			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.left.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
-			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		AutoShifter shiftCommand = new AutoShifter();
-		shiftCommand.start();
+		 new AutoShifter().start();
 		RobotMap.Component.teensyStick.button4.whenPressed(new Kill(shiftCommand));
 		RobotMap.Component.teensyStick.button4.whenReleased(shiftCommand);
+		// Inverted airplane-style analog control
+		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 	}
 
 	@Override

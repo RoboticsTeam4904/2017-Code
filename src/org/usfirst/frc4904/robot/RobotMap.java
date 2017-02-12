@@ -1,10 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
-import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
+import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
+import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -12,7 +14,6 @@ import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
-import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
@@ -44,16 +45,17 @@ public class RobotMap {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
+			public static final int climbMotorA = 4;
+			public static final int climbMotorB = 5;
+			public static final int flywheelLeftMotor = 6; // WIP
+			public static final int flywheelRightMotor = 7; // WIP
 		}
 
 		public static class PWM {
-			// SOME MOTORS AREN'T EXACT - work in progress
-			public static int leftDriveA = 1;
-			public static int leftDriveB = 2;
-			public static int rightDriveA = 3;
-			public static int rightDriveB = 4;
-			public static final int flywheelLeftMotor = 5; // WIP
-			public static final int flywheelRightMotor = 6; // WIP
+			public static final int leftDriveA = 1;
+			public static final int leftDriveB = 2;
+			public static final int rightDriveA = 3;
+			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
 		}
 
@@ -78,8 +80,6 @@ public class RobotMap {
 	}
 
 	public static class Component {
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick;
 		public static PDP pdp;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
@@ -90,7 +90,10 @@ public class RobotMap {
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
-		public static NavX navx;
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
+		public static FusibleNavX navx;
+		public static Climber climber;
 		public static MotionController chassisTurnMC;
 		public static CustomJoystick teensyStick;
 		public static AligningCamera alignCamera;
@@ -98,11 +101,11 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
-		Component.navx = new NavX(SerialPort.Port.kMXP);
-		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisTurnMC.setInputRange(-180, 180);
-		Component.chassisTurnMC.setContinuous(true);
+		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
+		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisDriveMC.setInputRange(-180, 180);
+		Component.chassisDriveMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
@@ -111,9 +114,12 @@ public class RobotMap {
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		// Ball Intake
+		Component.rightWheel.setInverted(true);
+		// Ball-Intake-Outtake
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
 		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
@@ -132,11 +138,16 @@ public class RobotMap {
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
 		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
+		// Climber
+		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// Human inputs
+		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
 	}
 }
