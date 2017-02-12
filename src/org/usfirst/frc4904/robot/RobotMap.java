@@ -1,8 +1,8 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
-import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
@@ -130,7 +130,7 @@ public class RobotMap {
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
+		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_MIN_THRESH);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
