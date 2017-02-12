@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
 	public static final double SPEED_GAIN = 1;
-	public static final double TURN_GAIN = 1;
 	public static final double SPEED_EXP = 2;
+	public static final double TURN_GAIN = 1;
 	public static final double TURN_EXP = 2;
+	public static final double CLIMB_GAIN = 1;
+	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double FINE_SCALE = 2;
@@ -52,8 +54,9 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		// Inverted airplane-style analog control
-		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
+		// Inverted (airplane-style) analog gain control
+		new Climb(() -> Math.max(0,
+			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
 	}
 
 	@Override
