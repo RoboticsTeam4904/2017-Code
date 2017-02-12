@@ -48,23 +48,61 @@ public class AutoShifter extends Command {
 		while (speeds.size() > AutoShifter.SPEED_LIST_MAX_LENGTH) {
 			speeds.removeFirst();
 		}
-		if (leftEncoder.getRate() - rightEncoder.getRate() < AutoShifter.RATE_DIFF
-			&& shifter.timeSinceLastManualShift() > AutoShifter.LAST_MANUAL_SHIFT_TIME
-			&& shifter.timeSinceLastAutoShift() > AutoShifter.LAST_AUTO_SHIFT_TIME) {// only if driving straight and we haven't manually shifted in 5 seconds or autoshifted in 0.5 seconds
-			double throttle = 0.0;
-			for (double motorSpeed : RobotMap.Component.chassis.getMotorSpeeds()) {
-				throttle += motorSpeed;
+		double throttle = 0.0;
+		for (double motorSpeed : RobotMap.Component.chassis.getMotorSpeeds()) {
+			throttle += motorSpeed;
+		}
+		throttle /= RobotMap.Component.chassis.getMotorSpeeds().length;
+		boolean isNotGoingStraight = leftEncoder.getRate() - rightEncoder.getRate() < AutoShifter.RATE_DIFF;
+		boolean hasManualShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME;
+		boolean hasAutoShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME;
+		boolean isGoingBackwards = speed < 0;
+		if (isNotGoingStraight || hasManualShiftedRecently || hasAutoShiftedRecently) {
+			return;
+		}
+		if (isGoingBackwards) {
+			shiftDown();
+		} else {
+			double absoluteSpeed = Math.abs(speed);
+			boolean fasterThanMedium = absoluteSpeed > AutoShifter.MEDIUM_RATE;
+			boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION;
+			boolean throttleIsHigh = throttle > AutoShifter.FAST_THROTTLE;
+			if (fasterThanMedium && acceleratingRapidly && throttleIsHigh) {
+				shiftUp();
 			}
-			throttle /= RobotMap.Component.chassis.getMotorSpeeds().length;
-			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && (acceleration) > AutoShifter.RAPID_ACCELERATION
+		}
+		if (isGoingStraight
+			&& hasNotManualShiftedRecently
+			&& hasNotAutoShiftedRecently) {// only if driving straight, we are going forward and we haven't manually shifted in 5 seconds or autoshifted in 0.5 seconds
+			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && acceleration > AutoShifter.RAPID_ACCELERATION
 				&& throttle > AutoShifter.FAST_THROTTLE) {
 				shifter.shift(SolenoidShifters.ShiftState.UP, true);
-			} else if ((Math.abs(speed) < AutoShifter.FAST_RATE && (acceleration) < AutoShifter.RAPID_DECELERATION
+			} else if ((Math.abs(speed) < AutoShifter.FAST_RATE && acceleration < AutoShifter.RAPID_DECELERATION
 				&& throttle > AutoShifter.MEDIUM_THROTTLE)
 				|| (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE)) {
 				shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
 			}
 		}
+		if (leftEncoder.getRate() - rightEncoder.getRate() < AutoShifter.RATE_DIFF
+			&& shifter.timeSinceLastManualShift() > AutoShifter.LAST_MANUAL_SHIFT_TIME
+			&& shifter.timeSinceLastAutoShift() > AutoShifter.LAST_AUTO_SHIFT_TIME && speed < 0) {
+			if (Math.abs(speed) > AutoShifter.MEDIUM_RATE && acceleration > AutoShifter.RAPID_ACCELERATION
+				&& throttle > AutoShifter.FAST_THROTTLE) {
+				shiftUp();
+			} else if ((Math.abs(speed) < AutoShifter.FAST_RATE && acceleration < AutoShifter.RAPID_DECELERATION
+				&& throttle > AutoShifter.MEDIUM_THROTTLE)
+				|| (Math.abs(speed) < AutoShifter.SUPER_SLOW_RATE && throttle < AutoShifter.SLOW_THROTTLE)) {
+				shiftDown();
+			}
+		}
+	}
+
+	private void shiftUp() {
+		shifter.shift(SolenoidShifters.ShiftState.UP, true);
+	}
+
+	private void shiftDown() {
+		shifter.shift(SolenoidShifters.ShiftState.DOWN, true);
 	}
 
 	@Override
