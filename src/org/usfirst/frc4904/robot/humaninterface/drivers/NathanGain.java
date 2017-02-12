@@ -3,6 +3,7 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.AutoShifter;
+import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.sovereignty.TrimCommand;
 import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
@@ -39,8 +40,10 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.b
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
-		RobotMap.Component.driverXbox.lb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
-		RobotMap.Component.driverXbox.rb.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
+		RobotMap.Component.driverXbox.lb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.LEFT));
+		RobotMap.Component.driverXbox.rb
+			.whenPressed(new TrimCommand(HumanInterfaceConfig.gearAlign, TrimDirection.RIGHT));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
@@ -57,6 +60,8 @@ public class NathanGain extends Driver {
 		Command autoShifter = new AutoShifter(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder,
 			RobotMap.Component.rightWheelEncoder);
 		autoShifter.start();
+		// Inverted airplane-style analog control
+		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 	}
 
 	@Override

@@ -4,6 +4,7 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
+import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
@@ -43,6 +44,10 @@ public class RobotMap {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
+			public static final int climbMotorA = 4;
+			public static final int climbMotorB = 5;
+			public static final int flywheelLeftMotor = 6; // WIP
+			public static final int flywheelRightMotor = 7; // WIP
 		}
 
 		public static class PWM {
@@ -51,8 +56,6 @@ public class RobotMap {
 			public static int leftDriveB = 2;
 			public static int rightDriveA = 3;
 			public static int rightDriveB = 4;
-			public static final int flywheelLeftMotor = 5; // WIP
-			public static final int flywheelRightMotor = 6; // WIP
 			public static final int ballioDoorServo = 8;
 		}
 
@@ -89,6 +92,7 @@ public class RobotMap {
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Subsystem[] mainSubsystems;
+		public static Climber climber;
 		public static NavX navx;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
@@ -109,8 +113,10 @@ public class RobotMap {
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
+		Component.rightWheel.setInverted(true);
 		// Ball-Intake-Outtake
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
@@ -120,6 +126,8 @@ public class RobotMap {
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
+		// Climber
+		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
@@ -129,6 +137,6 @@ public class RobotMap {
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
 	}
 }
