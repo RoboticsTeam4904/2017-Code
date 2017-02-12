@@ -4,16 +4,7 @@ package org.usfirst.frc4904.robot.commands;
 import org.usfirst.frc4904.standard.custom.CustomCAN;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class CANInformer extends Command {
-	/**
-	 * Defines a functional interface for supplying message values for CAN.
-	 *
-	 */
-	@FunctionalInterface
-	public static interface CANMessageSupplier {
-		byte[] getCANMessage();
-	}
-	protected final CANMessageSupplier messageSupplier;
+public abstract class CANInformer extends Command {
 	protected int numberOfIterationsRemaining;
 	protected final CustomCAN canSender;
 	private boolean runsDefinitely = true;
@@ -29,10 +20,9 @@ public class CANInformer extends Command {
 	 * @param messageSupplier
 	 *        a supplier function
 	 */
-	public CANInformer(int id, int numberOfIterations, CANMessageSupplier messageSupplier) {
+	public CANInformer(int id, int numberOfIterations) {
 		setRunWhenDisabled(true);
 		numberOfIterationsRemaining = numberOfIterations;
-		this.messageSupplier = messageSupplier;
 		canSender = new CustomCAN("CANInformer@" + id, id);
 	}
 
@@ -45,21 +35,28 @@ public class CANInformer extends Command {
 	 * @param messageSupplier
 	 *        a supplier function
 	 */
-	public CANInformer(int id, CANMessageSupplier messageSupplier) {
-		this(id, 0, messageSupplier);
+	public CANInformer(int id) {
+		this(id, 0);
 		runsDefinitely = false;
 	}
 
+	/**
+	 * Returns the message that will be sent over CAN.
+	 * 
+	 * @return the message as a list of exactly 8 bytes
+	 */
+	protected abstract byte[] getCANMessage();
+
 	@Override
-	protected void execute() {
+	protected final void execute() {
 		if (numberOfIterationsRemaining > 0) {
 			--numberOfIterationsRemaining;
 		}
-		canSender.write(messageSupplier.getCANMessage());
+		canSender.write(getCANMessage());
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected final boolean isFinished() {
 		return runsDefinitely && numberOfIterationsRemaining <= 0;
 	}
 }
