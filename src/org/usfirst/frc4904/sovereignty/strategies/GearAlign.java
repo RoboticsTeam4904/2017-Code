@@ -3,12 +3,13 @@ package org.usfirst.frc4904.sovereignty.strategies;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
+import org.usfirst.frc4904.sovereignty.Trimmable;
+import org.usfirst.frc4904.sovereignty.TrimmablePIDController;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.ChassisController;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class GearAlign extends CommandGroup implements ChassisController {
+public class GearAlign extends CommandGroup implements ChassisController, Trimmable {
 	// PID Constants
 	public static double ANGLE_P = -0.0015;
 	public static double ANGLE_I = -1.0E-5;
@@ -16,13 +17,13 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	public static final double ANGLE_SETPOINT = 320;
 	public static final double ANGLE_TOLERANCE = 0.001;
 	protected AligningCamera camera;
-	protected CustomPIDController pidController;
+	protected TrimmablePIDController pidController;
 	protected boolean onAngle = false;
 	private ChassisMove chassisMove;
 
 	public GearAlign(AligningCamera camera) {
 		this.camera = camera;
-		pidController = new CustomPIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, camera);
+		pidController = new TrimmablePIDController(GearAlign.ANGLE_P, GearAlign.ANGLE_I, GearAlign.ANGLE_D, camera);
 		pidController.setAbsoluteTolerance(GearAlign.ANGLE_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 	}
@@ -70,5 +71,25 @@ public class GearAlign extends CommandGroup implements ChassisController {
 	@Override
 	public void interrupted() {
 		end();
+	}
+
+	@Override
+	public void setTrimIncrement(double increment) {
+		pidController.setTrimIncrement(increment);
+	}
+
+	@Override
+	public double getTrimIncrement() {
+		return pidController.getTrimIncrement();
+	}
+
+	@Override
+	public void setTrim(double trim) {
+		pidController.setTrim(trim);
+	}
+
+	@Override
+	public double getTrim() {
+		return pidController.getTrim();
 	}
 }
