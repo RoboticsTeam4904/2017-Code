@@ -21,7 +21,7 @@ public class Flywheel extends VelocitySensorMotor {
 		super(new CustomPIDController(Flywheel.FLYWHEEL_P, Flywheel.FLYWHEEL_I,
 			Flywheel.FLYWHEEL_D, encoder), leftMotor, rightMotor);
 		this.encoder = encoder;
-		encoder.setPIDSourceType(PIDSourceType.kRate);
+		this.encoder.setPIDSourceType(PIDSourceType.kRate);
 		motionController.setAbsoluteTolerance(Flywheel.FLYWHEEL_TOLERANCE);
 	}
 
