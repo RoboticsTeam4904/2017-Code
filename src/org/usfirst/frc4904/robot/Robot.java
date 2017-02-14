@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.commands.LidarTurner;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
-import org.usfirst.frc4904.robot.subsystems.Lidar;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.Noop;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,9 +23,6 @@ public class Robot extends CommandRobotBase {
 		// Configure operator command chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		// Initialize SmartDashboard display values
-		SmartDashboard.putNumber("LIDAR_P", Lidar.LIDAR_TURN_P);
-		SmartDashboard.putNumber("LIDAR_I", Lidar.LIDAR_TURN_I);
-		SmartDashboard.putNumber("LIDAR_D", Lidar.LIDAR_TURN_D);
 	}
 	
 	@Override
@@ -35,10 +31,6 @@ public class Robot extends CommandRobotBase {
 		LidarCommand = new LidarTurner();
 		LidarCommand.start();
 		RobotMap.Component.lidarMC.reset();
-		Lidar.LIDAR_TURN_P = SmartDashboard.getNumber("LIDAR_P", Lidar.LIDAR_TURN_P);
-		Lidar.LIDAR_TURN_I = SmartDashboard.getNumber("LIDAR_I", Lidar.LIDAR_TURN_I);
-		Lidar.LIDAR_TURN_D = SmartDashboard.getNumber("LIDAR_D", Lidar.LIDAR_TURN_D);
-		RobotMap.Component.lidarMC.setPID(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D);
 	}
 	
 	/**

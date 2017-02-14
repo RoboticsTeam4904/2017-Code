@@ -61,9 +61,6 @@ public class RobotMap {
 		public static class PCM {}
 		
 		public static class Pneumatics {}
-		public static int lidarTurnP = 0;// put these in the constants section of RobotMap
-		public static int lidarTurnI = 0;
-		public static int lidarTurnD = 0;
 	}
 	
 	public static class Component {
