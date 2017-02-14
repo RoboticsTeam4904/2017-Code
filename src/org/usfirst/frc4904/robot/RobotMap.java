@@ -1,5 +1,6 @@
 package org.usfirst.frc4904.robot;
 
+
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
@@ -72,10 +73,8 @@ public class RobotMap {
 			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
-			public static final int hopperLeftDown = 4;
-			public static final int hopperLeftUp = 5;
-			public static final int hopperRightDown = 6;
-			public static final int hopperRightUp = 7;
+			public static final int hopperDown = 4;
+			public static final int hopperUp = 5;
 		}
 	}
 
@@ -135,8 +134,7 @@ public class RobotMap {
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Hopper
-		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperLeftDown, Port.Pneumatics.hopperLeftUp),
-			new DoubleSolenoid(Port.Pneumatics.hopperRightDown, Port.Pneumatics.hopperRightUp));
+		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
