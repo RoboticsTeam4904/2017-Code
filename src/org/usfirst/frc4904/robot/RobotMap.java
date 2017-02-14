@@ -60,14 +60,12 @@ public class RobotMap {
 			public static final int ballioDoorServo = 8;
 		}
 
-		public static class Serial {
-			public static final int navX = 0;
-		}
-
 		public static class CAN {
-			public static final int leftEncoder = 0x602;
-			public static final int rightEncoder = 0x603;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x612;
+			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
+			public static final int elevatorEncoder = 0x606;
 		}
 
 		public static class Pneumatics {
@@ -93,12 +91,9 @@ public class RobotMap {
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static CustomPIDController chassisDrivePID;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
-		public static SolenoidShifters gearSlotOpener;
-		public static Servo gearFlap;
 		public static BallIO ballIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
@@ -110,7 +105,6 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		// Human inputs
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
