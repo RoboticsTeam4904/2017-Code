@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hopper extends Subsystem {
 	protected final DoubleSolenoid solenoid;
-	public static final double AgitateDelay = 0.5;
+	public static final double AGITATE_DELAY = 0.5;
 
 	public static enum HopperState {
 		BALLIO(DoubleSolenoid.Value.kReverse), SHOOTER(DoubleSolenoid.Value.kForward);

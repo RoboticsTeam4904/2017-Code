@@ -11,7 +11,7 @@ public class HopperAgitate extends Command {
 
 	public HopperAgitate() {
 		requires(RobotMap.Component.hopper);
-		AgitateDelay = Hopper.AgitateDelay;
+		AgitateDelay = Hopper.AGITATE_DELAY;
 
 	}
 
