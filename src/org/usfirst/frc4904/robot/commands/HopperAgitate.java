@@ -1,8 +1,8 @@
 package org.usfirst.frc4904.robot.commands;
 
+
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HopperAgitate extends Command {
@@ -12,7 +12,6 @@ public class HopperAgitate extends Command {
 	public HopperAgitate() {
 		requires(RobotMap.Component.hopper);
 		AgitateDelay = Hopper.AGITATE_DELAY;
-
 	}
 
 	@Override
@@ -36,5 +35,4 @@ public class HopperAgitate extends Command {
 	protected boolean isFinished() {
 		return false;
 	}
-
 }
