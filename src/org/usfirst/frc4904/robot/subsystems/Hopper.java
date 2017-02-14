@@ -1,13 +1,12 @@
 package org.usfirst.frc4904.robot.subsystems;
 
-import org.usfirst.frc4904.standard.commands.Idle;
 
+import org.usfirst.frc4904.standard.commands.Idle;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hopper extends Subsystem {
-	protected final DoubleSolenoid leftSolenoid;
-	protected final DoubleSolenoid rightSolenoid;
+	protected final DoubleSolenoid solenoid;
 	public static final double AgitateDelay = 0.5;
 
 	public static enum HopperState {
@@ -22,12 +21,10 @@ public class Hopper extends Subsystem {
 			return value;
 		}
 	}
-
 	protected HopperState currentState;
 
-	public Hopper(DoubleSolenoid leftSolenoid, DoubleSolenoid rightSolenoid) {
-		this.leftSolenoid = leftSolenoid;
-		this.rightSolenoid = rightSolenoid;
+	public Hopper(DoubleSolenoid solenoid) {
+		this.solenoid = solenoid;
 		setState(HopperState.BALLIO);
 	}
 
@@ -36,8 +33,7 @@ public class Hopper extends Subsystem {
 	}
 
 	public void setState(HopperState desiredState) {
-		leftSolenoid.set(desiredState.getValue());
-		rightSolenoid.set(desiredState.getValue());
+		solenoid.set(desiredState.getValue());
 		currentState = desiredState;
 	}
 
