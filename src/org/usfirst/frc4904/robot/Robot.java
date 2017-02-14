@@ -1,9 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
-import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -18,18 +16,15 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		// Configure driver command chooser
+		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new NathanGain());
-		driverChooser.addObject(new JoystickControl());
-		driverChooser.addObject(new PureStick());
-		RobotMap.Component.navx.zeroYaw();
+		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		RobotMap.Component.navx.zeroYaw();
 	}
 
 	@Override
 	public void teleopInitialize() {
-		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
 	}
