@@ -1,13 +1,14 @@
 package org.usfirst.frc4904.robot.subsystems;
 
-
 import org.usfirst.frc4904.standard.commands.Idle;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hopper extends Subsystem {
 	protected final DoubleSolenoid leftSolenoid;
 	protected final DoubleSolenoid rightSolenoid;
+	public static final double AgitateDelay = 0.5;
 
 	public static enum HopperState {
 		BALLIO(DoubleSolenoid.Value.kReverse), SHOOTER(DoubleSolenoid.Value.kForward);
@@ -21,6 +22,7 @@ public class Hopper extends Subsystem {
 			return value;
 		}
 	}
+
 	protected HopperState currentState;
 
 	public Hopper(DoubleSolenoid leftSolenoid, DoubleSolenoid rightSolenoid) {
