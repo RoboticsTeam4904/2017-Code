@@ -3,6 +3,7 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
+import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
@@ -15,7 +16,6 @@ import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;

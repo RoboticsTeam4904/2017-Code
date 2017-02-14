@@ -3,9 +3,9 @@ package org.usfirst.frc4904.robot.commands;
 
 import java.util.LinkedList;
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
-import org.usfirst.frc4904.standard.subsystems.chassis.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
