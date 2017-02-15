@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
+import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
@@ -22,6 +23,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
@@ -73,6 +75,8 @@ public class RobotMap {
 			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
+			public static final int hopperDown = 4;
+			public static final int hopperUp = 5;
 		}
 	}
 
@@ -90,6 +94,7 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
+		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
@@ -139,6 +144,8 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor(new VictorSP(Port.PWM.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
+		// Hopper
+		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
@@ -146,6 +153,7 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
+				Component.hopper};
 	}
 }
