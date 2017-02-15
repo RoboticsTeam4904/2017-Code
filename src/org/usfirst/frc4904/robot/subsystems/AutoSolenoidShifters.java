@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters.ShiftState;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class AutoSolenoidShifters extends SolenoidShifters {
@@ -21,39 +20,38 @@ public class AutoSolenoidShifters extends SolenoidShifters {
 		super(portUp, portDown);
 	}
 
+	/**
+	 * Trigger a "manual" solenoid shift by toggling.
+	 */
 	@Override
 	public void shift() {
-		super.shift();
 		lastManualShift = System.currentTimeMillis();
+		super.shift();
 	}
 
+	/**
+	 * Trigger a "manual" solenoid shift to the provided state.
+	 */
 	@Override
 	public void shift(ShiftState state) {
-		super.shift(state);
 		lastManualShift = System.currentTimeMillis();
+		super.shift(state);
 	}
 
-	public void shift(ShiftState state, boolean isAutoShift) {
-		if (isAutoShift) {
-			lastAutoShift = System.currentTimeMillis();
-			switch (state) {
-				case UP:
-					if (!isInverted) {
-						solenoid.set(DoubleSolenoid.Value.kForward);
-					} else {
-						solenoid.set(DoubleSolenoid.Value.kReverse);
-					}
-					return;
-				case DOWN:
-				default:
-					if (!isInverted) {
-						solenoid.set(DoubleSolenoid.Value.kReverse);
-					} else {
-						solenoid.set(DoubleSolenoid.Value.kForward);
-					}
-					return;
-			}
-		}
+	/**
+	 * Trigger an "auto" solenoid shift by toggling.
+	 */
+	public void shiftAsAuto() {
+		lastAutoShift = System.currentTimeMillis();
+		super.shift();
+	}
+
+	/**
+	 * Trigger an "auto" solenoid shift to the provided state.
+	 */
+	public void shiftAsAuto(ShiftState state) {
+		lastAutoShift = System.currentTimeMillis();
+		super.shift(state);
 	}
 
 	public long timeSinceLastManualShift() {

@@ -76,6 +76,8 @@ public class RobotMap {
 
 	public static class Metrics {
 		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
+		public static final double WHEEL_DIAMETER_INCHES = 3.5;
+		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI; // feet per revolution
 	}
 
 	public static class Component {
