@@ -71,8 +71,6 @@ public class RobotMap {
 		}
 
 		public static class Pneumatics {
-			public static final int ballioShifterUp = 2;
-			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
 			public static final int hopperDown = 4;
