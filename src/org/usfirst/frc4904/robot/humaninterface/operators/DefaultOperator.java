@@ -7,6 +7,8 @@ import org.usfirst.frc4904.robot.commands.BallioCycle;
 import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
+import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,6 +21,8 @@ public class DefaultOperator extends Operator {
 
 	@Override
 	public void bindCommands() {
+		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
+		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
