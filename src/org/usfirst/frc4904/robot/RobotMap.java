@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -136,8 +137,8 @@ public class RobotMap {
 		// Climber
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		// Shooter
-		Motor flywheelMotorA = new Motor(new CANTalon(Port.CANMotor.flywheelMotorA));
-		Motor flywheelMotorB = new Motor(new CANTalon(Port.CANMotor.flywheelMotorB));
+		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
+		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
