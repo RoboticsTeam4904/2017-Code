@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Shoot extends CommandGroup {
 	public Shoot() {
-		addParallel(new FlywheelSpinup());
 		addParallel(new RunFor(new IndexerUnload(), Shooter.INDEXER_UNLOAD_TIME));
 		addSequential(new Command() {
 			@Override
