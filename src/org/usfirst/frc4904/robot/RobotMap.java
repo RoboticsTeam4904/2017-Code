@@ -4,7 +4,9 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
+import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -25,6 +27,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -47,8 +50,9 @@ public class RobotMap {
 			public static final int ballioElevatorAndIntakeRoller = 3;
 			public static final int climbMotorA = 4;
 			public static final int climbMotorB = 5;
-			public static final int flywheelLeftMotor = 6; // WIP
-			public static final int flywheelRightMotor = 7; // WIP
+			public static final int flywheelMotorA = 6; // WIP
+			public static final int flywheelMotorB = 7; // WIP
+			public static final int indexerMotor = 8; // WIP
 		}
 
 		public static class PWM {
@@ -68,12 +72,10 @@ public class RobotMap {
 		}
 
 		public static class Pneumatics {
-			public static final int ballioShifterUp = 2;
-			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
-			public static final int hopperDown = 4;
-			public static final int hopperUp = 5;
+			public static final int hopperUp = 2;
+			public static final int hopperDown = 3;
 		}
 	}
 
@@ -99,6 +101,8 @@ public class RobotMap {
 		public static Climber climber;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
+		public static Flywheel flywheel;
+		public static Shooter shooter;
 	}
 
 	public RobotMap() {
@@ -120,6 +124,7 @@ public class RobotMap {
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
@@ -131,7 +136,13 @@ public class RobotMap {
 			ballioDoorServo);
 		// Climber
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// Shooter
+		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
+		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
+		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
+		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
+		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
+		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
@@ -141,6 +152,7 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
+				Component.hopper};
 	}
 }

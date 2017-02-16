@@ -1,13 +1,17 @@
 package org.usfirst.frc4904.robot.humaninterface.operators;
 
-
 import java.util.function.Supplier;
+
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.BallioCycle;
 import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
+import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.Shoot;
+import org.usfirst.frc4904.robot.commands.ShootCycle;
 import org.usfirst.frc4904.standard.humaninput.Operator;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DefaultOperator extends Operator {
@@ -19,11 +23,14 @@ public class DefaultOperator extends Operator {
 
 	@Override
 	public void bindCommands() {
+		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
+		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioOuttake());
+		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new ShootCycle());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
-		new ThresholdCommand(new BallioIntake(), RobotMap.Component.operatorStick::getY, DefaultOperator.INTAKE_THRESHOLD)
-			.start();
+		new ThresholdCommand(new BallioIntake(), RobotMap.Component.operatorStick::getY,
+				DefaultOperator.INTAKE_THRESHOLD).start();
 	}
 
 	private class ThresholdCommand extends Command {
