@@ -23,11 +23,9 @@ public class AutoShifter extends Command {
 	public static final double RAPID_ACCELERATION_THRESHOLD_GS = 0.24881632653;
 	public static final double RAPID_DECELERATION_THRESHOLD_GS = -0.06216;
 	public static final double MIN_ENCODER_DISCREPANCY_INDICATING_TURN = 100; // encoder ticks--WIP
-	public static final double SUPER_SLOW_FT_PER_SEC = 2;
-	public static final double SUPER_SLOW_TICKS_PER_SEC = AutoShifter.SUPER_SLOW_FT_PER_SEC
-		* (RobotMap.Metrics.WHEEL_PULSES_PER_REVOLUTION / (RobotMap.Metrics.WHEEL_CIRCUMFERENCE_INCHES / 12));
-	public static final double MEDIUM_TICKS_PER_SEC = AutoShifter.SUPER_SLOW_TICKS_PER_SEC * 2;
-	public static final double FAST_TICKS_PER_SEC = AutoShifter.SUPER_SLOW_TICKS_PER_SEC * 4;
+	public static final double SUPER_SLOW_RATE = 24; // inches per sec, according to the encoders
+	public static final double MEDIUM_RATE = AutoShifter.SUPER_SLOW_RATE * 2;
+	public static final double FAST_RATE = AutoShifter.SUPER_SLOW_RATE * 4;
 	public static final double SLOW_THROTTLE = 0.4;
 	public static final double MEDIUM_THROTTLE = AutoShifter.SLOW_THROTTLE * 1.875;
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
@@ -68,7 +66,7 @@ public class AutoShifter extends Command {
 			shiftDownCommand.start();
 		} else {
 			double absoluteSpeed = Math.abs(speed);
-			boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_TICKS_PER_SEC;
+			boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
 			boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
 			boolean throttleIsFast = throttle > AutoShifter.FAST_THROTTLE;
 			// If we're flooring it, shift up.
@@ -76,8 +74,8 @@ public class AutoShifter extends Command {
 				shiftUpCommand.start();
 				return;
 			}
-			boolean belowFastSpeed = absoluteSpeed < AutoShifter.FAST_TICKS_PER_SEC;
-			boolean speedIsSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_TICKS_PER_SEC;
+			boolean belowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
+			boolean speedIsSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
 			boolean rapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
 			boolean greaterThanMediumThrottle = throttle > AutoShifter.MEDIUM_THROTTLE;
 			boolean lessThanSlowThrottle = throttle < AutoShifter.SLOW_THROTTLE;

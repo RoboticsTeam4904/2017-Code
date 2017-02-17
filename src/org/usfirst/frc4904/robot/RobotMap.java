@@ -78,6 +78,8 @@ public class RobotMap {
 		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 		public static final double WHEEL_DIAMETER_INCHES = 3.5;
 		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI; // feet per revolution
+		public static final double WHEEL_INCHES_PER_PULSE = ((1 / RobotMap.Metrics.WHEEL_PULSES_PER_REVOLUTION)
+			* RobotMap.Metrics.WHEEL_CIRCUMFERENCE_INCHES);
 	}
 
 	public static class Component {
@@ -108,8 +110,8 @@ public class RobotMap {
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
