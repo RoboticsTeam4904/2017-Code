@@ -50,11 +50,11 @@ public class AutoShifter extends Command {
 
 	@Override
 	protected void execute() {
+		// Calculate the average of all encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
 		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		double acceleration = navX.getWorldLinearAccelY();
-		double throttle = Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble(); // calculate the average all motor speeds
-		boolean isNotGoingStraight = leftEncoder.getRate()
-			- rightEncoder.getRate() < AutoShifter.MIN_ENCODER_DISCREPANCY_INDICATING_TURN;
+		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
+		double throttle = Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble();
 		boolean isNotGoingStraight = Math.abs(leftEncoder.getRate()
 			- rightEncoder.getRate()) < AutoShifter.MIN_ENCODER_DISCREPANCY_INDICATING_TURN;
 		boolean hasManualShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
