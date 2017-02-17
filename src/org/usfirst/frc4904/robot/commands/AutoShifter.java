@@ -67,7 +67,7 @@ public class AutoShifter extends Command {
 		boolean isAboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
 		boolean isAcceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
 		boolean isThrottleFast = throttle > AutoShifter.FAST_THROTTLE;
-		// If we're flooring it, shift up.
+		// If we're flooring it and nothing's in our way, shift up.
 		if (isAboveMediumSpeed && isAcceleratingRapidly && isThrottleFast) {
 			shiftUpCommand.start();
 			return;
