@@ -50,7 +50,7 @@ public class AutoShifter extends Command {
 
 	@Override
 	protected void execute() {
-		double speed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
+		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		double acceleration = navX.getWorldLinearAccelY();
 		double throttle = Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble(); // calculate the average all motor speeds
 		boolean isNotGoingStraight = leftEncoder.getRate()
@@ -61,7 +61,7 @@ public class AutoShifter extends Command {
 		if (isNotGoingStraight || hasManualShiftedRecently || hasAutoShiftedRecently) {
 			return;
 		}
-		double absoluteSpeed = Math.abs(speed);
+		double absoluteSpeed = Math.abs(forwardSpeed);
 		boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
 		boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
 		boolean throttleIsFast = throttle > AutoShifter.FAST_THROTTLE;
