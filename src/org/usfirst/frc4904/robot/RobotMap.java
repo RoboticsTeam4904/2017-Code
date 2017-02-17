@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Lidar;
+import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -22,6 +23,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
@@ -75,6 +77,8 @@ public class RobotMap {
 			public static final int ballioShifterDown = 3;
 			public static final int solenoidUp = 0;
 			public static final int solenoidDown = 1;
+			public static final int hopperDown = 4;
+			public static final int hopperUp = 5;
 		}
 	}
 
@@ -92,6 +96,7 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
+		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
@@ -137,7 +142,7 @@ public class RobotMap {
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
-		// Ball-Intake-Outtake
+		// BallIO
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
 		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
@@ -149,6 +154,8 @@ public class RobotMap {
 		// Climber
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// Hopper
+		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
@@ -165,5 +172,6 @@ public class RobotMap {
 		Component.lidarCap = new CapSpeedModifier(0.1, 0.4);
 		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper};
 	}
 }
