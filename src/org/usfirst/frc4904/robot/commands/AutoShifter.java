@@ -64,22 +64,22 @@ public class AutoShifter extends Command {
 			return;
 		}
 		double absoluteSpeed = Math.abs(forwardSpeed);
-		boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
-		boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
-		boolean throttleIsFast = throttle > AutoShifter.FAST_THROTTLE;
+		boolean isAboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
+		boolean isAcceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
+		boolean isThrottleFast = throttle > AutoShifter.FAST_THROTTLE;
 		// If we're flooring it, shift up.
-		if (aboveMediumSpeed && acceleratingRapidly && throttleIsFast) {
+		if (isAboveMediumSpeed && isAcceleratingRapidly && isThrottleFast) {
 			shiftUpCommand.start();
 			return;
 		}
-		boolean belowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
-		boolean speedIsSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
-		boolean rapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
-		boolean greaterThanMediumThrottle = throttle > AutoShifter.MEDIUM_THROTTLE;
-		boolean lessThanSlowThrottle = throttle < AutoShifter.SLOW_THROTTLE;
+		boolean isBelowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
+		boolean isSpeedSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
+		boolean isRapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
+		boolean isThrottleGreaterThanMedium = throttle > AutoShifter.MEDIUM_THROTTLE;
+		boolean isThrottlelessThanSlow = throttle < AutoShifter.SLOW_THROTTLE;
 		// If we're throttling high but going slow (pushing something we just hit), or if we're just driving very slowly, shift down.
-		if (belowFastSpeed && rapidlyDecelerating && greaterThanMediumThrottle
-			|| speedIsSuperSlow && lessThanSlowThrottle) {
+		if (isBelowFastSpeed && isRapidlyDecelerating && isThrottleGreaterThanMedium
+			|| isSpeedSuperSlow && isThrottlelessThanSlow) {
 			shiftDownCommand.start();
 		}
 	}
