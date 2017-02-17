@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.LidarTurner;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -16,8 +17,13 @@ public class Lidar extends VelocitySensorMotor {
 	public static final double LIDAR_RPS = 4;
 	public static final double LIDAR_ENCODER_PPR = 60000;// WIP
 	public double lastRate;
-	
+
 	public Lidar(SpeedController motor) {// must add lidar data later
 		super("LIDAR", false, new CapSpeedModifier(0.1, 0.4), RobotMap.Component.lidarMC, motor);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		setDefaultCommand(new LidarTurner());
 	}
 }
