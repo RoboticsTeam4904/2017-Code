@@ -6,16 +6,15 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This command shifts a set of solenoids.
- *
+ * This command should be used by the AutoShifter to shift a set of solenoids.
+ * It is the same as ChassisShift, except that it interacts differently with the 'last shift' time saved in the AutoSolenoidShifters.
  */
 public class ChassisShiftAsAuto extends Command {
 	protected final AutoSolenoidShifters solenoids;
 	protected final SolenoidShifters.ShiftState state;
 
 	/**
-	 * Toggles the solenoids
-	 * and marks the shift as auto.
+	 * Toggles the solenoids and marks the shift as auto.
 	 * 
 	 * @param solenoids
 	 */
@@ -24,8 +23,7 @@ public class ChassisShiftAsAuto extends Command {
 	}
 
 	/**
-	 * Shifts the solenoids to the provided state
-	 * and marks the shift as auto.
+	 * Shifts the solenoids to the provided state and marks the shift as auto.
 	 *
 	 * @param solenoids
 	 * @param state
