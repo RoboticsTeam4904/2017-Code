@@ -14,7 +14,7 @@ public class HopperAgitate extends Command {
 
 	@Override
 	protected void execute() {
-		if (System.currentTimeMillis() - lastSwitchTime > Hopper.AGITATE_DELAY) {
+		if (System.currentTimeMillis() - lastSwitchTime > Hopper.AGITATE_DELAY_MS) {
 			if (RobotMap.Component.hopper.getState() == Hopper.HopperState.BALLIO) {
 				RobotMap.Component.hopper.setState(Hopper.HopperState.SHOOTER);
 			} else {
