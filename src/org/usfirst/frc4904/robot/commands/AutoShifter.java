@@ -72,15 +72,20 @@ public class AutoShifter extends Command {
 			shiftUpCommand.start();
 			return;
 		}
-		boolean isBelowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
+		boolean isThrottlelessThanSlow = throttle < AutoShifter.SLOW_THROTTLE;
 		boolean isSpeedSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
+		// If we're just driving very slowly, shift down.
+		if (isSpeedSuperSlow && isThrottlelessThanSlow) {
+			shiftDownCommand.start();
+			return;
+		}
+		boolean isBelowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
 		boolean isRapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
 		boolean isThrottleGreaterThanMedium = throttle > AutoShifter.MEDIUM_THROTTLE;
-		boolean isThrottlelessThanSlow = throttle < AutoShifter.SLOW_THROTTLE;
-		// If we're throttling high but going slow (pushing something we just hit), or if we're just driving very slowly, shift down.
-		if (isBelowFastSpeed && isRapidlyDecelerating && isThrottleGreaterThanMedium
-			|| isSpeedSuperSlow && isThrottlelessThanSlow) {
+		// If we're throttling high but going slow (pushing something we just hit)
+		if (isBelowFastSpeed && isRapidlyDecelerating && isThrottleGreaterThanMedium) {
 			shiftDownCommand.start();
+			return;
 		}
 	}
 
