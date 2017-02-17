@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GearAlign extends CommandGroup implements ChassisController, Trimmable {
 	// PID Constants
-	public static double ANGLE_P = -0.0015;
-	public static double ANGLE_I = -1.0E-5;
-	public static double ANGLE_D = 0.015;
+	public static final double ANGLE_P = -0.0015;
+	public static final double ANGLE_I = -1.0E-5;
+	public static final double ANGLE_D = 0.015;
 	public static final double ANGLE_SETPOINT = 320;
 	public static final double ANGLE_TOLERANCE = 0.001;
 	protected AligningSystem alignSystem;
@@ -96,7 +96,7 @@ public class GearAlign extends CommandGroup implements ChassisController, Trimma
 	}
 
 	public boolean isAligned() {
-		Double value = alignSystem.getDegrees();
-		return !(value == null || Math.abs(value) > GearAlign.ANGLE_TOLERANCE);
+		return alignSystem.trustable()
+			&& alignSystem.getValue() != null && Math.abs(alignSystem.getValue()) <= GearAlign.ANGLE_TOLERANCE;
 	}
 }
