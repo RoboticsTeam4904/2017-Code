@@ -26,7 +26,6 @@ public class Robot extends CommandRobotBase {
 
 	@Override
 	public void teleopInitialize() {
-		RobotMap.Component.lidarMC.reset();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
 	}
