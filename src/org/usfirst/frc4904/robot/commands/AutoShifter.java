@@ -57,10 +57,10 @@ public class AutoShifter extends Command {
 		double throttle = Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble();
 		boolean isNotGoingStraight = Math.abs(leftEncoder.getRate()
 			- rightEncoder.getRate()) < AutoShifter.MIN_ENCODER_DISCREPANCY_INDICATING_TURN;
-		boolean hasManualShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
-		boolean hasAutoShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME_MILLIS;
+		boolean hasManuallyShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
+		boolean hasAutomaticallyShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME_MILLIS;
 		// If the robot isn't going straight, or has shifted recently, don't shift again.
-		if (isNotGoingStraight || hasManualShiftedRecently || hasAutoShiftedRecently) {
+		if (isNotGoingStraight || hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
 		double absoluteSpeed = Math.abs(forwardSpeed);
