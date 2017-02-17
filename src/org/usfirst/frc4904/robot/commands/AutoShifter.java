@@ -57,33 +57,28 @@ public class AutoShifter extends Command {
 			- rightEncoder.getRate() < AutoShifter.MIN_ENCODER_DISCREPANCY_INDICATING_TURN;
 		boolean hasManualShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
 		boolean hasAutoShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME_MILLIS;
-		boolean isGoingBackwards = speed < 0;
 		// If the robot isn't going straight, or has shifted recently, don't shift again.
 		if (isNotGoingStraight || hasManualShiftedRecently || hasAutoShiftedRecently) {
 			return;
 		}
-		if (isGoingBackwards) {
+		double absoluteSpeed = Math.abs(speed);
+		boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
+		boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
+		boolean throttleIsFast = throttle > AutoShifter.FAST_THROTTLE;
+		// If we're flooring it, shift up.
+		if (aboveMediumSpeed && acceleratingRapidly && throttleIsFast) {
+			shiftUpCommand.start();
+			return;
+		}
+		boolean belowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
+		boolean speedIsSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
+		boolean rapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
+		boolean greaterThanMediumThrottle = throttle > AutoShifter.MEDIUM_THROTTLE;
+		boolean lessThanSlowThrottle = throttle < AutoShifter.SLOW_THROTTLE;
+		// If we're throttling high but going slow (pushing something we just hit), or if we're just driving very slowly, shift down.
+		if (belowFastSpeed && rapidlyDecelerating && greaterThanMediumThrottle
+			|| speedIsSuperSlow && lessThanSlowThrottle) {
 			shiftDownCommand.start();
-		} else {
-			double absoluteSpeed = Math.abs(speed);
-			boolean aboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_RATE;
-			boolean acceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
-			boolean throttleIsFast = throttle > AutoShifter.FAST_THROTTLE;
-			// If we're flooring it, shift up.
-			if (aboveMediumSpeed && acceleratingRapidly && throttleIsFast) {
-				shiftUpCommand.start();
-				return;
-			}
-			boolean belowFastSpeed = absoluteSpeed < AutoShifter.FAST_RATE;
-			boolean speedIsSuperSlow = absoluteSpeed < AutoShifter.SUPER_SLOW_RATE;
-			boolean rapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
-			boolean greaterThanMediumThrottle = throttle > AutoShifter.MEDIUM_THROTTLE;
-			boolean lessThanSlowThrottle = throttle < AutoShifter.SLOW_THROTTLE;
-			// If we're throttling high but going slow (pushing something we just hit), or if we're just driving very slowly, shift down.
-			if (belowFastSpeed && rapidlyDecelerating && greaterThanMediumThrottle
-				|| speedIsSuperSlow && lessThanSlowThrottle) {
-				shiftDownCommand.start();
-			}
 		}
 	}
 
