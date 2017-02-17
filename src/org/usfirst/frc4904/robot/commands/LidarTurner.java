@@ -26,12 +26,6 @@ public class LidarTurner extends Command {
 	}
 
 	@Override
-	protected void execute() {
-		LogKitten.wtf(RobotMap.Component.lidarTurnEncoder.pidGet() + " " + RobotMap.Component.lidarMC.getError() + " "
-			+ RobotMap.Component.lidarMC.checkException());
-	}
-
-	@Override
 	protected boolean isFinished() {
 		return false;
 	}
