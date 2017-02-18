@@ -15,8 +15,7 @@ public class MatchInformer extends CANInformer {
 		// All Java bytes are signed, so anything >127 will overflow into the negatives.
 		// However, the Teensy can read them as unsigned, so we're all good.
 		long roundedGameTime = Math.round(DriverStation.getInstance().getMatchTime());
-		byte gameTimeA = (byte) ((byte) roundedGameTime >> 4);
-		byte gameTimeB = (byte) ((byte) roundedGameTime & 0b1111);
+		byte gameTime = (byte) (roundedGameTime & 0xFF);
 		byte gameMode = -1; // default/unknown
 		if (DriverStation.getInstance().isDisabled()) {
 			gameMode = 0;
@@ -31,8 +30,7 @@ public class MatchInformer extends CANInformer {
 			gameMode = 3;
 		}
 		return new byte[] {(byte) DriverStation.getInstance().getAlliance().ordinal(),
-				(byte) DriverStation.getInstance().getLocation(), gameMode, gameTimeA,
-				gameTimeB, 0, 0,
-				0};
+				(byte) DriverStation.getInstance().getLocation(), gameMode, gameTime,
+				0, 0, 0, 0};
 	}
 }
