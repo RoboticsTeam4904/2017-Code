@@ -14,6 +14,9 @@ public class MatchInformer extends CANInformer {
 		// Game time will generally be in the 0-150 second range.
 		// All Java bytes are signed, so anything >127 will overflow into the negatives.
 		// However, the Teensy can read them as unsigned, so we're all good.
+		// As a note, the game time itself represents the remaining time left in the current gamemode.
+		// For example, during teleop, it will count down 135. When disabled, the gametime will appear
+		// as 255 on the Teensy, including during a brief period between auto and teleop.
 		long roundedGameTime = Math.round(DriverStation.getInstance().getMatchTime());
 		byte gameTime = (byte) (roundedGameTime & 0xFF);
 		byte gameMode = -1; // default/unknown
