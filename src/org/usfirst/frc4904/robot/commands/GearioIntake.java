@@ -5,7 +5,7 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class GearioIntake extends GearSet {
+public class GearioIntake extends GearioSet {
 	public GearioIntake() {
 		super(GearIO.GearState.INTAKE);
 	}

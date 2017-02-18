@@ -5,10 +5,10 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GearSet extends Command {
+public class GearioSet extends Command {
 	protected final GearIO.GearState state;
 
-	public GearSet(GearIO.GearState state) {
+	public GearioSet(GearIO.GearState state) {
 		this.state = state;
 		requires(RobotMap.Component.gearIO);
 	}
