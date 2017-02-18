@@ -16,7 +16,7 @@ public class GearIO extends Subsystem {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
 		this.ramp = ramp;
-		setGearState(GearState.INTAKE);
+		setState(GearState.INTAKE);
 	}
 
 	public static enum GearState {
@@ -42,7 +42,7 @@ public class GearIO extends Subsystem {
 		return currentState;
 	}
 
-	public void setGearState(GearState state) {
+	public void setState(GearState state) {
 		intakeRoller.set(state.getIntakeRollerSpeed());
 		gullWings.set(state.getGullWingsValue());
 		currentState = state;
