@@ -4,8 +4,8 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
-import org.usfirst.frc4904.robot.subsystems.Lidar;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -21,7 +21,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.CapSpeedModifier;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -88,10 +87,10 @@ public class RobotMap {
 
 	public static class Component {
 		public static PDP pdp;
+		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
-		public static SolenoidShifters shifter;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static MotionController chassisDriveMC;
@@ -100,11 +99,10 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		// lidar
+		// LIDAR
 		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
-		public static Lidar lidar;
-		public static CapSpeedModifier lidarCap;
+		public static LIDAR lidar;
 		// Vision
 		public static FusibleNavX navx;
 		public static Climber climber;
@@ -114,17 +112,6 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		// Chassis
-		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
-		Component.leftWheelEncoder.setReverseDirection(true);
-		; // TODO add encoders
-			// Component.leftWheel.setInverted(true);
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		// Component.rightWheel.setInverted(false);
-		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
-		leftFlywheelMotor.setInverted(true);
-		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
-		rightFlywheelMotor.setInverted(false);
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
@@ -163,15 +150,14 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		// lidar
+		// LIDAR
 		Component.lidarTurnEncoder = new CANEncoder("LidarEncoder", Port.CAN.lidarTurnEncoder, false);
 		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
-		Component.lidarMC = new CustomPIDController(Lidar.LIDAR_TURN_P, Lidar.LIDAR_TURN_I, Lidar.LIDAR_TURN_D,
-			Lidar.LIDAR_TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
+			LIDAR.TURN_F, Component.lidarTurnEncoder);
 		Component.lidarMC.setOutputRange(0.15, 0.4);
-		Component.lidarCap = new CapSpeedModifier(0.1, 0.4);
-		Component.lidar = new Lidar(new Spark(Port.PWM.lidarMotor));
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber};
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper};
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor));
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
+				Component.lidar};
 	}
 }

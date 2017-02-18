@@ -20,7 +20,6 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
-		// Initialize SmartDashboard display values
 		RobotMap.Component.navx.zeroYaw();
 	}
 

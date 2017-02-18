@@ -3,12 +3,14 @@ package org.usfirst.frc4904.robot.commands;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class LidarTurner extends Command {
-	public LidarTurner() {
-		requires(RobotMap.Component.lidar);
+public class LIDARTurnbaugh extends MotorConstant {
+	public static final double LIDAR_MRPM = 240000;
+
+	public LIDARTurnbaugh() {
+		super(RobotMap.Component.lidar, LIDARTurnbaugh.LIDAR_MRPM);
 	}
 
 	@Override
@@ -22,11 +24,6 @@ public class LidarTurner extends Command {
 			LogKitten.e(e.getStackTrace());
 		}
 		RobotMap.Component.lidar.enableMotionController();
-		RobotMap.Component.lidar.set(240000);
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return false;
+		super.initialize();
 	}
 }
