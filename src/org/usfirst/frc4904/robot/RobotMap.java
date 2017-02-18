@@ -62,7 +62,7 @@ public class RobotMap {
 			public static int rightDriveB = 4;
 			public static final int flywheelLeftMotor = 5; // WIP
 			public static final int flywheelRightMotor = 6; // WIP
-			public static final int gearFlap = 7;
+			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9; // WIP
 		}
@@ -75,10 +75,16 @@ public class RobotMap {
 		}
 
 		public static class Pneumatics {
-			public static final int solenoidUp = 0;
-			public static final int solenoidDown = 1;
-			public static int gearSolenoidUp = 2;// ports are WIP
-			public static int gearSolenoidDown = 3;// ports are WIP
+			// Shifter - blue solenoid
+			public static final int solenoidUp = 6;
+			public static final int solenoidDown = 7;
+			// GearIO gull wings - red solenoid
+			public static final int gearioGullWingsUp = 0;
+			public static final int gearioGullWingsDown = 1;
+			// GearIO ramp - yellow solenoid
+			public static final int gearioRampUp = 2;
+			public static final int gearioRampDown = 3;
+			// Hopper - green solenoid
 			public static final int hopperDown = 4;
 			public static final int hopperUp = 5;
 		}
@@ -98,8 +104,6 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
-		public static Servo gearFlap;
-		public static DoubleSolenoid gearSlotOpener;
 		public static GearIO gearIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
@@ -143,9 +147,12 @@ public class RobotMap {
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		// GearIO
-		Component.gearFlap = new Servo(Port.PWM.gearFlap);
-		Component.gearSlotOpener = new DoubleSolenoid(Port.Pneumatics.gearSolenoidUp, Port.Pneumatics.gearSolenoidDown);
-		Component.gearIO = new GearIO(Component.gearFlap, Component.gearSlotOpener);
+		Motor gearioIntakeRoller = new Motor(new VictorSP(Port.PWM.gearioIntakeRoller));
+		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
+			Port.Pneumatics.gearioGullWingsDown);
+		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
+			Port.Pneumatics.gearioRampDown);
+		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		// Climber
 		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
