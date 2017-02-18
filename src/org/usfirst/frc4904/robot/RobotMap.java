@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -42,6 +44,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
 
 		public static class CANMotor {
@@ -61,14 +64,14 @@ public class RobotMap {
 			public static final int rightDriveA = 3;
 			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
+			public static final int lidarMotor = 9; // WIP
 		}
 
 		public static class CAN {
 			public static final int leftEncoder = 0x611;
 			public static final int rightEncoder = 0x612;
-			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
-			public static final int elevatorEncoder = 0x606;
+			public static final int lidarTurnEncoder = 0x607;
 		}
 
 		public static class Pneumatics {
@@ -84,19 +87,23 @@ public class RobotMap {
 	}
 
 	public static class Component {
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static PDP pdp;
-		public static SolenoidShifters shifter;
-		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
+		public static SolenoidShifters shifter;
+		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick;
+		public static CustomPIDController lidarMC;
+		public static CANEncoder lidarTurnEncoder;
+		public static LIDAR lidar;
 		public static FusibleNavX navx;
 		public static Climber climber;
 		public static MotionController chassisTurnMC;
@@ -149,11 +156,20 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
+		// LIDAR
+		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder, false);
+		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
+			LIDAR.TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
-				Component.hopper};
+				Component.hopper,
+				Component.lidar};
 	}
 }

@@ -8,8 +8,11 @@ import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
+import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -22,9 +25,9 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final double FINE_SCALE = 2;
+	public static final double FINE_SCALE = 0.5;
 	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
-	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
+	protected final EnableableModifier modifier = new EnableableModifier(new LinearModifier(NathanGain.FINE_SCALE));
 	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
 
 	public NathanGain() {
@@ -44,7 +47,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.lb
 			.onlyWhileHeld(
 				new RunAllSequential(new WaitCommand("Third gear activation delay", NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS),
-					new EnableFineModifier(modifier)));
+					new SetEnableableModifier(modifier, true)));
+		RobotMap.Component.driverXbox.lb.whenReleased(new SetEnableableModifier(modifier, true));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
@@ -60,6 +64,7 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.button1.whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
 		new Climb(() -> Math.max(0,
 			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
