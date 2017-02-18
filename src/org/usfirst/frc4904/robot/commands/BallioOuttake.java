@@ -11,6 +11,7 @@ public class BallioOuttake extends CommandGroup {
 		super("BallioOuttake");
 		requires(RobotMap.Component.ballIO);
 		addSequential(new BallioDoorSetOuttake());
+		addSequential(new HopperSetBallio());
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.directionalRoller, BallIO.DIRECTIONAL_ROLLER_OUTTAKE_SPEED));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller,
 			BallIO.ELEVATOR_AND_INTAKE_ROLLER_FORWARD_SPEED));
