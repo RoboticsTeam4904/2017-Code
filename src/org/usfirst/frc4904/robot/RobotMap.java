@@ -54,14 +54,12 @@ public class RobotMap {
 		}
 
 		public static class PWM {
-			public static final int flywheelLeftMotor = 4;
-			public static final int flywheelRightMotor = 5;
-			public static final int lidarMotor = 9;// WIP
 			public static final int leftDriveA = 1;
 			public static final int leftDriveB = 2;
 			public static final int rightDriveA = 3;
 			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
+			public static final int lidarMotor = 9; // WIP
 		}
 
 		public static class CAN {
@@ -99,11 +97,9 @@ public class RobotMap {
 		public static Subsystem[] mainSubsystems;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		// LIDAR
 		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
 		public static LIDAR lidar;
-		// Vision
 		public static FusibleNavX navx;
 		public static Climber climber;
 		public static MotionController chassisTurnMC;
