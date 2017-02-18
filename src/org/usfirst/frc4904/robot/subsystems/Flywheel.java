@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.standard.commands.motor.MotorIdle;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
@@ -23,11 +22,6 @@ public class Flywheel extends VelocitySensorMotor {
 		this.encoder = encoder;
 		this.encoder.setPIDSourceType(PIDSourceType.kRate);
 		motionController.setAbsoluteTolerance(Flywheel.FLYWHEEL_TOLERANCE);
-	}
-
-	@Override
-	public void initDefaultCommand() {
-		setDefaultCommand(new MotorIdle(this));
 	}
 
 	public boolean isReady() {
