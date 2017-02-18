@@ -2,25 +2,29 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
 import org.usfirst.frc4904.sovereignty.strategies.GearAlign;
+import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignAssist extends Command {
-	private final GearAlign gearAlign;
-	private final FineModifier fineModifier;
-	private final EnableFineModifier enableFineModifier;
+	protected final GearAlign gearAlign;
+	protected final EnableableModifier fineModifier;
+	protected final SetEnableableModifier enableFineModifier;
+	protected final SetEnableableModifier disableFineModifier;
 
-	public AlignAssist(GearAlign gearAlign, FineModifier fineModifier) {
+	public AlignAssist(GearAlign gearAlign, EnableableModifier fineModifier) {
 		this.gearAlign = gearAlign;
 		this.fineModifier = fineModifier;
-		enableFineModifier = new EnableFineModifier(fineModifier);
+		enableFineModifier = new SetEnableableModifier(fineModifier, true);
+		disableFineModifier = new SetEnableableModifier(fineModifier, false);
 	}
 
 	@Override
 	public void execute() {
-		if (gearAlign.isAligned() && !enableFineModifier.isRunning()) {
+		if (gearAlign.isAligned() && !fineModifier.isEnabled()) {
 			enableFineModifier.start();
-		} else if (!gearAlign.isAligned() && enableFineModifier.isRunning()) {
-			enableFineModifier.cancel();
+		} else if (!gearAlign.isAligned() && fineModifier.isEnabled()) {
+			disableFineModifier.start();
 		}
 	}
 
