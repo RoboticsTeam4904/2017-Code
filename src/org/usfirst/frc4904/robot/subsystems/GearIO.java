@@ -49,6 +49,14 @@ public class GearIO extends Subsystem {
 		currentState = state;
 	}
 
+	public DoubleSolenoid.Value getRampState() {
+		return ramp.get();
+	}
+
+	public void setRampState(DoubleSolenoid.Value value) {
+		ramp.set(value);
+	}
+
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new Idle(this));
