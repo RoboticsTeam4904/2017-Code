@@ -1,12 +1,13 @@
 package org.usfirst.frc4904.robot.subsystems;
 
-
 import org.usfirst.frc4904.standard.commands.Idle;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hopper extends Subsystem {
 	protected final DoubleSolenoid solenoid;
+	protected final HopperCapacitySensor capacitySensor;
 	public static final double AGITATE_DELAY_MS = 500;
 
 	public static enum HopperState {
@@ -21,15 +22,22 @@ public class Hopper extends Subsystem {
 			return value;
 		}
 	}
+
 	protected HopperState currentState;
+	protected double currentCapacity;
 
 	public Hopper(DoubleSolenoid solenoid) {
 		this.solenoid = solenoid;
+		capacitySensor = new HopperCapacitySensor();
 		setState(HopperState.BALLIO);
 	}
 
 	public HopperState getState() {
 		return currentState;
+	}
+
+	public double getCapacity() {
+		return currentCapacity;
 	}
 
 	public void setState(HopperState desiredState) {
