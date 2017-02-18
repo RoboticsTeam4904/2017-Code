@@ -23,13 +23,13 @@ public class MatchInformer extends CANInformer {
 		if (DriverStation.getInstance().isDisabled()) {
 			gameMode = 0;
 		}
-		if (DriverStation.getInstance().isAutonomous()) {
+		if (DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 1;
 		}
-		if (DriverStation.getInstance().isEnabled()) {
+		if (DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 2;
 		}
-		if (DriverStation.getInstance().isTest()) {
+		if (DriverStation.getInstance().isTest() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 3;
 		}
 		return new byte[] {(byte) DriverStation.getInstance().getAlliance().ordinal(),
