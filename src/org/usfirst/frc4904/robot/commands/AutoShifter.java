@@ -50,7 +50,8 @@ public class AutoShifter extends Command {
 
 	@Override
 	protected void execute() {
-		double acceleration = navX.getWorldLinearAccelY();
+		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
+		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
 		double throttle = Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble();
 		boolean isNotGoingStraight = Math.abs(leftEncoder.getRate()
@@ -61,11 +62,14 @@ public class AutoShifter extends Command {
 		if (isNotGoingStraight || hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
-		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
+		// Determine whether the robot is going forward or backwards by the sign on the forward speed.
+		boolean isGoingForward = forwardSpeed > 0;
+		double acceleration = navX.getWorldLinearAccelY();
+		double relativeAcceleration = isGoingForward ? acceleration : acceleration * -1;
 		// Also take the absolute value to treat forwards & backwards the same.
-		double absoluteForwardSpeed = Math.abs((leftEncoder.getRate() + rightEncoder.getRate()) / 2);
+		double absoluteForwardSpeed = Math.abs(forwardSpeed);
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_RATE;
-		boolean isAcceleratingRapidly = acceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
+		boolean isAcceleratingRapidly = relativeAcceleration > AutoShifter.RAPID_ACCELERATION_THRESHOLD_GS;
 		boolean isThrottleFast = throttle > AutoShifter.FAST_THROTTLE;
 		// If we're flooring it and nothing's in our way, shift up.
 		if (isAboveMediumSpeed && isAcceleratingRapidly && isThrottleFast) {
@@ -80,7 +84,7 @@ public class AutoShifter extends Command {
 			return;
 		}
 		boolean isBelowFastSpeed = absoluteForwardSpeed < AutoShifter.FAST_RATE;
-		boolean isRapidlyDecelerating = acceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
+		boolean isRapidlyDecelerating = relativeAcceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
 		boolean isThrottleGreaterThanMedium = throttle > AutoShifter.MEDIUM_THROTTLE;
 		// If we're throttling high but going slow (pushing something we just hit)
 		if (isBelowFastSpeed && isRapidlyDecelerating && isThrottleGreaterThanMedium) {
