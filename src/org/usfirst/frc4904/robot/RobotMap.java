@@ -112,8 +112,8 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisDriveMC.setInputRange(-180, 180);
 		Component.chassisDriveMC.setContinuous(true);
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
@@ -139,7 +139,7 @@ public class RobotMap {
 		// Shooter
 		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
 		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
-		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
+		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
