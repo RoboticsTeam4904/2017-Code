@@ -41,6 +41,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
 
 		public static class CANMotor {
@@ -84,19 +85,20 @@ public class RobotMap {
 	}
 
 	public static class Component {
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static PDP pdp;
-		public static SolenoidShifters shifter;
-		public static TankDriveShifting chassis;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
+		public static SolenoidShifters shifter;
+		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick;
 		public static CustomPIDController lidarMC;
 		public static CANEncoder lidarTurnEncoder;
 		public static LIDAR lidar;
@@ -142,6 +144,7 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
