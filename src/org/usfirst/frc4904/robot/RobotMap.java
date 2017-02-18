@@ -141,6 +141,7 @@ public class RobotMap {
 		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
+		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
 		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
