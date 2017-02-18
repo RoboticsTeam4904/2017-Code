@@ -20,7 +20,7 @@ public class GearIO extends Subsystem {
 	}
 
 	public static enum GearState {
-		INTAKE(1, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse), TRANSPORT(0,
+		INTAKE(0.75, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse), TRANSPORT(0,
 			DoubleSolenoid.Value.kForward);
 		private final double intakeRollerSpeed;
 		private final DoubleSolenoid.Value gullWingsValue;
