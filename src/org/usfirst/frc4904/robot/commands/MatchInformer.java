@@ -19,14 +19,11 @@ public class MatchInformer extends CANInformer {
 		byte gameMode = -1; // default/unknown
 		if (DriverStation.getInstance().isDisabled()) {
 			gameMode = 0;
-		}
-		if (DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()) {
+		} else if (DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 1;
-		}
-		if (DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().isEnabled()) {
+		} else if (DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 2;
-		}
-		if (DriverStation.getInstance().isTest() && DriverStation.getInstance().isEnabled()) {
+		} else if (DriverStation.getInstance().isTest() && DriverStation.getInstance().isEnabled()) {
 			gameMode = 3;
 		}
 		return new byte[] {(byte) DriverStation.getInstance().getAlliance().ordinal(),
