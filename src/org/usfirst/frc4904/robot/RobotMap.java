@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -58,14 +60,14 @@ public class RobotMap {
 			public static final int rightDriveA = 3;
 			public static final int rightDriveB = 4;
 			public static final int ballioDoorServo = 8;
+			public static final int lidarMotor = 9; // WIP
 		}
 
 		public static class CAN {
 			public static final int leftEncoder = 0x611;
 			public static final int rightEncoder = 0x612;
-			public static final int trayEncoder = 0x604;
 			public static final int flywheelEncoder = 0x605;
-			public static final int elevatorEncoder = 0x606;
+			public static final int lidarTurnEncoder = 0x607;
 		}
 
 		public static class Pneumatics {
@@ -97,6 +99,9 @@ public class RobotMap {
 		public static BallIO ballIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
+		public static CustomPIDController lidarMC;
+		public static CANEncoder lidarTurnEncoder;
+		public static LIDAR lidar;
 		public static FusibleNavX navx;
 		public static Climber climber;
 		public static MotionController chassisTurnMC;
@@ -144,6 +149,14 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper};
+		// LIDAR
+		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder, false);
+		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
+			LIDAR.TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
+				Component.lidar};
 	}
 }
