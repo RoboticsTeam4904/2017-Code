@@ -133,11 +133,13 @@ public class RobotMap {
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
-		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
+			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
-		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
+		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
-		Motor ballioElevatorAndIntakeRoller = new Motor(new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller",
+			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
@@ -149,7 +151,7 @@ public class RobotMap {
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
-		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
+		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
