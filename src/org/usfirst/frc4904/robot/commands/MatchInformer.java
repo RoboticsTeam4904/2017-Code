@@ -5,10 +5,8 @@ import org.usfirst.frc4904.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class MatchInformer extends CANInformer {
-	public static final int NUMBER_OF_MESSAGES = 200;
-
 	public MatchInformer() {
-		super(RobotMap.Port.CAN.matchConfigBroadcast, MatchInformer.NUMBER_OF_MESSAGES);
+		super(RobotMap.Port.CAN.matchConfigBroadcast);
 	}
 
 	@Override
