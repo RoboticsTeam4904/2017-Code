@@ -3,7 +3,6 @@ package org.usfirst.frc4904.robot.commands;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class GearioIntake extends GearioSet {
 	public GearioIntake() {
@@ -13,6 +12,6 @@ public class GearioIntake extends GearioSet {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		RobotMap.Component.gearIO.setRampState(DoubleSolenoid.Value.kForward);
+		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
 	}
 }

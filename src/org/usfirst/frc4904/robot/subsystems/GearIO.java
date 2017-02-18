@@ -11,12 +11,14 @@ public class GearIO extends Subsystem {
 	protected final DoubleSolenoid gullWings;
 	protected final DoubleSolenoid ramp;
 	protected GearState currentState;
+	protected RampState currentRampState;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
 		this.ramp = ramp;
-		setState(GearState.INTAKE);
+		setState(GearState.TRANSPORT);
+		setRampState(RampState.EXTENDED);
 	}
 
 	public static enum GearState {
@@ -39,6 +41,19 @@ public class GearIO extends Subsystem {
 		}
 	}
 
+	public static enum RampState {
+		EXTENDED(DoubleSolenoid.Value.kForward), RETRACTED(DoubleSolenoid.Value.kReverse);
+		private final DoubleSolenoid.Value value;
+
+		private RampState(DoubleSolenoid.Value value) {
+			this.value = value;
+		}
+
+		public DoubleSolenoid.Value getValue() {
+			return value;
+		}
+	}
+
 	public GearState getState() {
 		return currentState;
 	}
@@ -49,12 +64,13 @@ public class GearIO extends Subsystem {
 		currentState = state;
 	}
 
-	public DoubleSolenoid.Value getRampState() {
-		return ramp.get();
+	public RampState getRampState() {
+		return currentRampState;
 	}
 
-	public void setRampState(DoubleSolenoid.Value value) {
-		ramp.set(value);
+	public void setRampState(RampState state) {
+		ramp.set(state.getValue());
+		currentRampState = state;
 	}
 
 	@Override

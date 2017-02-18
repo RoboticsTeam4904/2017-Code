@@ -9,8 +9,8 @@ import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DefaultOperator extends Operator {
@@ -31,7 +31,7 @@ public class DefaultOperator extends Operator {
 		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY, -DefaultOperator.INTAKE_THRESHOLD,
 			true)
 				.start();
-		RobotMap.Component.gearIO.setRampState(DoubleSolenoid.Value.kForward);
+		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
 	}
 
 	private class ThresholdCommand extends Command {
