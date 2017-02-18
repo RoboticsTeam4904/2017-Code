@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public abstract class CANInformer extends Command {
 	protected int numberOfIterationsRemaining;
 	protected final CustomCAN canSender;
-	private boolean runsDefinitely = true;
+	protected boolean runsIndefinitely = false;
 
 	/**
 	 * Create a CANInformer command for a given CAN id
@@ -37,7 +37,7 @@ public abstract class CANInformer extends Command {
 	 */
 	public CANInformer(int id) {
 		this(id, 0);
-		runsDefinitely = false;
+		runsIndefinitely = true;
 	}
 
 	/**
@@ -57,6 +57,6 @@ public abstract class CANInformer extends Command {
 
 	@Override
 	protected final boolean isFinished() {
-		return runsDefinitely && numberOfIterationsRemaining <= 0;
+		return !runsIndefinitely && numberOfIterationsRemaining <= 0;
 	}
 }
