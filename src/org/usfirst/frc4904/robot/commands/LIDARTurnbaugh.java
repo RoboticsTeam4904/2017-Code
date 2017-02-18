@@ -2,15 +2,14 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 
 public class LIDARTurnbaugh extends MotorConstant {
-	public static final double LIDAR_MRPM = 240000;
-
 	public LIDARTurnbaugh() {
-		super(RobotMap.Component.lidar, LIDARTurnbaugh.LIDAR_MRPM);
+		super(RobotMap.Component.lidar, LIDAR.TARGET_MRPM);
 	}
 
 	@Override
