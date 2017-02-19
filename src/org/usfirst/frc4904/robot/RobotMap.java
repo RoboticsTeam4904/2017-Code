@@ -66,8 +66,8 @@ public class RobotMap {
 			public static int leftDriveB = 2;
 			public static int rightDriveA = 3;
 			public static int rightDriveB = 4;
-			public static final int flywheelLeftMotor = 5; // WIP
-			public static final int flywheelRightMotor = 6; // WIP
+			public static final int climbMotorA = 5;
+			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9; // WIP
@@ -164,8 +164,6 @@ public class RobotMap {
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
 			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
-		// Climber
-		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
 		// Shooter
 		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
 		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
@@ -173,6 +171,9 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
+
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
