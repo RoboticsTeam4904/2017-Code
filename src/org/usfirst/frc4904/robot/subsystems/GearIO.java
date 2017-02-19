@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -59,7 +60,7 @@ public class GearIO extends Subsystem {
 	}
 
 	public void setState(GearState state) {
-		intakeRoller.set(state.getIntakeRollerSpeed());
+		new MotorConstant(intakeRoller, state.getIntakeRollerSpeed()).start();
 		gullWings.set(state.getGullWingsValue());
 		currentState = state;
 	}
