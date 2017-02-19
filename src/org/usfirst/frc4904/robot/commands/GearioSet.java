@@ -14,7 +14,7 @@ public class GearioSet extends Command {
 	}
 
 	@Override
-	protected void execute() {
+	protected void initialize() {
 		RobotMap.Component.gearIO.setState(state);
 	}
 
