@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hopper extends Subsystem {
-	protected final DoubleSolenoid leftSolenoid;
-	protected final DoubleSolenoid rightSolenoid;
+	protected final DoubleSolenoid solenoid;
+	public static final double AGITATE_DELAY_MS = 500;
 
 	public static enum HopperState {
 		BALLIO(DoubleSolenoid.Value.kReverse), SHOOTER(DoubleSolenoid.Value.kForward);
@@ -23,9 +23,8 @@ public class Hopper extends Subsystem {
 	}
 	protected HopperState currentState;
 
-	public Hopper(DoubleSolenoid leftSolenoid, DoubleSolenoid rightSolenoid) {
-		this.leftSolenoid = leftSolenoid;
-		this.rightSolenoid = rightSolenoid;
+	public Hopper(DoubleSolenoid solenoid) {
+		this.solenoid = solenoid;
 		setState(HopperState.BALLIO);
 	}
 
@@ -34,8 +33,7 @@ public class Hopper extends Subsystem {
 	}
 
 	public void setState(HopperState desiredState) {
-		leftSolenoid.set(desiredState.getValue());
-		rightSolenoid.set(desiredState.getValue());
+		solenoid.set(desiredState.getValue());
 		currentState = desiredState;
 	}
 
