@@ -43,7 +43,7 @@ public class Hopper extends Subsystem {
 			return currentCapacity;
 		} catch (Exception e) {
 			LogKitten.ex(e);
-			return 0;
+			return 0.0;
 		}
 	}
 

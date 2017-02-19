@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.standard.LogKitten;
+//import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 
@@ -11,8 +11,30 @@ public class HopperCapacitySensor extends CANSensor {
 		super("HopperCapacitySensor", RobotMap.Port.CAN.hopperSensor);
 	}
 
+//	public double getCapacity() throws InvalidSensorException {
+//		LogKitten.wtf("Capacity sensor value: " + super.readSensor().toString());
+//		return 0.0;
+//	}
+	
 	public double getCapacity() throws InvalidSensorException {
-		LogKitten.wtf("Capacity sensor value: " + super.readSensor().toString());
-		return 0.0;
-	}
+		double rightBalls;
+		double leftBalls;
+		double ballsperlayer = 12; //actually 14.3 but balls won't land perfectly
+		double averageBalls;
+		double teensyOutputLeft;
+		double teensyOutputRight;
+		//final double hopperHeight = 41.9;
+		final double sensorHeight = 36.8;
+		final double hypotunuseLength = 83.82;
+		final double ballHeight = 12.7;
+		double output;
+		teensyOutputLeft = ((double) readSensor()[0])/100.0;
+		teensyOutputRight = ((double) readSensor()[1])/100.0;
+		//divide by 100 to get accurate ball
+		rightBalls = (sensorHeight*(hypotunuseLength-teensyOutputLeft)/hypotunuseLength)/ballHeight;
+		leftBalls = (sensorHeight*(hypotunuseLength-teensyOutputRight)/hypotunuseLength)/ballHeight;
+	    averageBalls = (rightBalls+leftBalls)/2;
+		output = ballsperlayer*averageBalls;
+		return output;
+	}	
 }
