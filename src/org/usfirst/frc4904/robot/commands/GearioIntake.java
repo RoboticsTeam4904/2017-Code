@@ -12,6 +12,8 @@ public class GearioIntake extends GearioSet {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		if (GearIO.rampOverride == false) {
+			RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		}
 	}
 }
