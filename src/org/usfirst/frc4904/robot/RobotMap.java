@@ -9,6 +9,7 @@ import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
@@ -88,7 +89,7 @@ public class RobotMap {
 	public static class Component {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		public static CustomJoystick teensyStick;
+		public static TeensyController teensyStick;
 		public static PDP pdp;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
@@ -143,7 +144,7 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
-		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyJoystick);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyJoystick, 30);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(DefaultDriver.XBOX_MINIMUM_THRESHOLD);
 		// Main Subsystems
