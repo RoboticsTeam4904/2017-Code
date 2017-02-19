@@ -165,6 +165,7 @@ public class RobotMap {
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
+		Component.hopper.getCapacity();
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
 		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);

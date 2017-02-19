@@ -1,5 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.Idle;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -37,7 +38,13 @@ public class Hopper extends Subsystem {
 	}
 
 	public double getCapacity() {
-		return currentCapacity;
+		try {
+			currentCapacity = capacitySensor.getCapacity();
+			return currentCapacity;
+		} catch (Exception e) {
+			LogKitten.ex(e);
+			return 0;
+		}
 	}
 
 	public void setState(HopperState desiredState) {
