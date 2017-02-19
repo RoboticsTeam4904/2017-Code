@@ -5,14 +5,15 @@ import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
-import org.usfirst.frc4904.robot.subsystems.Indexer;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.Indexer;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
@@ -104,7 +105,7 @@ public class RobotMap {
 	public static class Component {
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
-		public static CustomJoystick teensyStick;
+		public static TeensyController teensyStick;
 		public static PDP pdp;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
@@ -173,9 +174,8 @@ public class RobotMap {
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.teensyStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.teensyStick = new TeensyController(Port.HumanInput.joystick, 30);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
-		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
