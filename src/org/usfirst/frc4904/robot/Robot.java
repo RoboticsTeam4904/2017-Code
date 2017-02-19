@@ -1,10 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninterface.drivers.DefaultDriver;
-import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
+import org.usfirst.frc4904.robot.commands.CANInformer;
+import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
-import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -14,27 +13,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	CANInformer matchConfigBroadcast = new MatchInformer();
 
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		// Configure driver command chooser
-		driverChooser.addDefault(new DefaultDriver());
-		// Configure operator command chooser
-		operatorChooser.addDefault(new DefaultOperator());
-		// Initialize SmartDashboard display values
+		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new NathanGain());
-		driverChooser.addObject(new JoystickControl());
-		driverChooser.addObject(new PureStick());
-		RobotMap.Component.navX.zeroYaw();
+		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		matchConfigBroadcast.start();
+		RobotMap.Component.navx.zeroYaw();
 	}
 
 	@Override
 	public void teleopInitialize() {
-		// teleopCommand = new Noop();
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
 	}
@@ -47,7 +41,7 @@ public class Robot extends CommandRobotBase {
 
 	@Override
 	public void autonomousInitialize() {
-		RobotMap.Component.navX.zeroYaw();
+		RobotMap.Component.navx.zeroYaw();
 	}
 
 	/**
