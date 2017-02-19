@@ -5,15 +5,16 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.sovereignty.TrimCommand;
-import org.usfirst.frc4904.sovereignty.TrimCommand.TrimDirection;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
+import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -26,10 +27,11 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final double FINE_SCALE = 2;
+	public static final double FINE_SCALE = 0.5;
 	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
-	protected final FineModifier modifier = new FineModifier(NathanGain.FINE_SCALE);
+	protected final EnableableModifier modifier = new EnableableModifier(new LinearModifier(NathanGain.FINE_SCALE));
 	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
+	protected final AutoShifter autoShifter = new AutoShifter();
 
 	public NathanGain() {
 		super("NathanGain");
@@ -41,6 +43,7 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
+		autoShifter.start();
 		RobotMap.Component.driverXbox.lb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.rb
@@ -48,7 +51,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.lb
 			.onlyWhileHeld(
 				new RunAllSequential(new WaitCommand("Third gear activation delay", NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS),
-					new EnableFineModifier(modifier)));
+					new SetEnableableModifier(modifier, true)));
+		RobotMap.Component.driverXbox.lb.whenReleased(new SetEnableableModifier(modifier, true));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
@@ -62,17 +66,19 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		 new AutoShifter().start();
-		RobotMap.Component.teensyStick.button4.whenPressed(new Kill(shiftCommand));
-		RobotMap.Component.teensyStick.button4.whenReleased(shiftCommand);
+		new AutoShifter().start();
+		RobotMap.Component.teensyStick.getButton(3).whenPressed(new Kill(autoShifter));
+		RobotMap.Component.teensyStick.getButton(3).whenReleased(autoShifter);
 		// Inverted airplane-style analog control
 		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
+		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
 		new Climb(() -> Math.max(0,
 			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
 		alignAssist.start();
+	}
 
 	@Override
 	public double getX() {

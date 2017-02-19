@@ -1,21 +1,19 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.commands.AutoShifter;
-import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
+import org.usfirst.frc4904.robot.commands.CANInformer;
+import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	Command AutoShifter;
+	CANInformer matchConfigBroadcast = new MatchInformer();
 
 	@Override
 	public void initialize() {
@@ -25,6 +23,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
 	}
 
@@ -32,18 +31,13 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
-		AutoShifter = new AutoShifter();
-		AutoShifter.start();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {
-		RobotMap.Component.teensyStick.button4.whenPressed(new Kill(AutoShifter));
-		RobotMap.Component.teensyStick.button4.whenReleased(AutoShifter);
-	}
+	public void teleopExecute() {}
 
 	@Override
 	public void autonomousInitialize() {
