@@ -8,6 +8,7 @@ public class QuinticSplineGenerator extends SplineGenerator {
 	protected final double[] PosX = new double[6], PosY = new double[6];
 	protected final double[] VelX = new double[5], VelY = new double[5];
 	protected final double[] AccX = new double[4], AccY = new double[4];
+	protected final double absoluteLength;
 
 	QuinticSplineGenerator(double initPosX, double initPosY, double finPosX, double finPosY,
 		double initVelX, double initVelY, double finVelX, double finVelY,
@@ -27,6 +28,7 @@ public class QuinticSplineGenerator extends SplineGenerator {
 		initializePos();
 		initializeVel();
 		initializeAcc();
+		absoluteLength = calcAbsoluteLength();
 	}
 
 	@Override
