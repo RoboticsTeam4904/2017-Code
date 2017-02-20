@@ -22,6 +22,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -97,6 +98,7 @@ public class RobotMap {
 		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI;
 		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
 			/ Metrics.WHEEL_PULSES_PER_REVOLUTION;
+		public static final double HIGH_TO_LOW_GEAR_RATIO = 3.15;
 	}
 
 	public static class Component {
@@ -137,10 +139,12 @@ public class RobotMap {
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+		Component.leftWheel = new Motor("LeftWheel", false, new SpeedModifierGroup(
+			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+		Component.rightWheel = new Motor("RightWheel", false, new SpeedModifierGroup(
+			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		// BallIO

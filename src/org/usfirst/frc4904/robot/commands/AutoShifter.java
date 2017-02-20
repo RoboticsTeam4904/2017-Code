@@ -7,6 +7,8 @@ import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -31,6 +33,7 @@ public class AutoShifter extends Command {
 	public static final double FAST_THROTTLE = AutoShifter.SLOW_THROTTLE * 2;
 	public static final double LAST_MANUAL_SHIFT_TIME_MILLIS = 5000; // TODO
 	public static final double LAST_AUTO_SHIFT_TIME_MILLIS = 500;// TODO
+	protected final HighGearShifterRamping highGearShiftRamp;
 	protected final ChassisShiftAsAuto shiftUpCommand;
 	protected final ChassisShiftAsAuto shiftDownCommand;
 
@@ -39,6 +42,7 @@ public class AutoShifter extends Command {
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
 		this.navX = navX;
+		highGearShiftRamp = new HighGearShifterRamping();
 		shiftUpCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.UP);
 		shiftDownCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.DOWN);
 	}
@@ -46,6 +50,10 @@ public class AutoShifter extends Command {
 	public AutoShifter() {
 		this(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder,
 			RobotMap.Component.navx);
+	}
+
+	public EnableableModifier getHighGearShiftRampingModifier() {
+		return highGearShiftRamp.getEnableableModifier();
 	}
 
 	@Override
@@ -74,6 +82,7 @@ public class AutoShifter extends Command {
 		// If we're flooring it and nothing's in our way, shift up.
 		if (isAboveMediumSpeed && isAcceleratingRapidly && isThrottleFast) {
 			shiftUpCommand.start();
+			highGearShiftRamp.didShiftUp();
 			return;
 		}
 		boolean isThrottlelessThanSlow = throttle < AutoShifter.SLOW_THROTTLE;
@@ -87,9 +96,40 @@ public class AutoShifter extends Command {
 		boolean isRapidlyDecelerating = relativeAcceleration < AutoShifter.RAPID_DECELERATION_THRESHOLD_GS;
 		boolean isThrottleGreaterThanMedium = throttle > AutoShifter.MEDIUM_THROTTLE;
 		// If we're throttling high but going slow (pushing something we just hit)
-		if (isBelowFastSpeed && isRapidlyDecelerating && isThrottleGreaterThanMedium) {
+		if (isRapidlyDecelerating && isThrottleGreaterThanMedium) {
 			shiftDownCommand.start();
 			return;
+		}
+	}
+
+	protected static class HighGearShifterRamping implements SpeedModifier {
+		public static int RAMP_TIME_MILLIS = 500;
+		long lastShiftTime = 0;
+		EnableableModifier eModifier;
+
+		public HighGearShifterRamping() {
+			eModifier = new EnableableModifier(this);
+		}
+
+		public EnableableModifier getEnableableModifier() {
+			return eModifier;
+		}
+
+		void didShiftUp() {
+			lastShiftTime = System.currentTimeMillis();
+			eModifier.enable();
+		}
+
+		@Override
+		public double modify(double speed) {
+			long timeSinceShift = System.currentTimeMillis() - lastShiftTime;
+			if (timeSinceShift >= HighGearShifterRamping.RAMP_TIME_MILLIS) {
+				eModifier.disable();
+			}
+			double approxPrevVelocity = speed / RobotMap.Metrics.HIGH_TO_LOW_GEAR_RATIO;
+			double velocityGap = speed - approxPrevVelocity;
+			double percentRamped = (double) timeSinceShift / (double) HighGearShifterRamping.RAMP_TIME_MILLIS;
+			return approxPrevVelocity + percentRamped * velocityGap;
 		}
 	}
 
