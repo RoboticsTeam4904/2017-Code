@@ -1,16 +1,33 @@
 package org.usfirst.frc4904.robot;
 
+
+import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
+import org.usfirst.frc4904.robot.subsystems.BallIO;
+import org.usfirst.frc4904.robot.subsystems.Climber;
+import org.usfirst.frc4904.robot.subsystems.GearIO;
+import org.usfirst.frc4904.robot.subsystems.Hopper;
+import org.usfirst.frc4904.robot.subsystems.LIDAR;
+import org.usfirst.frc4904.robot.vision.AligningCamera;
+import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.NavX;
+import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.Chassis;
+import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.PositionEncodedMotor;
+import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -21,131 +38,143 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * floating around.
  */
 public class RobotMap {
-	public static class Port {
+	public static class Port { // TODO: Update ports to match those on Timón.
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
+			public static final int teensyStick = 2;
 		}
-		
+
+		public static class CANMotor {
+			public static final int ballioDirectionalRoller = 1;
+			public static final int ballioHopperRollers = 2;
+			public static final int ballioElevatorAndIntakeRoller = 3;
+			public static final int flywheelLeftMotor = 6; // WIP
+			public static final int flywheelRightMotor = 7; // WIP
+		}
+
 		public static class PWM {
 			// SOME MOTORS AREN'T EXACT - work in progress
-			public static final int leftDriveMotor = 0;
-			public static final int rightDriveMotor = 1;
-			public static final int flywheelLeftMotor = 2; // WIP
-			public static final int flywheelRightMotor = 3; // WIP
-			public static final int bioTopMotor = 4; // WIP
-			public static final int bioLeftMotor = 5; // WIP
-			public static final int bioMainMotor = 6; // WIP
+			public static int leftDriveA = 1;
+			public static int leftDriveB = 2;
+			public static int rightDriveA = 3;
+			public static int rightDriveB = 4;
+			public static final int climbMotorA = 5;
+			public static final int climbMotorB = 6;
+			public static final int gearioIntakeRoller = 7;
+			public static final int ballioDoorServo = 8;
+			public static final int lidarMotor = 9; // WIP
 		}
-		
-		public static class Serial {
-			public static final int navX = 0;
-		}
-		
+
 		public static class CAN {
-			public static final int leftEncoder = 0x602;
-			public static final int rightEncoder = 0x603;
-			// public static final int trayEncoder = 0x604; ---- not being used anymore
+			public static final int matchConfigBroadcast = 0x600;
 			public static final int flywheelEncoder = 0x605;
-			public static final int elevatorEncoder = 0x606;
+			public static final int lidarTurnEncoder = 0x607;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x612;
 		}
-		
-		public static class CANMotor {}
-		
-		public static class PCM {}
-		
+
 		public static class Pneumatics {
-			public static final int bioShifterUp = 2;
-			public static final int bioShifterDown = 3;
+			// Shifter - blue solenoid
+			public static final int solenoidUp = 6;
+			public static final int solenoidDown = 7;
+			// GearIO gull wings - red solenoid
+			public static final int gearioGullWingsUp = 0;
+			public static final int gearioGullWingsDown = 1;
+			// GearIO ramp - yellow solenoid
+			public static final int gearioRampUp = 2;
+			public static final int gearioRampDown = 3;
+			// Hopper - green solenoid
+			public static final int hopperDown = 4;
+			public static final int hopperUp = 5;
 		}
 	}
-	
-	public static class Constant {
-		public static class HumanInput {
-			public static final double X_SPEED_SCALE = 1;
-			public static final double Y_SPEED_SCALE = 1;
-			public static final double SPEED_GAIN = 1;
-			public static final double SPEED_EXP = 2;
-			public static final double TURN_GAIN = 1;
-			public static final double TURN_EXP = 2;
-			public static final double TURN_SPEED_SCALE = 1;
-			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
-			public static final double OPERATOR_JOYSTICK_MINIMUM_THRESHOLD = 0.1;
-		}
-		
-		public static class RobotMetric {
-			public static final double WIDTH = 0;// all in inches
-			public static final double LENGTH = 0;
-			public static final double WHEEL_ENCODER_PPR = 0;
-			public static final double WHEEL_DIAMETER = 0;
-			public static final double WHEEL_CIRCUMFERENCE = RobotMetric.WHEEL_DIAMETER * Math.PI;
-			public static final double elevatorConstant = 0; // Will change once we get the tool
-		}
-		
-		public static class AutonomousMetric {
-			public static final double WAIT_TIME = 0;
-		}
-		
-		public static class FieldMetric {}
-		
-		public static class Network {
-			public static final String VISION_GOAL_NETWORK_TABLE_ADDRESS = "GRIP/myContoursReport";
-		}
-		
-		public static class Component {}
+
+	public static class Metrics {
+		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 	}
-	
+
 	public static class Component {
+		public static CustomXbox driverXbox;
+		public static CustomJoystick operatorStick;
+		public static CustomJoystick teensyStick;
 		public static PDP pdp;
-		public static PositionEncodedMotor leftWheel;
-		public static PositionEncodedMotor rightWheel;
+		public static Motor leftWheel;
+		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static CustomEncoder elevatorEncoder;
-		public static NavX navX;
-		public static CustomPIDController chassisDrivePID;
+		public static SolenoidShifters shifter;
+		public static TankDriveShifting chassis;
+		public static MotionController chassisDriveMC;
+		public static BallIO ballIO;
+		public static GearIO gearIO;
+		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
-		public static CustomXbox driverXbox;
-		public static CustomJoystick operatorStick
-	}	
-	public static class HumanInput {
-		public static class Driver {
-			public static CustomXbox xbox;
-		}
-		public static class Operator {
-			public static CustomJoystick stick;
-		}
+		public static CustomPIDController lidarMC;
+		public static CANEncoder lidarTurnEncoder;
+		public static LIDAR lidar;
+		public static FusibleNavX navx;
+		public static Climber climber;
+		public static MotionController chassisTurnMC;
+		public static AligningCamera alignCamera;
 	}
-	
+
 	public RobotMap() {
 		Component.pdp = new PDP();
-		// Chassis
-		Component.leftWheelEncoder = new CANEncoder(Port.CAN.leftEncoder);
-		Component.leftWheelEncoder.setReverseDirection(true);
-		Component.leftWheel = new PositionEncodedMotor("leftWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.leftWheelEncoder), new VictorSP(Port.PWM.leftDriveMotor));
-		Component.leftWheel.disablePID(); // TODO add encoders
-		Component.rightWheelEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.rightWheel = new PositionEncodedMotor("rightWheel", new AccelerationCap(Component.pdp), new CustomPIDController(Component.rightWheelEncoder), new VictorSP(Port.PWM.rightDriveMotor));
-		Component.rightWheel.disablePID(); // TODO add encoders
-		// Component.rightWheel.setInverted(false);
-		// Ball Dumper
-		Component.elevatorEncoder = new CANEncoder(Port.CAN.elevatorEncoder);
-		// Flywheel
-		Motor leftFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelLeftMotor));
-		leftFlywheelMotor.setInverted(true);
-		Motor rightFlywheelMotor = new Motor(new VictorSP(Port.PWM.flywheelRightMotor));
-		rightFlywheelMotor.setInverted(false);
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
+		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisDriveMC.setInputRange(-180, 180);
+		Component.chassisDriveMC.setContinuous(true);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
+			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+		Component.leftWheel.setInverted(true);
+		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
+		Component.rightWheel.setInverted(true);
+		// BallIO
+		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+		ballioDirectionalRoller.setInverted(true);
+		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
+		ballioHopperRollers.setInverted(true);
+		Motor ballioElevatorAndIntakeRoller = new Motor(new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
+		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
+			ballioDoorServo);
+		// GearIO
+		Motor gearioIntakeRoller = new Motor(new VictorSP(Port.PWM.gearioIntakeRoller));
+		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
+			Port.Pneumatics.gearioGullWingsDown);
+		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
+			Port.Pneumatics.gearioRampDown);
+		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
+		// Climber
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// Hopper
+		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
-		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		HumanInput.Operator.stick.setDeadzone(Constant.HumanInput.OPERATOR_JOYSTICK_MINIMUM_THRESHOLD);
-		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
-		HumanInput.Driver.xbox.setDeadZone(RobotMap.Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		Component.navX = new NavX(SerialPort.Port.kOnboard);
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.operatorStick.setDeadzone(DefaultOperator.JOYSTICK_MIN_THRESH);
+		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new CustomJoystick(Port.HumanInput.teensyStick);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
-		Component.driverXbox.setDeadZone(DefaultDriver.CONTROLLER_MIN_THRESH);
+		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
+		// LIDAR
+		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder, false);
+		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
+			LIDAR.TURN_F, Component.lidarTurnEncoder);
+		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
+				Component.lidar};
 	}
 }
