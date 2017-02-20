@@ -3,7 +3,9 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.commands.CANInformer;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
+import org.usfirst.frc4904.robot.commands.TestSubsystems;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
+import org.usfirst.frc4904.robot.humaninterface.operators.CheckOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -14,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	CANInformer matchConfigBroadcast = new MatchInformer();
+	CheckOperator checkOperator = new CheckOperator();
+	TestSubsystems testSubsystems = new TestSubsystems();
 
 	@Override
 	public void initialize() {
@@ -65,7 +69,10 @@ public class Robot extends CommandRobotBase {
 	public void disabledExecute() {}
 
 	@Override
-	public void testInitialize() {}
+	public void testInitialize() {
+		checkOperator.bindCommands();
+		testSubsystems.start();
+	}
 
 	@Override
 	public void testExecute() {}
