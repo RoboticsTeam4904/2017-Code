@@ -10,11 +10,15 @@ public abstract class SplineGenerator {
 		return arcSum / granularity;
 	}
 
-	public double calcLength(double granularity) {
+	protected double calcLength(double granularity, double b) {
+		return calcLength(granularity, 0.0, b);
+	}
+
+	protected double calcAbsoluteLength(double granularity) {
 		return calcLength(granularity, 0.0, 1.0);
 	}
 
-	public double calcLength() {
+	protected double calcAbsoluteLength() {
 		return calcLength(1000, 0.0, 1.0);
 	}
 

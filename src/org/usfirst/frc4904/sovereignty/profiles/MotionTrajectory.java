@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.sovereignty.profiles;
 
 
+import java.util.LinkedList;
 import org.usfirst.frc4904.sovereignty.profiles.WheelTrajectory.Wheel;
 
 public class MotionTrajectory {
@@ -18,13 +19,33 @@ public class MotionTrajectory {
 		rightWheel = new WheelTrajectory(this, Wheel.RIGHT, tickTotal);
 	}
 
-	// public Tuple<Integer, MotionTrajectorySegment> generateSegments() {
-	// for(int i = 0; i < granularity; i++) {
-	//
-	// }
-	// Tuple<Integer, MotionTrajectorySegment> trajectorySegment;
-	// return
-	// }
+	public LinkedList<MotionTrajectorySegment> generateFeatureSegments(double granularity, double curveThreshold) {
+		LinkedList<MotionTrajectorySegment> featureSegments = new LinkedList<>();
+		double maxVelocity = 0.0; // idk.
+		double totalDisplacement = 0.0;
+		// Hopefully the curvature is never non-zero at the initial position of the arc.
+		double lastCurve = 0.0;
+		MotionTrajectorySegment lastTrajectorySegment = new MotionTrajectorySegment(0, maxVelocity);
+		for (int i = 0; i < granularity; i++) {
+			double instantCurve = splineGenerator.calcCurvature(i / granularity);
+			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
+				double instantLen = splineGenerator.calcLength(1000, totalDisplacement, i / granularity);
+				totalDisplacement += instantLen;
+				lastCurve = instantCurve;
+				lastTrajectorySegment.length = instantLen;
+				lastTrajectorySegment.partial = false;
+				featureSegments.add(lastTrajectorySegment);
+				lastTrajectorySegment = new MotionTrajectorySegment(0, maxVelocity);
+			}
+		}
+		if (lastTrajectorySegment.partial) {
+			lastTrajectorySegment.length = splineGenerator.calcLength(1000, totalDisplacement, 1);
+			lastTrajectorySegment.partial = false;
+			featureSegments.add(lastTrajectorySegment);
+		}
+		return featureSegments;
+	}
+
 	public double fromTickToS(double t) {
 		return t / tickTotal;
 	}

@@ -17,8 +17,10 @@ public class MotionTrajectorySegment {
 	protected double rampDownDistance;
 	protected double cruiseDistance;
 	protected double cruiseTime;
+	protected boolean partial;
 
-	public MotionTrajectorySegment(double initVel, double finVel, double maxVel, double length) {
+	public MotionTrajectorySegment(double initVel, double finVel,
+		double maxVel, double length) {
 		this.initVel = initVel;
 		this.finVel = finVel;
 		this.maxVel = maxVel;
