@@ -8,7 +8,7 @@ import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class BallioOuttake extends CommandGroup implements OverridableCommand {
-	public static boolean ballioCycleOverride;
+	public boolean ballioOuttakeHopperOverride;
 
 	public BallioOuttake() {
 		super("BallioOuttake");
@@ -18,7 +18,7 @@ public class BallioOuttake extends CommandGroup implements OverridableCommand {
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.directionalRoller, -1.0));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller, 1.0));
 		addSequential(new MotorConstant(RobotMap.Component.ballIO.hopperRollers, 1.0));
-		addSequential(new HopperSetBallio());
+		addSequential(new RunIf(new HopperSetBallio(), this::isNotOverridden));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.directionalRoller, BallIO.DIRECTIONAL_ROLLER_OUTTAKE_SPEED));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller,
 			BallIO.ELEVATOR_AND_INTAKE_ROLLER_FORWARD_SPEED));
@@ -26,12 +26,12 @@ public class BallioOuttake extends CommandGroup implements OverridableCommand {
 	}
 
 	@Override
-	public void setOverride(boolean setValue) {
-		BallioOuttake.ballioCycleOverride = setValue;
+	public void setOverride(boolean ballioOuttakeOverride) {
+		this.ballioOuttakeHopperOverride = ballioOuttakeOverride;
 	}
 
 	@Override
 	public boolean isOverridden() {
-		return BallioOuttake.ballioCycleOverride;
+		return ballioOuttakeHopperOverride;
 	}
 }
