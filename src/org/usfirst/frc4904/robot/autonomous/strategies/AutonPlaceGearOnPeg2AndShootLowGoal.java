@@ -1,0 +1,36 @@
+package org.usfirst.frc4904.robot.autonomous.strategies;
+
+import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.BallioOuttake;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMoveDistance;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisTurn;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+public class AutonPlaceGearOnPeg2AndShootLowGoal extends CommandGroup {
+	public static int ANGLE_MOVE_1_IN_DEGREES = 90;
+	public static double MOVE_CHASSIS_TO_X_DISTANCE_IN_INCHES = 82.44;
+	public static int ANGLE_MOVE_2_IN_DEGREES = 45;
+	public static double MOVE_CHASSIS_TO_2ndX_DISTANCE_IN_INCHES = 14.9;
+
+	public AutonPlaceGearOnPeg2AndShootLowGoal() {
+		addSequential(new AutonPlaceGearOnPeg2());
+		addSequential(
+				new ChassisTurn(RobotMap.Component.chassis, AutonPlaceGearOnPeg2AndShootLowGoal.ANGLE_MOVE_1_IN_DEGREES,
+						RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
+				AutonPlaceGearOnPeg2AndShootLowGoal.MOVE_CHASSIS_TO_X_DISTANCE_IN_INCHES,
+				RobotMap.Component.chassisDriveMC, RobotMap.Component.leftWheelEncoder,
+				RobotMap.Component.rightWheelEncoder));
+		addSequential(
+				new ChassisTurn(RobotMap.Component.chassis, AutonPlaceGearOnPeg2AndShootLowGoal.ANGLE_MOVE_2_IN_DEGREES,
+						RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
+				AutonPlaceGearOnPeg2AndShootLowGoal.MOVE_CHASSIS_TO_2ndX_DISTANCE_IN_INCHES,
+				RobotMap.Component.chassisDriveMC, RobotMap.Component.leftWheelEncoder,
+				RobotMap.Component.rightWheelEncoder));
+		addSequential(new BallioOuttake());
+
+	}
+
+}
