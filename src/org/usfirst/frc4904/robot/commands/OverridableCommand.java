@@ -8,7 +8,7 @@ package org.usfirst.frc4904.robot.commands;
  */
 public interface OverridableCommand {
 	/**
-	 * sets an override to an boolean you give it
+	 * sets an override to an static boolean you give it
 	 * 
 	 * @param override
 	 */
@@ -20,4 +20,11 @@ public interface OverridableCommand {
 	 * @return
 	 */
 	boolean getOverride();
+
+	/**
+	 * opposite of getOverride
+	 * 
+	 * @return
+	 */
+	boolean getNotOverride();
 }
