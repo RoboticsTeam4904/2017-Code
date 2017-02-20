@@ -19,7 +19,7 @@ public class MotionTrajectory {
 		rightWheel = new WheelTrajectory(this, Wheel.RIGHT, tickTotal);
 	}
 
-	public LinkedList<MotionTrajectorySegment> generateSegments(double granularity, double curveThreshold) {
+	public LinkedList<MotionTrajectorySegment> generateFeatureSegments(double granularity, double curveThreshold) {
 		LinkedList<MotionTrajectorySegment> featureSegments = new LinkedList<>();
 		double maxVelocity = 0.0; // idk.
 		double totalDisplacement = 0.0;
