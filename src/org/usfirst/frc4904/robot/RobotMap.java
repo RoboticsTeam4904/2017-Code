@@ -4,6 +4,7 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
+import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
@@ -49,33 +50,42 @@ public class RobotMap {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
-			public static final int climbMotorA = 4;
-			public static final int climbMotorB = 5;
 			public static final int flywheelLeftMotor = 6; // WIP
 			public static final int flywheelRightMotor = 7; // WIP
 		}
 
 		public static class PWM {
-			public static final int leftDriveA = 1;
-			public static final int leftDriveB = 2;
-			public static final int rightDriveA = 3;
-			public static final int rightDriveB = 4;
+			// SOME MOTORS AREN'T EXACT - work in progress
+			public static int leftDriveA = 1;
+			public static int leftDriveB = 2;
+			public static int rightDriveA = 3;
+			public static int rightDriveB = 4;
+			public static final int climbMotorA = 5;
+			public static final int climbMotorB = 6;
+			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9; // WIP
 		}
 
 		public static class CAN {
-			public static final int leftEncoder = 0x611;
-			public static final int rightEncoder = 0x612;
+			public static final int matchConfigBroadcast = 0x600;
 			public static final int flywheelEncoder = 0x605;
 			public static final int lidarTurnEncoder = 0x607;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x612;
 		}
 
 		public static class Pneumatics {
-			public static final int ballioShifterUp = 2;
-			public static final int ballioShifterDown = 3;
-			public static final int solenoidUp = 0;
-			public static final int solenoidDown = 1;
+			// Shifter - blue solenoid
+			public static final int solenoidUp = 6;
+			public static final int solenoidDown = 7;
+			// GearIO gull wings - red solenoid
+			public static final int gearioGullWingsUp = 0;
+			public static final int gearioGullWingsDown = 1;
+			// GearIO ramp - yellow solenoid
+			public static final int gearioRampUp = 2;
+			public static final int gearioRampDown = 3;
+			// Hopper - green solenoid
 			public static final int hopperDown = 4;
 			public static final int hopperUp = 5;
 		}
@@ -98,6 +108,7 @@ public class RobotMap {
 		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
+		public static GearIO gearIO;
 		public static Hopper hopper;
 		public static Subsystem[] mainSubsystems;
 		public static CustomPIDController lidarMC;
@@ -137,8 +148,15 @@ public class RobotMap {
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
+		// GearIO
+		Motor gearioIntakeRoller = new Motor(new VictorSP(Port.PWM.gearioIntakeRoller));
+		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
+			Port.Pneumatics.gearioGullWingsDown);
+		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
+			Port.Pneumatics.gearioRampDown);
+		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		// Climber
-		Component.climber = new Climber(new CANTalon(Port.CANMotor.climbMotorA), new CANTalon(Port.CANMotor.climbMotorB));
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
