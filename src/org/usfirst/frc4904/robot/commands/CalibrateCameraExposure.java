@@ -34,6 +34,7 @@ public class CalibrateCameraExposure extends Command {
 
 	private Socket connect() {
 		while (true) {
+
 			try {
 				Socket s = new Socket(InetAddress.getByName(HOSTNAME), PORT_NUMBER);
 				System.out.println("Socket achieved");
@@ -44,6 +45,14 @@ public class CalibrateCameraExposure extends Command {
 				// later.");
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		new CalibrateCameraExposure();
+	}
+
+	public CalibrateCameraExposure() {
+		execute();
 	}
 
 }
