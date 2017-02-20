@@ -20,8 +20,8 @@ public class ChangeTestingCounter extends Command {
 	@Override
 	protected void execute() {
 		CheckOperator.counter += change;
-		if (CheckOperator.counter < 1) {
-			CheckOperator.counter = 1;
+		if (CheckOperator.counter < 0) {
+			CheckOperator.counter = 0;
 		} else if (CheckOperator.counter > TestSubsystems.totalSubsystems + 1) {
 			CheckOperator.counter = TestSubsystems.totalSubsystems + 1;
 		}
