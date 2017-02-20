@@ -5,8 +5,8 @@ import org.usfirst.frc4904.robot.RobotMap;
 
 public class MotionTrajectorySegment {
 	protected final double initVel;
-	protected final double finVel;
-	protected final double length;
+	protected double finVel;
+	protected double length;
 	protected final double maxVel;
 	protected final double maxAccel;
 	protected double duration;
@@ -25,7 +25,15 @@ public class MotionTrajectorySegment {
 		this.finVel = finVel;
 		this.maxVel = maxVel;
 		this.length = length;
+		partial = false;
 		// adjustedMaxVel = calcAdjustedMaxVel();
+		maxAccel = RobotMap.maxAccel;
+	}
+
+	public MotionTrajectorySegment(double initVel, double maxVel) {
+		this.initVel = initVel;
+		this.maxVel = maxVel;
+		partial = true;
 		maxAccel = RobotMap.maxAccel;
 	}
 

@@ -46,6 +46,7 @@ public class MotionTrajectory {
 		return featureSegments;
 	}
 
+	// public LinkedList<MotionTrajectorySegment> generateSegments(LinkedList<MotionTrajectorySegment> featureSegments)
 	public double fromTickToS(double t) {
 		return t / tickTotal;
 	}
