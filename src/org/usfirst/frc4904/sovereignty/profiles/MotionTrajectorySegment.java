@@ -37,23 +37,23 @@ public class MotionTrajectorySegment {
 		maxAccel = RobotMap.maxAccel;
 	}
 
-	double MaxReachableVel(double distance, double initVel) {
+	public double calcAdjustedMaxVel(double distance) {
+		return Math.min(maxVel, Math.min(maxReachableVel(length, initVel), maxReachableVel(length - distance, initVel)));
+	}
+
+	private double maxReachableVel(double distance, double initVel) {
 		return Math.sqrt(2 * maxAccel * distance + initVel * initVel);
 	}
 
-	double x(double t, double v0, double a) {
-		return v0 * t + (a * t * t) / 2;
+	protected double Pos(double t, double initVel, double a) {
+		return initVel * t + (a * t * t) / 2;
 	}
 
-	double v(double t, double v0, double a) {
-		return v0 + a * t;
+	protected double Vel(double t, double initVel, double a) {
+		return initVel + a * t;
 	}
 
-	double calcAdjustedMaxVel(double distance) {
-		return Math.min(maxVel, Math.min(MaxReachableVel(length, initVel), MaxReachableVel(length - distance, initVel)));
-	}
-
-	void dividePath() {
+	protected void dividePath() {
 		rampUpTime = (adjustedMaxVel - initVel) / maxAccel;
 		rampDownTime = (adjustedMaxVel - finVel) / maxAccel;
 		rampUpDistance = (adjustedMaxVel * adjustedMaxVel - initVel * initVel)
@@ -65,7 +65,7 @@ public class MotionTrajectorySegment {
 		duration = rampUpTime + rampDownTime + cruiseTime;
 	}
 
-	MotionTrajectoryPoint findSetPoint(double t, int tick) {
+	protected MotionTrajectoryPoint findSetPoint(double t, int tick) {
 		double pos;
 		double vel;
 		double accel;
@@ -84,8 +84,8 @@ public class MotionTrajectorySegment {
 			accel = -maxAccel;
 			t -= rampUpTime + cruiseTime;
 		}
-		vel = v(t, vel, accel);
-		pos += x(t, vel, accel);
+		vel = Vel(t, vel, accel);
+		pos += Pos(t, vel, accel);
 		return new MotionTrajectoryPoint(tick, pos, vel, accel);
 	}
 }
