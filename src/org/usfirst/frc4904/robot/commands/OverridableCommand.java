@@ -2,13 +2,11 @@ package org.usfirst.frc4904.robot.commands;
 
 
 /**
- * 
- * @author niksure
- *         This interface allows commands to easily override other commands
+ * This interface allows commands to easily override other commands
  */
 public interface OverridableCommand {
 	/**
-	 * sets an override to an boolean you give it
+	 * sets a static override to a boolean you give it
 	 * 
 	 * @param override
 	 */
@@ -19,5 +17,14 @@ public interface OverridableCommand {
 	 * 
 	 * @return
 	 */
-	boolean getOverride();
+	boolean isOverridden();
+
+	/**
+	 * opposite of getOverride
+	 * 
+	 * @return
+	 */
+	default boolean isNotOverridden() {
+		return !isOverridden();
+	}
 }

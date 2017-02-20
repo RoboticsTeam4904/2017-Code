@@ -12,7 +12,7 @@ public class BallioCycle extends CommandGroup implements OverridableCommand {
 		super("BallioCycle");
 		requires(RobotMap.Component.ballIO);
 		addSequential(new BallioDoorSetOuttake());
-		addSequential(new RunIf(new HopperSetBallio(), this::getNotOverride));
+		addSequential(new RunIf(new HopperSetBallio(), this::isNotOverridden));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.directionalRoller, 1.0));
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller, 1.0));
 		addSequential(new MotorConstant(RobotMap.Component.ballIO.hopperRollers, 1.0));
@@ -29,11 +29,7 @@ public class BallioCycle extends CommandGroup implements OverridableCommand {
 	}
 
 	@Override
-	public boolean getOverride() {
+	public boolean isOverridden() {
 		return BallioOuttake.ballioCycleOverride;
-	}
-
-	public boolean getNotOverride() {
-		return !BallioOuttake.ballioCycleOverride;
 	}
 }
