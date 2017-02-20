@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.OverridableCommand;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
@@ -14,14 +15,14 @@ public class GearIO extends Subsystem implements OverridableCommand {
 	protected final DoubleSolenoid ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
-	public static boolean rampOverride;
+	public boolean rampOverride;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
 		this.ramp = ramp;
 		setState(GearState.TRANSPORT);
-		if (GearIO.rampOverride == false) {
+		if (RobotMap.Component.gearIO.isNotOverridden()) {
 			setRampState(RampState.EXTENDED);
 		}
 	}
@@ -84,12 +85,12 @@ public class GearIO extends Subsystem implements OverridableCommand {
 	}
 
 	@Override
-	public void setOverride(boolean setValue) {
-		GearIO.rampOverride = setValue;
+	public void setOverride(boolean rampOverride) {
+		this.rampOverride = rampOverride;
 	}
 
 	@Override
 	public boolean isOverridden() {
-		return GearIO.rampOverride;
+		return rampOverride;
 	}
 }

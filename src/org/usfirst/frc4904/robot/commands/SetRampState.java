@@ -6,13 +6,19 @@ import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetRampState extends Command {
+	protected RampState state;
+
 	public SetRampState(RampState state) {
+		this.state = state;
+	}
+
+	@Override
+	protected void initialize() {
 		RobotMap.Component.gearIO.setRampState(state);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }
