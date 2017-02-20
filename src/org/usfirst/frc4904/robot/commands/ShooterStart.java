@@ -11,8 +11,8 @@ public class ShooterStart extends CommandGroup implements OverridableCommand {
 	public boolean flywheelOverride = false;
 
 	public ShooterStart() {
-		addParallel(new RunIf(new FlywheelSpinup(NathanGain.shooterSetValue), this::getOverride));
-		addParallel(new RunIf(new FlywheelSpinup(), this::getNotOverride));
+		addParallel(new RunIf(new FlywheelSpinup(NathanGain.shooterSetValue), this::isOverridden));
+		addParallel(new RunIf(new FlywheelSpinup(), this::isNotOverridden));
 		addSequential(new Command() {
 			@Override
 			protected boolean isFinished() {
@@ -28,11 +28,7 @@ public class ShooterStart extends CommandGroup implements OverridableCommand {
 	}
 
 	@Override
-	public boolean getOverride() {
+	public boolean isOverridden() {
 		return flywheelOverride;
-	}
-
-	public boolean getNotOverride() {
-		return !flywheelOverride;
 	}
 }
