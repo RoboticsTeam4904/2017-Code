@@ -15,8 +15,8 @@ public class AlignAssist extends Command {
 	public AlignAssist(GearAlign gearAlign, EnableableModifier fineModifier) {
 		this.gearAlign = gearAlign;
 		this.fineModifier = fineModifier;
-		enableFineModifier = new SetEnableableModifier(fineModifier, true);
-		disableFineModifier = new SetEnableableModifier(fineModifier, false);
+		enableFineModifier = new SetEnableableModifier(true, fineModifier);
+		disableFineModifier = new SetEnableableModifier(false, fineModifier);
 	}
 
 	@Override
