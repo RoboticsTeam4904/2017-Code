@@ -6,7 +6,7 @@ import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetRampState extends Command {
-	protected RampState state;
+	protected final RampState state;
 
 	public SetRampState(RampState state) {
 		this.state = state;

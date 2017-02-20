@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.OverridableCommand;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
@@ -22,9 +21,6 @@ public class GearIO extends Subsystem implements OverridableCommand {
 		this.gullWings = gullWings;
 		this.ramp = ramp;
 		setState(GearState.TRANSPORT);
-		if (RobotMap.Component.gearIO.isNotOverridden()) {
-			setRampState(RampState.EXTENDED);
-		}
 	}
 
 	public static enum GearState {
