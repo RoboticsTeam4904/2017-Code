@@ -18,6 +18,13 @@ public class MotionTrajectory {
 		rightWheel = new WheelTrajectory(this, Wheel.RIGHT, tickTotal);
 	}
 
+	// public Tuple<Integer, MotionTrajectorySegment> generateSegments() {
+	// for(int i = 0; i < granularity; i++) {
+	//
+	// }
+	// Tuple<Integer, MotionTrajectorySegment> trajectorySegment;
+	// return
+	// }
 	public double fromTickToS(double t) {
 		return t / tickTotal;
 	}
