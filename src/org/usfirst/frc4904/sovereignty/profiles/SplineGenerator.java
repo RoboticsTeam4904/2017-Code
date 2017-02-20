@@ -2,16 +2,20 @@ package org.usfirst.frc4904.sovereignty.profiles;
 
 
 public abstract class SplineGenerator {
-	public double calcLength() {
-		return calcLength(1000);
+	public double calcLength(double granularity, double a, double b) {
+		double arcSum = 0;
+		for (double i = a; i < b; i += 1 / granularity) {
+			arcSum += calcSpeed(i);
+		}
+		return arcSum / granularity;
 	}
 
 	public double calcLength(double granularity) {
-		double arcSum = 0;
-		for (int i = 0; i < granularity; i++) {
-			arcSum += calcSpeed(i / granularity) * (1 / granularity);
-		}
-		return arcSum;
+		return calcLength(granularity, 0.0, 1.0);
+	}
+
+	public double calcLength() {
+		return calcLength(1000, 0.0, 1.0);
 	}
 
 	/**
