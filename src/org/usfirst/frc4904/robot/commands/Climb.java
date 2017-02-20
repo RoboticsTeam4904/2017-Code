@@ -16,7 +16,7 @@ public class Climb extends MotorSet {
 
 	@Override
 	protected void initialize() {
-		if (RobotMap.Component.gearIO.getOverride() == false) {
+		if (RobotMap.Component.gearIO.isNotOverridden()) {
 			RobotMap.Component.gearIO.setRampState(GearIO.RampState.RETRACTED);
 		}
 	}

@@ -84,12 +84,12 @@ public class GearIO extends Subsystem implements OverridableCommand {
 	}
 
 	@Override
-	public boolean getOverride() {
-		return GearIO.rampOverride;
+	public void setOverride(boolean setValue) {
+		GearIO.rampOverride = setValue;
 	}
 
 	@Override
-	public void setOverride(boolean setValue) {
-		GearIO.rampOverride = setValue;
+	public boolean isOverridden() {
+		return GearIO.rampOverride;
 	}
 }
