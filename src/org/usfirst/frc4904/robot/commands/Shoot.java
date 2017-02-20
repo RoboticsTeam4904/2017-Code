@@ -13,7 +13,7 @@ public class Shoot extends CommandGroup implements OverridableCommand {
 
 	public Shoot() {
 		addSequential(new HopperSetShooter());
-		addParallel(new RunIf(new RunFor(new IndexerUnload(), Shoot.unloadDuration), this::getNotOverride)); // only anti-jam if not overrided
+		addParallel(new RunIf(new RunFor(new IndexerUnload(), Shoot.unloadDuration), this::isNotOverridden)); // only anti-jam if not overrided
 		addSequential(new Command() {
 			@Override
 			protected boolean isFinished() {
@@ -29,11 +29,7 @@ public class Shoot extends CommandGroup implements OverridableCommand {
 	}
 
 	@Override
-	public boolean getOverride() {
+	public boolean isOverridden() {
 		return antiJamOverride;
-	}
-
-	public boolean getNotOverride() {
-		return !antiJamOverride;
 	}
 }

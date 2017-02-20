@@ -4,17 +4,19 @@ package org.usfirst.frc4904.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetOverride extends Command {
-	public OverridableCommand command;
-	public boolean setValue;
+	protected final boolean setValue;
+	protected final OverridableCommand[] commands;
 
-	public SetOverride(boolean setValue, OverridableCommand command) {
+	public SetOverride(boolean setValue, OverridableCommand... commands) {
 		this.setValue = setValue;
-		this.command = command;
+		this.commands = commands;
 	}
 
 	@Override
 	protected void initialize() {
-		command.setOverride(setValue);// makes command set its override to a bool
+		for (OverridableCommand command : commands) {
+			command.setOverride(setValue);
+		}
 	}
 
 	@Override
