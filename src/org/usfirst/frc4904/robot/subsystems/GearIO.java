@@ -21,6 +21,7 @@ public class GearIO extends Subsystem implements OverridableCommand {
 		this.gullWings = gullWings;
 		this.ramp = ramp;
 		setState(GearState.TRANSPORT);
+		setRampState(GearIO.RampState.EXTENDED);
 	}
 
 	public static enum GearState {
