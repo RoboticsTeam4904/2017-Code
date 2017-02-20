@@ -2,12 +2,7 @@ package org.usfirst.frc4904.robot.commands;
 
 
 /**
- * @author niksure
- */
-/**
- * 
  * This interface allows commands to easily override other commands
- *
  */
 public interface OverridableCommand {
 	/**
