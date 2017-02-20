@@ -151,8 +151,8 @@ public class RobotMap {
 		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
 		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.ballioMainMotor));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
-		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.PWM.flywheelLeftMotor));
-		Motor flywheelRightMotor = new Motor(new CANTalon(Port.PWM.flywheelRightMotor));
+		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.CANMotor.flywheelLeftMotor));
+		Motor flywheelRightMotor = new Motor(new CANTalon(Port.CANMotor.flywheelRightMotor));
 		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
 		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor, flywheelEncoder);
 		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
