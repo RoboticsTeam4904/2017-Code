@@ -1,58 +1,46 @@
 package org.usfirst.frc4904.robot.commands;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class CalibrateCameraExposure extends Command {
 
-	private final String HOSTNAME = "tegra-ubuntu.local";
-	private final int PORT_NUMBER = 5001;
-	private PrintWriter output;
+	NetworkTable table;
+	static double numCalibrations = 0;
+	boolean didCalibrate = false;
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return true;
+		return table.getBoolean("didCalibrate");
+	}
+
+	@Override
+	protected void initialize() {
+		CalibrateCameraExposure.numCalibrations = 0;
+		NetworkTable.setIPAddress("10.49.4.2");
+		NetworkTable.setClientMode();
+		NetworkTable.setTeam(4904);
+		NetworkTable.initialize();
+		table = NetworkTable.getTable("autocalibrate");
 	}
 
 	@Override
 	protected void execute() {
-		Socket s = connect();
-		try {
-			output = new PrintWriter(s.getOutputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		output.println("do the autocalibrate thing please");
-		output.flush();
+		// System.out.println("num calibrations is " +
+		// CalibrateCameraExposure3.numCalibrations);
+		CalibrateCameraExposure.numCalibrations += 1;
+		table.putNumber("autocalibrate", CalibrateCameraExposure.numCalibrations);
 	}
 
-	private Socket connect() {
-		while (true) {
-
-			try {
-				Socket s = new Socket(InetAddress.getByName(HOSTNAME), PORT_NUMBER);
-				System.out.println("Socket achieved");
-				return s;
-			} catch (IOException e) {
-				System.out.println("no connection");
-				// fatalError("Error connecting to the server, try again
-				// later.");
-			}
-		}
-	}
-
-	public static void main(String[] args) {
-		new CalibrateCameraExposure();
-	}
-
-	public CalibrateCameraExposure() {
-		execute();
-	}
+	// public static void main(String[] args) {
+	// new CalibrateCameraExposure();
+	// }
+	//
+	// public CalibrateCameraExposure() {
+	// initialize();
+	// while (!isFinished()) {
+	// execute();
+	// }
+	// }
 
 }
