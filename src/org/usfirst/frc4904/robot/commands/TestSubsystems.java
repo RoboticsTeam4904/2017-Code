@@ -46,16 +46,16 @@ public class TestSubsystems extends Command { // TODO: Change commands to comman
 		if (currentTestNumber != CheckOperator.counter) {
 			LogKitten.wtf("current " + currentTestNumber);
 			LogKitten.wtf("counter " + CheckOperator.counter);
-			LogKitten.wtf("Difference");
+			LogKitten.wtf("Button Press Recieved.");
 			if (CheckOperator.counter >= TestSubsystems.totalSubsystems + 1) {
 				systemTests[currentTestNumber].cancel();
 				running = false;
 			} else {
-				LogKitten.wtf("Real difference");
+				LogKitten.wtf("Changing test.");
 				systemTests[currentTestNumber].cancel();
-				LogKitten.wtf("Thing being cancelled: " + systemTests[currentTestNumber].getName());
+				LogKitten.wtf("Cancelling: " + systemTests[currentTestNumber].getName());
 				LogKitten.wtf(systemTests[CheckOperator.counter].getName());
-				LogKitten.wtf("Thing being started: " + systemTests[CheckOperator.counter].getName());
+				LogKitten.wtf("Starting: " + systemTests[CheckOperator.counter].getName());
 				systemTests[CheckOperator.counter].start();
 				currentTestNumber = CheckOperator.counter;
 			}
