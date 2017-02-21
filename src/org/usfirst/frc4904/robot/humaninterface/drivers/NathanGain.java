@@ -3,8 +3,6 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.Climb;
-import org.usfirst.frc4904.robot.commands.SetOverride;
-import org.usfirst.frc4904.robot.commands.ShooterStart;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -66,8 +64,6 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		RobotMap.Component.teensyStick.getButton(2).whenPressed(new SetOverride(true, new ShooterStart()));
-		RobotMap.Component.teensyStick.getButton(2).whenReleased(new SetOverride(false, new ShooterStart()));
 		NathanGain.shooterSetValue = RobotMap.Component.teensyStick.getAxis(NathanGain.SHOOTER_SLIDER);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
