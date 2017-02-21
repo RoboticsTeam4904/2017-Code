@@ -101,7 +101,7 @@ public class RobotMap {
 		public static CustomJoystick operatorStick;
 		public static TeensyController teensyStick;
 		public static PDP pdp;
-		public static PowerDistributionPanel pdpErikLogger;
+		public static PowerDistributionPanel CANPDPlogger;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
@@ -124,7 +124,7 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.pdpErikLogger = new PowerDistributionPanel();
+		Component.CANPDPlogger = new PowerDistributionPanel();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
