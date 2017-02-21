@@ -60,11 +60,19 @@ strictfp public class MotionTrajectory {
 	}
 
 	public double calcMaxSpeed(double s) {
-		return RobotMap.maxVel / (1 + plantWidth * Math.abs(splineGenerator.calcCurvature(s)) / 2);
+		return calcMaxSpeedFromCurvature(splineGenerator.calcCurvature(s));
+	}
+
+	public double calcMaxSpeedFromCurvature(double curvature) {
+		return RobotMap.maxVel / (1 + plantWidth * Math.abs(curvature) / 2);
 	}
 
 	public double calcMaxAngularVel(double s) {
 		return calcTurning(s, calcMaxSpeed(s)) * plantWidth; // = theta/second * circumference/2pi = distance / second
+	}
+
+	public double calcAngularVel(double speed, double curvature) {
+		return curvature * speed * plantWidth; // = theta/second * circumference/2pi = distance / second
 	}
 
 	protected double calcTurning(double s, double speed) {

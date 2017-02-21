@@ -4,6 +4,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 public class SplineSegment {
 	protected double initCurve;
 	protected double finCurve;
+	public double maxCurvature;
 	public double initPercentage;
 	protected double finPercentage;
 	protected double length;
@@ -23,7 +24,8 @@ public class SplineSegment {
 		this.initPercentage = initPercentage;
 	}
 
-	public double averageCurvature() {
-		return (initCurve + finCurve) / 2;
+	public double calcMaxCurvature() {
+		maxCurvature = Math.max(initCurve, finCurve);
+		return maxCurvature;
 	}
 }
