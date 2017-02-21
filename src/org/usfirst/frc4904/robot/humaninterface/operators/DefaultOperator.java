@@ -10,6 +10,8 @@ import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.commands.HopperSetBallio;
+import org.usfirst.frc4904.robot.commands.HopperSetShooter;
 import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
@@ -38,6 +40,11 @@ public class DefaultOperator extends Operator {
 			true)
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		RobotMap.Component.teensyStick.getButton(6).whenPressed(new SetOverride(true, new BallioOuttake(), new BallioCycle()));
+		RobotMap.Component.teensyStick.getButton(6)
+			.whenReleased(new SetOverride(false, new BallioOuttake(), new BallioCycle()));
+		RobotMap.Component.teensyStick.getButton(7).whenPressed(new HopperSetBallio());
+		RobotMap.Component.teensyStick.getButton(8).whenPressed(new HopperSetShooter());
 		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(12)
