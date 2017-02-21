@@ -78,8 +78,8 @@ public class CANTalonMotionTrajectoryExecutor {
 	 * any reason.
 	 */
 	public void cancel() {
-		pointMessengerThread.interrupt();
-		statusManagerThread.interrupt();
+		pointMessenger.interrupt();
+		statusManager.interrupt();
 		bufferUpdaterNotifier.stop();
 		// Be a good citizen: Clean up after yourself
 		motorLeft.changeControlMode(originalModeLeft);
@@ -89,6 +89,7 @@ public class CANTalonMotionTrajectoryExecutor {
 	}
 
 	private static class CANTalonMotionTrajectoryStatusManager implements Runnable {
+		private volatile boolean interrupted = false;
 		private final CANTalon motorLeft, motorRight;
 		private LocalState localState = LocalState.LOADING;
 		private final Callback cancelCallback;
@@ -115,31 +116,37 @@ public class CANTalonMotionTrajectoryExecutor {
 
 		@Override
 		public void run() {
-			CANTalon.MotionProfileStatus statusLeft = new CANTalon.MotionProfileStatus();
-			CANTalon.MotionProfileStatus statusRight = new CANTalon.MotionProfileStatus();
-			motorLeft.getMotionProfileStatus(statusLeft);
-			motorRight.getMotionProfileStatus(statusRight);
-			if (motorLeft.getControlMode() != TalonControlMode.MotionProfile
-				|| motorRight.getControlMode() != TalonControlMode.MotionProfile) {
-				cancelCallback.cancel();
+			while (!interrupted) {
+				CANTalon.MotionProfileStatus statusLeft = new CANTalon.MotionProfileStatus();
+				CANTalon.MotionProfileStatus statusRight = new CANTalon.MotionProfileStatus();
+				motorLeft.getMotionProfileStatus(statusLeft);
+				motorRight.getMotionProfileStatus(statusRight);
+				if (motorLeft.getControlMode() != TalonControlMode.MotionProfile
+					|| motorRight.getControlMode() != TalonControlMode.MotionProfile) {
+					cancelCallback.cancel();
+				}
+				switch (localState) {
+					case LOADING:
+						if (statusLeft.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS
+							&& statusRight.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS) {
+							motorLeft.set(CANTalon.SetValueMotionProfile.Enable.value);
+							motorRight.set(CANTalon.SetValueMotionProfile.Enable.value);
+							localState = LocalState.ACTIVE;
+						}
+						break;
+					case ACTIVE:
+						if (statusLeft.activePointValid && statusRight.activePointValid && statusLeft.activePoint.isLastPoint
+							&& statusRight.activePoint.isLastPoint) {
+							motorLeft.set(CANTalon.SetValueMotionProfile.Hold.value);
+							motorRight.set(CANTalon.SetValueMotionProfile.Hold.value);
+							localState = LocalState.LOADING;
+						}
+				}
 			}
-			switch (localState) {
-				case LOADING:
-					if (statusLeft.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS
-						&& statusRight.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS) {
-						motorLeft.set(CANTalon.SetValueMotionProfile.Enable.value);
-						motorRight.set(CANTalon.SetValueMotionProfile.Enable.value);
-						localState = LocalState.ACTIVE;
-					}
-					break;
-				case ACTIVE:
-					if (statusLeft.activePointValid && statusRight.activePointValid && statusLeft.activePoint.isLastPoint
-						&& statusRight.activePoint.isLastPoint) {
-						motorLeft.set(CANTalon.SetValueMotionProfile.Hold.value);
-						motorRight.set(CANTalon.SetValueMotionProfile.Hold.value);
-						localState = LocalState.LOADING;
-					}
-			}
+		}
+
+		public void interrupt() {
+			interrupted = true;
 		}
 	}
 
@@ -167,6 +174,7 @@ public class CANTalonMotionTrajectoryExecutor {
 	}
 
 	private static class CANTalonMotionTrajectoryPointMessenger implements Runnable {
+		private volatile boolean interrupted = false;
 		private final CANTalonMotionTrajectoryExecutor executor;
 		private final MotionTrajectoryQueue queue;
 		private final CANTalon motorLeft, motorRight;
@@ -193,9 +201,15 @@ public class CANTalonMotionTrajectoryExecutor {
 
 		@Override
 		public void run() {
-			Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> pointPair = queue.pointQueue.pop();
-			motorLeft.pushMotionProfileTrajectory(executor.standardToTalonPoint(pointPair.getX()));
-			motorRight.pushMotionProfileTrajectory(executor.standardToTalonPoint(pointPair.getY()));
+			while (!interrupted) {
+				Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> pointPair = queue.pointQueue.pop();
+				motorLeft.pushMotionProfileTrajectory(executor.standardToTalonPoint(pointPair.getX()));
+				motorRight.pushMotionProfileTrajectory(executor.standardToTalonPoint(pointPair.getY()));
+			}
+		}
+
+		public void interrupt() {
+			interrupted = true;
 		}
 	}
 }
