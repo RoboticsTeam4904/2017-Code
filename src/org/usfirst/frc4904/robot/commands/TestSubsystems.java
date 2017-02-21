@@ -25,6 +25,7 @@ public class TestSubsystems extends Command {
 		systemTests[4] = new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller, 0.5);
 		systemTests[5] = new MotorConstant(RobotMap.Component.ballIO.hopperRollers, 0.5);
 		systemTests[6] = new MotorConstant(RobotMap.Component.gearIO.intakeRoller, 0.5);
+		systemTests[7] = new MotorConstant(RobotMap.Component.climber, 0.5);
 		LogKitten.wtf("Initializing TestSubsystem Commands.");
 	}
 
