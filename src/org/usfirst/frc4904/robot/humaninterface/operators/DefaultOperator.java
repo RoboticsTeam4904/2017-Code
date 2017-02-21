@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -37,6 +38,8 @@ public class DefaultOperator extends Operator {
 			true)
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		RobotMap.Component.teensyStick.getButton(4).whenPressed(new SetOverride(true, new Shoot()));
+		RobotMap.Component.teensyStick.getButton(4).whenReleased(new SetOverride(false, new Shoot()));
 	}
 
 	private class ThresholdCommand extends Command {
