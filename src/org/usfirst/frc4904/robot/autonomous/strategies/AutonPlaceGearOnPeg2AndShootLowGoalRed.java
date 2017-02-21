@@ -14,7 +14,7 @@ public class AutonPlaceGearOnPeg2AndShootLowGoalRed extends CommandGroup {
 	public static final double MOVE_CHASSIS_TO_2ndX_DISTANCE_IN_INCHES = 14.9;
 
 	public AutonPlaceGearOnPeg2AndShootLowGoalRed() {
-		addSequential(new AutonPlaceGearOnPeg2Red());
+		addSequential(new AutonPlaceGearOnPeg2());
 		addSequential(
 			new ChassisTurn(RobotMap.Component.chassis, AutonPlaceGearOnPeg2AndShootLowGoalRed.ANGLE_MOVE_1_IN_DEGREES,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
