@@ -3,7 +3,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 
 import java.util.LinkedList;
 
-public abstract class SplineGenerator {
+strictfp public abstract class SplineGenerator {
 	public static double INTEGRATION_GRANULARITY = 1000;
 
 	/**

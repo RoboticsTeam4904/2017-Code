@@ -6,7 +6,7 @@ import java.util.Map;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.sovereignty.profiles.WheelTrajectory.Wheel;
 
-public class MotionTrajectory {
+strictfp public class MotionTrajectory {
 	protected final SplineGenerator splineGenerator;
 	protected final double plantWidth;
 	protected final double tickTime, tickTotal;

@@ -5,7 +5,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 
-public class CANTalonMotionTrajectoryExecutor {
+strictfp public class CANTalonMotionTrajectoryExecutor {
 	// Callback for the cancel method.
 	private static interface Callback {
 		public void cancel();

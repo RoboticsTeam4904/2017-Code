@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class WheelTrajectory {
+strictfp public class WheelTrajectory {
 	protected final MotionTrajectory motionTrajectoryProfile;
 	protected LinkedList<WheelTrajectorySegment> trajectorySegments;
 	protected final Wheel wheel;
