@@ -5,7 +5,7 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.standard.commands.Kill;
+import org.usfirst.frc4904.standard.commands.Cancel;
 import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
@@ -71,7 +71,7 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
-		RobotMap.Component.teensyStick.getButton(3).whenPressed(new Kill(autoShifter));
+		RobotMap.Component.teensyStick.getButton(3).whenPressed(new Cancel(autoShifter));
 		RobotMap.Component.teensyStick.getButton(3).whenReleased(autoShifter);
 		// Inverted (airplane-style) analog gain control
 		new Climb(() -> Math.max(0,
