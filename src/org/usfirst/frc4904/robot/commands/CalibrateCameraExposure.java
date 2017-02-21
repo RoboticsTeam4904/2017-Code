@@ -11,17 +11,20 @@ public class CalibrateCameraExposure extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return table.getBoolean("didCalibrate");
+		return table.getBoolean("didCalibrate", false);
+	}
+
+	public CalibrateCameraExposure() {
+		table = NetworkTable.getTable("autocalibrate");
+		// NetworkTable.setIPAddress("10.49.4.2");
+		// NetworkTable.setClientMode();
+		// NetworkTable.setTeam(4904);
+		// NetworkTable.initialize();
 	}
 
 	@Override
 	protected void initialize() {
 		CalibrateCameraExposure.numCalibrations = 0;
-		NetworkTable.setIPAddress("10.49.4.2");
-		NetworkTable.setClientMode();
-		NetworkTable.setTeam(4904);
-		NetworkTable.initialize();
-		table = NetworkTable.getTable("autocalibrate");
 	}
 
 	@Override
