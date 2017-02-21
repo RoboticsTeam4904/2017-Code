@@ -28,10 +28,10 @@ strictfp public class WheelTrajectory {
 	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments, Wheel wheel,
 		double tickTotal, double tickTime) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
-		trajectorySegments = finalizeSegments(generateBackwardConsistency(generateForwardConsistency(featureSegments)));
 		this.wheel = wheel;
 		this.tickTotal = tickTotal;
 		this.tickTime = tickTime;
+		trajectorySegments = finalizeSegments(generateBackwardConsistency(generateForwardConsistency(featureSegments)));
 	}
 
 	/**
