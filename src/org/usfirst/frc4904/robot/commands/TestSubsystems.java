@@ -1,26 +1,29 @@
 package org.usfirst.frc4904.robot.commands;
 
 
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.humaninterface.operators.CheckOperator;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.Noop;
+import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class TestSubsystems extends Command {
-	public static final int totalSubsystems = 2; // WIP
+	public static final int totalSubsystems = 5; // WIP
 	public int currentTestNumber = 0;
 	public boolean running = true;
 	public Command[] systemTests = new Command[TestSubsystems.totalSubsystems + 1];
 
 	public TestSubsystems() {
 		systemTests[0] = new Noop();
-		// systemTests[1] = new CheckMotorConstant(RobotMap.Component.leftWheel,
-		// RobotMap.Component.leftWheelEncoder, 0.2, 2, 0.1, 2);
-		// systemTests[2] = new CheckMotorConstant(RobotMap.Component.rightWheel,
-		// RobotMap.Component.rightWheelEncoder, 0.2, 2, 0.1, 2);
+		systemTests[1] = new MotorConstant(RobotMap.Component.leftWheel, 0.5);
+		systemTests[2] = new MotorConstant(RobotMap.Component.rightWheel, 0.5);
+		systemTests[3] = new MotorConstant(RobotMap.Component.ballIO.directionalRoller, 0.5);
+		systemTests[4] = new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller, 0.5);
+		systemTests[5] = new MotorConstant(RobotMap.Component.ballIO.hopperRollers, 0.5);
 		LogKitten.wtf("Initializing TestSubsystem Commands.");
 	}
 
