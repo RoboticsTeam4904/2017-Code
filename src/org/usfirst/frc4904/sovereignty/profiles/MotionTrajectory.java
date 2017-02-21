@@ -26,10 +26,10 @@ public class MotionTrajectory {
 		// Hopefully the curvature is never non-zero at the initial position of the arc.
 		double lastCurve = 0.0;
 		MotionTrajectorySegment lastTrajectorySegment = new MotionTrajectorySegment(0, maxVelocity);
-		for (int i = 0; i < granularity; i++) {
-			double instantCurve = splineGenerator.calcCurvature(i / granularity);
+		for (double i = 0; i < 1; i += 1 / granularity) {
+			double instantCurve = splineGenerator.calcCurvature(i);
 			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
-				double instantLen = splineGenerator.calcLength(1000, totalDisplacement, i / granularity);
+				double instantLen = splineGenerator.calcLength(1000, i, i + 1 / granularity);
 				totalDisplacement += instantLen;
 				lastCurve = instantCurve;
 				lastTrajectorySegment.length = instantLen;
