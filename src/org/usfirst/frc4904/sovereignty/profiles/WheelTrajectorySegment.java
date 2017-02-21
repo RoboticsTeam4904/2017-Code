@@ -17,7 +17,6 @@ public class WheelTrajectorySegment {
 	protected double rampDownDistance;
 	protected double cruiseDistance;
 	protected double cruiseTime;
-	protected boolean partial;
 
 	public WheelTrajectorySegment(double initVel, double finVel,
 		double maxVel, double length) {
@@ -25,14 +24,12 @@ public class WheelTrajectorySegment {
 		this.finVel = finVel;
 		this.maxVel = maxVel;
 		this.length = length;
-		partial = false;
 		maxAccel = RobotMap.maxAccel;
 	}
 
 	public WheelTrajectorySegment(double initVel, double maxVel) {
 		this.initVel = initVel;
 		this.maxVel = maxVel;
-		partial = true;
 		maxAccel = RobotMap.maxAccel;
 	}
 
