@@ -7,7 +7,7 @@ public class HumanInterfaceConfig {
 	public static final GearAlign gearAlign = new GearAlign();
 	public static final double XBOX_DEADZONE = 0.1;
 	public static final double JOYSTICK_DEADZONE = 0.1;
-	public static final int TEENSY_CONTROLLER_NUM_BUTTONS = 30;
+	public static final int TEENSY_STICK_NUM_BUTTONS = 30;
 
 	private HumanInterfaceConfig() {}
 }
