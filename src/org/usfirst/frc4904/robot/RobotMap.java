@@ -168,7 +168,8 @@ public class RobotMap {
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
-		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick,
+			HumanInterfaceConfig.TEENSY_CONTROLLER_NUM_BUTTONS);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
