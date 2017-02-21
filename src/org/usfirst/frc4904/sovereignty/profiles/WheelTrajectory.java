@@ -13,7 +13,16 @@ public class WheelTrajectory {
 	protected final double tickTime;
 
 	public static enum Wheel {
-		LEFT, RIGHT;
+		LEFT(-1), RIGHT(1);
+		private final int modifier;
+
+		Wheel(int modifier) {
+			this.modifier = modifier;
+		}
+
+		public int getModifier() {
+			return modifier;
+		}
 	}
 
 	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
@@ -82,7 +91,7 @@ public class WheelTrajectory {
 	 */
 	public double calcMaxVel(double s) {
 		return motionTrajectoryProfile.calcMaxSpeed(s)
-			+ (motionTrajectoryProfile.calcMaxAngularVel(s) * (wheel == Wheel.RIGHT ? 1 : -1)) / 2.0;
+			+ (motionTrajectoryProfile.calcMaxAngularVel(s) * wheel.getModifier()) / 2.0;
 	}
 
 	public double calcAcc(double s, MotionTrajectoryPoint lastPoint) {
