@@ -33,13 +33,15 @@ public class MotionTrajectory {
 				totalDisplacement += instantLen;
 				lastCurve = instantCurve;
 				lastTrajectorySegment.length = instantLen;
+				lastTrajectorySegment.finVel = lastTrajectorySegment.calcAdjustedMaxVel(instantLen);
 				lastTrajectorySegment.partial = false;
 				featureSegments.add(lastTrajectorySegment);
-				lastTrajectorySegment = new MotionTrajectorySegment(0, maxVelocity);
+				lastTrajectorySegment = new MotionTrajectorySegment(lastTrajectorySegment.finVel, maxVelocity);
 			}
 		}
 		if (lastTrajectorySegment.partial) {
 			lastTrajectorySegment.length = splineGenerator.calcLength(1000, totalDisplacement, 1);
+			lastTrajectorySegment.finVel = lastTrajectorySegment.calcAdjustedMaxVel(lastTrajectorySegment.length);
 			lastTrajectorySegment.partial = false;
 			featureSegments.add(lastTrajectorySegment);
 		}

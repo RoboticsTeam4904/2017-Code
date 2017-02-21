@@ -47,8 +47,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.lb
 			.onlyWhileHeld(
 				new RunAllSequential(new WaitCommand("Third gear activation delay", NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS),
-					new SetEnableableModifier(true, modifier)));
-		RobotMap.Component.driverXbox.lb.whenReleased(new SetEnableableModifier(true, modifier));
+					new SetEnableableModifier(modifier, true)));
+		RobotMap.Component.driverXbox.lb.whenReleased(new SetEnableableModifier(modifier, true));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
