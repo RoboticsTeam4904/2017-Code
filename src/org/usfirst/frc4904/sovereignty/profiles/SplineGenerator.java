@@ -26,10 +26,11 @@ public abstract class SplineGenerator {
 				double curveLen = calcLength(lastPercentage, i + 1 / granularity);
 				lastPercentage = i;
 				lastCurve = instantCurve;
+				lastFeature.finCurve = instantCurve;
 				lastFeature.length = curveLen;
 				lastFeature.finPercentage = lastPercentage;
 				featureSegments.add(lastFeature);
-				lastFeature = new SplineSegment(lastFeature.finCurve);
+				lastFeature = new SplineSegment(instantCurve, lastPercentage);
 			}
 		}
 		lastFeature.length = calcLength(lastPercentage, 1);

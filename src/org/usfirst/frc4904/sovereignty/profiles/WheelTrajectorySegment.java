@@ -63,7 +63,7 @@ public class WheelTrajectorySegment {
 	}
 
 	protected void dividePath() {
-		adjustedMaxVel = calcAdjustedVel();
+		adjustedMaxVel = Math.min(maxVel, calcAdjustedVel());
 		rampUpTime = (adjustedMaxVel - initVel) / maxAccel;
 		rampDownTime = (adjustedMaxVel - finVel) / maxAccel;
 		rampUpDistance = (adjustedMaxVel * adjustedMaxVel - initVel * initVel)
