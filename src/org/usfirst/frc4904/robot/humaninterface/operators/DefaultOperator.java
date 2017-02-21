@@ -33,7 +33,7 @@ public class DefaultOperator extends Operator {
 			true)
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
-		RobotMap.Component.teensyStick.getButton(9).whenPressed(new HopperAgitate());
+		RobotMap.Component.teensyStick.getButton(9).onlyWhileHeld(new HopperAgitate());
 	}
 
 	private class ThresholdCommand extends Command {
