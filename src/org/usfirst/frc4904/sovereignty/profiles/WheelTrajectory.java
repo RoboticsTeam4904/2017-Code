@@ -50,10 +50,6 @@ public class WheelTrajectory {
 		return trajectorySegments;
 	}
 
-	public double calcPos(double s, MotionTrajectoryPoint lastPoint) {
-		return lastPoint.pos + ((calcMaxVel(s) + lastPoint.vel) / 2) * (1 / tickTotal);
-	}
-
 	/**
 	 * Calculates the velocity (in the eyes of CTRE)
 	 * 
