@@ -26,7 +26,6 @@ public class WheelTrajectorySegment {
 		this.maxVel = maxVel;
 		this.length = length;
 		partial = false;
-		// adjustedMaxVel = calcAdjustedMaxVel();
 		maxAccel = RobotMap.maxAccel;
 	}
 
@@ -37,7 +36,7 @@ public class WheelTrajectorySegment {
 		maxAccel = RobotMap.maxAccel;
 	}
 
-	public double calcAdjustedMaxVel(double distance) {
+	public double calcVelFromFrontAndBack(double distance) {
 		return Math.min(maxVel, Math.min(maxReachableVel(length, initVel), maxReachableVel(length - distance, initVel)));
 	}
 
@@ -61,7 +60,12 @@ public class WheelTrajectorySegment {
 		return initVel + a * t;
 	}
 
+	public double calcAdjustedVel() {
+		return Math.sqrt(maxAccel * length + (initVel * initVel + finVel * finVel) / 2);
+	}
+
 	protected void dividePath() {
+		adjustedMaxVel = calcAdjustedVel();
 		rampUpTime = (adjustedMaxVel - initVel) / maxAccel;
 		rampDownTime = (adjustedMaxVel - finVel) / maxAccel;
 		rampUpDistance = (adjustedMaxVel * adjustedMaxVel - initVel * initVel)
