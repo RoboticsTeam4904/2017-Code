@@ -17,6 +17,7 @@ public abstract class SplineGenerator {
 				lastPercentage = i;
 				lastCurve = instantCurve;
 				lastTrajectorySegment.length = curveLen;
+				lastTrajectorySegment.finPercentage = lastPercentage;
 				featureSegments.add(lastTrajectorySegment);
 				lastTrajectorySegment = new SplineSegment(lastTrajectorySegment.finCurve);
 			}

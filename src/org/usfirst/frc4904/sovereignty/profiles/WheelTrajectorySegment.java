@@ -4,7 +4,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 import org.usfirst.frc4904.robot.RobotMap;
 
 public class WheelTrajectorySegment {
-	protected final double initVel;
+	protected double initVel;
 	protected double finVel;
 	protected double length;
 	protected final double maxVel;
