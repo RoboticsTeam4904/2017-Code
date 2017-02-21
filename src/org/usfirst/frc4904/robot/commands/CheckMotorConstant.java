@@ -16,12 +16,12 @@ public class CheckMotorConstant extends Command { // TODO: Add comments to make 
 	double secondMotorSpeed;
 	double firstEncoderReading;
 	double secondEncoderReading;
-	int secondsPerReading;
+	double secondsPerReading;
 	boolean finished;
 	double allowedError;
 
 	public CheckMotorConstant(Motor motor, CustomEncoder encoder, double firstMotorSpeed, double multiplier,
-		double allowedError, int secondsPerReading) {
+		double allowedError, double secondsPerReading) {
 		super("Checking motor " + motor.getName());
 		requires(motor);
 		this.encoder = encoder;
