@@ -25,8 +25,6 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final int SHOOTER_SLIDER = 0;
-	public static double shooterSetValue;
 	public static final double FINE_SCALE = 0.5;
 	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
 	protected final EnableableModifier modifier = new EnableableModifier(new LinearModifier(NathanGain.FINE_SCALE));
@@ -64,7 +62,6 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		NathanGain.shooterSetValue = RobotMap.Component.teensyStick.getAxis(NathanGain.SHOOTER_SLIDER);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
