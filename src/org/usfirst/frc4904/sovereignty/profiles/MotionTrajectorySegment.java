@@ -45,6 +45,14 @@ public class MotionTrajectorySegment {
 		return Math.sqrt(2 * maxAccel * distance + initVel * initVel);
 	}
 
+	public double calcReachableEndVel() {
+		return Math.min(finVel, maxReachableVel(length, initVel));
+	}
+
+	public double calcReachableStartVel() {
+		return Math.min(initVel, maxReachableVel(length, finVel));
+	}
+
 	protected double Pos(double t, double initVel, double a) {
 		return initVel * t + (a * t * t) / 2;
 	}
