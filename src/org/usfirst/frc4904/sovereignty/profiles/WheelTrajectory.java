@@ -16,7 +16,7 @@ public class WheelTrajectory {
 	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
 		Wheel wheel, double tickTotal) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
-		trajectorySegments = generateBackwardConsistency(generateForwardConsistency(featureSegments));
+		trajectorySegments = finalizeSegments(generateBackwardConsistency(generateForwardConsistency(featureSegments)));
 		this.wheel = wheel;
 		this.tickTotal = tickTotal;
 	}
@@ -39,6 +39,13 @@ public class WheelTrajectory {
 		LinkedList<WheelTrajectorySegment> trajectorySegments) {
 		for (int i = trajectorySegments.size() - 1; i > 0; i--) {
 			trajectorySegments.get(i).initVel = trajectorySegments.get(i).calcReachableStartVel();
+		}
+		return trajectorySegments;
+	}
+
+	public LinkedList<WheelTrajectorySegment> finalizeSegments(LinkedList<WheelTrajectorySegment> trajectorySegments) {
+		for (WheelTrajectorySegment segment : trajectorySegments) {
+			segment.dividePath();
 		}
 		return trajectorySegments;
 	}
