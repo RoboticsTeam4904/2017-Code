@@ -10,11 +10,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CommandWithMessage extends Command {
 	Object message;
 	Command command;
-	LogKitten.KittenLevel level;
 
-	public CommandWithMessage(Command command, Object message, LogKitten.KittenLevel level) {
+	public CommandWithMessage(Command command, Object message) {
 		this.message = message;
-		this.level = level;
 		this.command = command;
 	}
 
