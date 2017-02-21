@@ -1,7 +1,31 @@
 package org.usfirst.frc4904.sovereignty.profiles;
 
 
+import java.util.LinkedList;
+
 public abstract class SplineGenerator {
+	public LinkedList<SplineSegment> generateFeatureSegments(double granularity, double curveThreshold) {
+		LinkedList<SplineSegment> featureSegments = new LinkedList<>();
+		double lastPercentage = 0.0;
+		// Hopefully the curvature is never non-zero at the initial position of the arc.
+		double lastCurve = 0.0;
+		SplineSegment lastTrajectorySegment = new SplineSegment(0);
+		for (double i = 0; i < 1; i += 1 / granularity) {
+			double instantCurve = calcCurvature(i);
+			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
+				double curveLen = calcLength(1000, lastPercentage, i + 1 / granularity);
+				lastPercentage = i;
+				lastCurve = instantCurve;
+				lastTrajectorySegment.length = curveLen;
+				featureSegments.add(lastTrajectorySegment);
+				lastTrajectorySegment = new SplineSegment(lastTrajectorySegment.finCurve);
+			}
+		}
+		lastTrajectorySegment.length = calcLength(1000, lastPercentage, 1);
+		featureSegments.add(lastTrajectorySegment);
+		return featureSegments;
+	}
+
 	public double calcLength(double granularity, double a, double b) {
 		double arcSum = 0;
 		for (double i = a; i < b; i += 1 / granularity) {

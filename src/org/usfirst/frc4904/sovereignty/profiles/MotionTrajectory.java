@@ -19,13 +19,12 @@ public class MotionTrajectory {
 		rightWheel = new WheelTrajectory(this, Wheel.RIGHT, tickTotal);
 	}
 
-	public LinkedList<MotionTrajectorySegment> generateFeatureSegments(double granularity, double curveThreshold) {
-		LinkedList<MotionTrajectorySegment> featureSegments = new LinkedList<>();
-		double maxVelocity = 0.0; // idk.
+	public LinkedList<SplineSegment> generateFeatureSegments(double granularity, double curveThreshold) {
+		LinkedList<SplineSegment> featureSegments = new LinkedList<>();
 		double lastPercentage = 0.0;
 		// Hopefully the curvature is never non-zero at the initial position of the arc.
 		double lastCurve = 0.0;
-		MotionTrajectorySegment lastTrajectorySegment = new MotionTrajectorySegment(0, maxVelocity);
+		SplineSegment lastTrajectorySegment = new SplineSegment(0);
 		for (double i = 0; i < 1; i += 1 / granularity) {
 			double instantCurve = splineGenerator.calcCurvature(i);
 			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
@@ -33,18 +32,12 @@ public class MotionTrajectory {
 				lastPercentage = i;
 				lastCurve = instantCurve;
 				lastTrajectorySegment.length = curveLen;
-				lastTrajectorySegment.finVel = lastTrajectorySegment.maxReachableVel();
-				lastTrajectorySegment.partial = false;
 				featureSegments.add(lastTrajectorySegment);
-				lastTrajectorySegment = new MotionTrajectorySegment(lastTrajectorySegment.finVel, maxVelocity);
+				lastTrajectorySegment = new SplineSegment(lastTrajectorySegment.finCurve);
 			}
 		}
-		if (lastTrajectorySegment.partial) {
-			lastTrajectorySegment.length = splineGenerator.calcLength(1000, lastPercentage, 1);
-			lastTrajectorySegment.finVel = lastTrajectorySegment.calcAdjustedMaxVel(lastTrajectorySegment.length);
-			lastTrajectorySegment.partial = false;
-			featureSegments.add(lastTrajectorySegment);
-		}
+		lastTrajectorySegment.length = splineGenerator.calcLength(1000, lastPercentage, 1);
+		featureSegments.add(lastTrajectorySegment);
 		return featureSegments;
 	}
 

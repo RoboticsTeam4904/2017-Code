@@ -3,7 +3,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 
 import org.usfirst.frc4904.robot.RobotMap;
 
-public class MotionTrajectorySegment {
+public class WheelTrajectorySegment {
 	protected final double initVel;
 	protected double finVel;
 	protected double length;
@@ -19,7 +19,7 @@ public class MotionTrajectorySegment {
 	protected double cruiseTime;
 	protected boolean partial;
 
-	public MotionTrajectorySegment(double initVel, double finVel,
+	public WheelTrajectorySegment(double initVel, double finVel,
 		double maxVel, double length) {
 		this.initVel = initVel;
 		this.finVel = finVel;
@@ -30,7 +30,7 @@ public class MotionTrajectorySegment {
 		maxAccel = RobotMap.maxAccel;
 	}
 
-	public MotionTrajectorySegment(double initVel, double maxVel) {
+	public WheelTrajectorySegment(double initVel, double maxVel) {
 		this.initVel = initVel;
 		this.maxVel = maxVel;
 		partial = true;
