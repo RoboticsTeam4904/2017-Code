@@ -70,4 +70,16 @@ strictfp public class MotionTrajectory {
 	protected double calcTurning(double s, double speed) {
 		return splineGenerator.calcCurvature(s) * speed;
 	}
+
+	public Tuple<Tuple<Double, Double>, Tuple<Double, Double>> calcPerpDerivativeAndSpeed(double s) {
+		Tuple<Double, Double> splineVel = splineGenerator.calcVel(s);
+		Tuple<Double, Double> splineAcc = splineGenerator.calcAcc(s);
+		double splineSpeed = Math.sqrt(splineVel.getX() * splineVel.getX() + splineVel.getY() * splineVel.getY());
+		double splineSpeedD = (splineAcc.getX() * splineVel.getX() + splineAcc.getY() * splineVel.getY())
+			/ (splineSpeed * splineSpeed); // The derivative of the speed of the spline / v
+		Tuple<Double, Double> perpDerivative = new Tuple(
+			(splineVel.getY() * splineSpeedD - splineAcc.getY()) / splineSpeed * plantWidth,
+			(splineAcc.getX() - splineVel.getX() * splineSpeedD) / splineSpeed * plantWidth);
+		return new Tuple(perpDerivative, splineVel);
+	}
 }

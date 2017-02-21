@@ -25,8 +25,8 @@ strictfp public class WheelTrajectory {
 		}
 	}
 
-	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
-		Wheel wheel, double tickTotal, double tickTime) {
+	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments, Wheel wheel,
+		double tickTotal, double tickTime) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
 		trajectorySegments = finalizeSegments(generateBackwardConsistency(generateForwardConsistency(featureSegments)));
 		this.wheel = wheel;
@@ -51,7 +51,7 @@ strictfp public class WheelTrajectory {
 		LinkedList<WheelTrajectorySegment> trajectorySegments = new LinkedList<>();
 		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, calcMaxVel(0));
 		for (int i = 0; i < featureSegments.size(); i++) {
-			lastSegment.length = featureSegments.get(i).length;
+			lastSegment.length = calcLength(featureSegments.get(i).initPercentage, featureSegments.get(i).finPercentage);
 			lastSegment.finVel = lastSegment.calcReachableEndVel();
 			trajectorySegments.add(lastSegment);
 			if (i != featureSegments.size() - 1) {
@@ -126,5 +126,28 @@ strictfp public class WheelTrajectory {
 
 	public double calcAcc(double s, MotionTrajectoryPoint lastPoint) {
 		return (calcMaxVel(s) - lastPoint.vel) / (1 / tickTotal);
+	}
+
+	public double calcLength(double a, double b, double granularity) {
+		double arcSum = 0;
+		for (double i = a; i < b; i += 1 / granularity) {
+			arcSum += calcPathSpeed(i);
+		}
+		return arcSum / granularity;
+	}
+
+	public double calcLength(double a, double b) {
+		return calcLength(a, b, 1000);
+	}
+
+	public double calcPathSpeed(double s) {
+		Tuple<Tuple<Double, Double>, Tuple<Double, Double>> info = motionTrajectoryProfile.calcPerpDerivativeAndSpeed(s);
+		Tuple<Double, Double> perpD = info.getX();
+		Tuple<Double, Double> splineVel = info.getY();
+		double speed = Math.sqrt(
+			(splineVel.getX() + perpD.getX() * wheel.getModifier()) * (splineVel.getX() + perpD.getX() * wheel.getModifier())
+				+ (splineVel.getY() + perpD.getY() * wheel.getModifier())
+					* (splineVel.getY() + perpD.getY() * wheel.getModifier())); // derivative of the wheel position (splinePosition +- perpVector) = splinePos' +- perpVector'
+		return speed;
 	}
 }
