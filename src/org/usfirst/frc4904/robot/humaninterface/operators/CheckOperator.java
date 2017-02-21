@@ -7,7 +7,7 @@ import org.usfirst.frc4904.standard.humaninput.Operator;
 
 public class CheckOperator extends Operator {
 	public static final double INTAKE_THRESHOLD = 0.5;
-	public static int counter = 1;
+	public static int counter = 0;
 
 	public CheckOperator() {
 		super("DefaultOperator");
