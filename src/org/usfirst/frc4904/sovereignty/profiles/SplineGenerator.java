@@ -4,6 +4,14 @@ package org.usfirst.frc4904.sovereignty.profiles;
 import java.util.LinkedList;
 
 public abstract class SplineGenerator {
+	/**
+	 * Generates an ordered list of distinct features of the spline. Distinct features are
+	 * defined as a sudden change in curvature above the provided curve threshold.
+	 * 
+	 * @param granularity
+	 * @param curveThreshold
+	 * @return ordered list of distinct features of the generated spline
+	 */
 	public LinkedList<SplineSegment> generateFeatureSegments(double granularity, double curveThreshold) {
 		LinkedList<SplineSegment> featureSegments = new LinkedList<>();
 		double lastPercentage = 0.0;

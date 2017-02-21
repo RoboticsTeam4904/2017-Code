@@ -38,7 +38,7 @@ public class CANTalonMotionTrajectoryExecutor {
 		trajectory = queue.getTrajectory();
 		pointMessenger = new CANTalonMotionTrajectoryPointMessenger(this, queue, motorLeft, motorRight);
 		pointMessengerThread = new Thread(pointMessenger);
-		statusManager = new CANTalonMotionTrajectoryStatusManager(motorLeft, motorRight, () -> cancel());
+		statusManager = new CANTalonMotionTrajectoryStatusManager(motorLeft, motorRight, this::cancel);
 		statusManagerThread = new Thread(statusManager);
 		bufferUpdater = new CANTalonMotionTrajectoryBufferUpdater(motorLeft, motorRight);
 		bufferUpdaterNotifier = new Notifier(bufferUpdater);
