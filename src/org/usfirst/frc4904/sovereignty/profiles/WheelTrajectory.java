@@ -23,9 +23,22 @@ public class WheelTrajectory {
 
 	public LinkedList<WheelTrajectorySegment> generateForwardConsistency(LinkedList<SplineSegment> featureSegments) {
 		LinkedList<WheelTrajectorySegment> trajectorySegments = new LinkedList<>();
-		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, 0);
-		for (SplineSegment feature : featureSegments) {
-			// trajectorySegments.
+		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, calcMaxVel(0));
+		for (int i = 0; i < featureSegments.size(); i++) {
+			lastSegment.length = featureSegments.get(i).length;
+			lastSegment.finVel = lastSegment.calcReachableEndVel();
+			trajectorySegments.add(lastSegment);
+			if (i != featureSegments.size() - 1) {
+				lastSegment = new WheelTrajectorySegment(lastSegment.finVel, calcMaxVel(featureSegments.get(i).finPercentage));
+			}
+		}
+		return trajectorySegments;
+	}
+
+	public LinkedList<WheelTrajectorySegment> generateBackwardConsistency(
+		LinkedList<WheelTrajectorySegment> trajectorySegments) {
+		for (int i = trajectorySegments.size() - 1; i > 0; i--) {
+			trajectorySegments.get(i).initVel = trajectorySegments.get(i).calcReachableStartVel();
 		}
 		return trajectorySegments;
 	}
