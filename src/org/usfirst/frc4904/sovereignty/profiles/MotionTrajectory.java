@@ -77,9 +77,9 @@ strictfp public class MotionTrajectory {
 		double splineSpeed = Math.sqrt(splineVel.getX() * splineVel.getX() + splineVel.getY() * splineVel.getY());
 		double splineSpeedD = (splineAcc.getX() * splineVel.getX() + splineAcc.getY() * splineVel.getY())
 			/ (splineSpeed * splineSpeed); // The derivative of the speed of the spline / v
-		Tuple<Double, Double> perpDerivative = new Tuple(
+		Tuple<Double, Double> perpDerivative = new Tuple<>(
 			(splineVel.getY() * splineSpeedD - splineAcc.getY()) / splineSpeed * plantWidth,
 			(splineAcc.getX() - splineVel.getX() * splineSpeedD) / splineSpeed * plantWidth);
-		return new Tuple(perpDerivative, splineVel);
+		return new Tuple<>(perpDerivative, splineVel);
 	}
 }
