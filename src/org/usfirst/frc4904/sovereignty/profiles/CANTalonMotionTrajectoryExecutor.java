@@ -6,6 +6,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 
 public class CANTalonMotionTrajectoryExecutor {
+	// Callback for the cancel method.
 	private static interface Callback {
 		public void cancel();
 	}
@@ -20,6 +21,14 @@ public class CANTalonMotionTrajectoryExecutor {
 	private final Thread pointMessengerThread;
 	private final Thread statusManagerThread;
 
+	/**
+	 * Executes a motion trajectory on CANTalon motors.
+	 * 
+	 * @param motorLeft
+	 * @param motorRight
+	 * @param queue
+	 *        the queue from which we fetch motion trajectory points during the motion trajectory.
+	 */
 	public CANTalonMotionTrajectoryExecutor(CANTalon motorLeft, CANTalon motorRight, MotionTrajectoryQueue queue) {
 		this.motorLeft = motorLeft;
 		this.motorRight = motorRight;
@@ -49,6 +58,9 @@ public class CANTalonMotionTrajectoryExecutor {
 		return canPoint;
 	}
 
+	/**
+	 * Starts and initializes the motors and the necessary threads.
+	 */
 	public void start() {
 		motorLeft.changeControlMode(TalonControlMode.MotionProfile);
 		motorRight.changeControlMode(TalonControlMode.MotionProfile);
@@ -61,9 +73,13 @@ public class CANTalonMotionTrajectoryExecutor {
 		bufferUpdaterNotifier.startPeriodic((trajectory.tickTime / 2) / 1000);
 	}
 
+	/**
+	 * Cleanup threads and motor settings when the trajectory is stopped for
+	 * any reason.
+	 */
 	public void cancel() {
 		pointMessengerThread.interrupt();
-		statusManager.cancel();
+		statusManagerThread.interrupt();
 		bufferUpdaterNotifier.stop();
 		// Be a good citizen: Clean up after yourself
 		motorLeft.changeControlMode(originalModeLeft);
@@ -73,7 +89,6 @@ public class CANTalonMotionTrajectoryExecutor {
 	}
 
 	private static class CANTalonMotionTrajectoryStatusManager implements Runnable {
-		private volatile boolean interrupted = false;
 		private final CANTalon motorLeft, motorRight;
 		private LocalState localState = LocalState.LOADING;
 		private final Callback cancelCallback;
@@ -82,6 +97,16 @@ public class CANTalonMotionTrajectoryExecutor {
 			LOADING, ACTIVE;
 		}
 
+		/**
+		 * Watches and manages the status of the left/right motors to ensure the
+		 * motors act as intended.
+		 * 
+		 * @param motorLeft
+		 * @param motorRight
+		 * @param cancelCallback
+		 *        ensures that the proper cleanup is run in the event that the
+		 *        control mode is switched unexpectedly.
+		 */
 		CANTalonMotionTrajectoryStatusManager(CANTalon motorLeft, CANTalon motorRight, Callback cancelCallback) {
 			this.motorLeft = motorLeft;
 			this.motorRight = motorRight;
@@ -90,44 +115,45 @@ public class CANTalonMotionTrajectoryExecutor {
 
 		@Override
 		public void run() {
-			while (!interrupted) {
-				CANTalon.MotionProfileStatus statusLeft = new CANTalon.MotionProfileStatus();
-				CANTalon.MotionProfileStatus statusRight = new CANTalon.MotionProfileStatus();
-				motorLeft.getMotionProfileStatus(statusLeft);
-				motorRight.getMotionProfileStatus(statusRight);
-				if (motorLeft.getControlMode() != TalonControlMode.MotionProfile
-					|| motorRight.getControlMode() != TalonControlMode.MotionProfile) {
-					cancelCallback.cancel();
-				}
-				switch (localState) {
-					case LOADING:
-						if (statusLeft.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS
-							&& statusRight.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS) {
-							motorLeft.set(CANTalon.SetValueMotionProfile.Enable.value);
-							motorRight.set(CANTalon.SetValueMotionProfile.Enable.value);
-							localState = LocalState.ACTIVE;
-						}
-						break;
-					case ACTIVE:
-						if (statusLeft.activePointValid && statusRight.activePointValid && statusLeft.activePoint.isLastPoint
-							&& statusRight.activePoint.isLastPoint) {
-							motorLeft.set(CANTalon.SetValueMotionProfile.Hold.value);
-							motorRight.set(CANTalon.SetValueMotionProfile.Hold.value);
-							localState = LocalState.LOADING;
-						}
-				}
+			CANTalon.MotionProfileStatus statusLeft = new CANTalon.MotionProfileStatus();
+			CANTalon.MotionProfileStatus statusRight = new CANTalon.MotionProfileStatus();
+			motorLeft.getMotionProfileStatus(statusLeft);
+			motorRight.getMotionProfileStatus(statusRight);
+			if (motorLeft.getControlMode() != TalonControlMode.MotionProfile
+				|| motorRight.getControlMode() != TalonControlMode.MotionProfile) {
+				cancelCallback.cancel();
 			}
-			interrupted = false;
-		}
-
-		public void cancel() {
-			interrupted = true;
+			switch (localState) {
+				case LOADING:
+					if (statusLeft.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS
+						&& statusRight.btmBufferCnt > CANTalonMotionTrajectoryPointMessenger.TALON_MIN_POINTS) {
+						motorLeft.set(CANTalon.SetValueMotionProfile.Enable.value);
+						motorRight.set(CANTalon.SetValueMotionProfile.Enable.value);
+						localState = LocalState.ACTIVE;
+					}
+					break;
+				case ACTIVE:
+					if (statusLeft.activePointValid && statusRight.activePointValid && statusLeft.activePoint.isLastPoint
+						&& statusRight.activePoint.isLastPoint) {
+						motorLeft.set(CANTalon.SetValueMotionProfile.Hold.value);
+						motorRight.set(CANTalon.SetValueMotionProfile.Hold.value);
+						localState = LocalState.LOADING;
+					}
+			}
 		}
 	}
 
 	private static class CANTalonMotionTrajectoryBufferUpdater implements Runnable {
 		private final CANTalon motorLeft, motorRight;
 
+		/**
+		 * Tells the CANTalons to process the buffer. This should be run periodically,
+		 * at a rate faster than the tick time to ensure that the motors don't run out
+		 * of points.
+		 * 
+		 * @param motorLeft
+		 * @param motorRight
+		 */
 		CANTalonMotionTrajectoryBufferUpdater(CANTalon motorLeft, CANTalon motorRight) {
 			this.motorLeft = motorLeft;
 			this.motorRight = motorRight;
@@ -146,6 +172,17 @@ public class CANTalonMotionTrajectoryExecutor {
 		private final CANTalon motorLeft, motorRight;
 		static final int TALON_MIN_POINTS = 5;
 
+		/**
+		 * Manages pushing the points to the CANTalons as soon as it gets a point from
+		 * the trajectory queue.
+		 * 
+		 * @param executor
+		 *        provides access to the standardToTalonPoint method
+		 * @param queue
+		 *        the wrapper around the queue that the MotionTrajectoryPoints are added to.
+		 * @param motorLeft
+		 * @param motorRight
+		 */
 		CANTalonMotionTrajectoryPointMessenger(CANTalonMotionTrajectoryExecutor executor, MotionTrajectoryQueue queue,
 			CANTalon motorLeft, CANTalon motorRight) {
 			this.executor = executor;
