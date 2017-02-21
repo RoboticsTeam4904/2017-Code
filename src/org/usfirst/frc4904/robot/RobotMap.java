@@ -7,8 +7,8 @@ import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
-import org.usfirst.frc4904.robot.subsystems.Indexer;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
+import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
 import org.usfirst.frc4904.sovereignty.FusibleNavX;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -52,17 +53,15 @@ public class RobotMap {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
-			public static final int flywheelLeftMotor = 6; // WIP
-			public static final int flywheelRightMotor = 7; // WIP
+			public static final int climbMotorA = 4;
+			public static final int climbMotorB = 5;
+			public static final int flywheelMotorA = 6; // WIP
+			public static final int flywheelMotorB = 7; // WIP
+			public static final int indexerMotor = 8; // WIP
 		}
 
 		public static class PWM {
 			// SOME MOTORS AREN'T EXACT - work in progress
-			public static final int ballioTopMotor = 4; // WIP
-			public static final int ballioLeftMotor = 5; // WIP
-			public static final int ballioMainMotor = 6; // WIP
-			public static final int ballioServo = 7;
-			public static final int indexerMotor = 8;
 			public static int leftDriveA = 1;
 			public static int leftDriveB = 2;
 			public static int rightDriveA = 3;
@@ -70,6 +69,7 @@ public class RobotMap {
 			public static final int climbMotorA = 5;
 			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
+			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9; // WIP
 		}
 
@@ -124,8 +124,8 @@ public class RobotMap {
 		public static Climber climber;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
-		public static Indexer indexer;
 		public static Flywheel flywheel;
+		public static Shooter shooter;
 	}
 
 	public RobotMap() {
@@ -135,8 +135,8 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisDriveMC.setInputRange(-180, 180);
 		Component.chassisDriveMC.setContinuous(true);
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
@@ -146,17 +146,17 @@ public class RobotMap {
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
-		// Ball-Intake-Outtake
-		Motor ballioDirectionalRoller = new Motor(new VictorSP(Port.PWM.ballioTopMotor));
-		Motor ballioHopperRollers = new Motor(new VictorSP(Port.PWM.ballioLeftMotor));
-		Motor ballioElevatorAndIntakeRoller = new Motor(new VictorSP(Port.PWM.ballioMainMotor));
-		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioServo));
-		Motor flywheelLeftMotor = new Motor(new CANTalon(Port.CANMotor.flywheelLeftMotor));
-		Motor flywheelRightMotor = new Motor(new CANTalon(Port.CANMotor.flywheelRightMotor));
-		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
-		Component.flywheel = new Flywheel(flywheelLeftMotor, flywheelRightMotor, flywheelEncoder);
-		Motor indexerMotor = new Motor(new CANTalon(Port.PWM.indexerMotor));
-		Component.indexer = new Indexer(indexerMotor);
+		Component.rightWheel.setInverted(true);
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// BallIO
+		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
+			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+		ballioDirectionalRoller.setInverted(true);
+		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
+		ballioHopperRollers.setInverted(true);
+		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller",
+			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		// GearIO
@@ -168,13 +168,21 @@ public class RobotMap {
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		// Shooter
+		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
+		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
+		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
+		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
+		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
+		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
+		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.teensyStick = new TeensyController(Port.HumanInput.joystick, 30);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
@@ -186,7 +194,8 @@ public class RobotMap {
 			LIDAR.TURN_F, Component.lidarTurnEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
+				Component.hopper,
 				Component.lidar};
 	}
 }

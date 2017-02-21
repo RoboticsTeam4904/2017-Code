@@ -3,13 +3,13 @@ package org.usfirst.frc4904.robot.commands;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class BallioDoorSet extends Command {
-	protected final BallIO.DoorState targetState;
+public class BallioDoorSetUnsafely extends CommandGroup {
+	protected BallIO.DoorState targetState;
 
-	public BallioDoorSet(BallIO.DoorState targetState) {
-		requires(RobotMap.Component.ballIO.doorServo);
+	public BallioDoorSetUnsafely(BallIO.DoorState targetState) {
+		requires(RobotMap.Component.ballIO);
 		this.targetState = targetState;
 	}
 
