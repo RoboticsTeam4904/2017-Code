@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
+import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
@@ -18,12 +19,11 @@ import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.AutoSolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -94,6 +94,11 @@ public class RobotMap {
 
 	public static class Metrics {
 		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
+		public static final double WHEEL_DIAMETER_INCHES = 3.5;
+		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI;
+		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
+			/ Metrics.WHEEL_PULSES_PER_REVOLUTION;
+		public static final double HIGH_TO_LOW_GEAR_RATIO = 3.15;
 	}
 
 	public static class Component {
@@ -101,11 +106,11 @@ public class RobotMap {
 		public static CustomJoystick operatorStick;
 		public static TeensyController teensyStick;
 		public static PDP pdp;
+		public static AutoSolenoidShifters shifter;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
-		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static MotionController chassisDriveMC;
 		public static BallIO ballIO;
@@ -124,20 +129,22 @@ public class RobotMap {
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisTurnMC.setInputRange(-180, 180);
+		Component.chassisTurnMC.setContinuous(true);
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisDriveMC.setInputRange(-180, 180);
-		Component.chassisDriveMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+		Component.leftWheel = new Motor("LeftWheel", false, new SpeedModifierGroup(
+			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+		Component.rightWheel = new Motor("RightWheel", false, new SpeedModifierGroup(
+			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		// Ball Intake
 		Component.rightWheel.setInverted(true);
