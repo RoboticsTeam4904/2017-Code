@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TestSubsystems extends Command {
+public class TestSubsystems extends Command { // TODO: Change commands to commandwithmessage's
 	public static final int totalSubsystems = 12; // WIP
 	public int currentTestNumber = 0;
 	public boolean running = true;
