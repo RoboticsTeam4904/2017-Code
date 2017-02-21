@@ -15,6 +15,7 @@ import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.RunIfElse;
+import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -49,6 +50,10 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.teensyStick.getButton(16)
+			.whenPressed(new SingleOp(RobotMap.Component.flywheel::disableMotionController));
+		RobotMap.Component.teensyStick.getButton(16)
+			.whenReleased(new SingleOp(RobotMap.Component.flywheel::disableMotionController));
 	}
 
 	private class ThresholdCommand extends Command {
