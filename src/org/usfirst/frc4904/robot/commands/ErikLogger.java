@@ -31,13 +31,13 @@ public class ErikLogger extends Command {
 		}
 		totalTicks++;
 		prefixedLog("-------------------");
-		prefixedLog("PDP voltage: " + RobotMap.Component.pdp.getVoltage());
-		prefixedLog("PDP temperature: " + RobotMap.Component.pdp.getTemperature());
-		prefixedLog("PDP total current: " + RobotMap.Component.pdp.getTotalCurrent());
-		prefixedLog("PDP total power: " + RobotMap.Component.pdp.getTotalPower());
-		prefixedLog("PDP total energy: " + RobotMap.Component.pdp.getTotalEnergy());
+		prefixedLog("PDP voltage: " + RobotMap.Component.pdpErikLogger.getVoltage());
+		prefixedLog("PDP temperature: " + RobotMap.Component.pdpErikLogger.getTemperature());
+		prefixedLog("PDP total current: " + RobotMap.Component.pdpErikLogger.getTotalCurrent());
+		prefixedLog("PDP total power: " + RobotMap.Component.pdpErikLogger.getTotalPower());
+		prefixedLog("PDP total energy: " + RobotMap.Component.pdpErikLogger.getTotalEnergy());
 		for (int i = 0; i <= 15; i++) {
-			prefixedLog("PDP channel " + i + " current: " + RobotMap.Component.pdp.getCurrent(i));
+			prefixedLog("PDP channel " + i + " current: " + RobotMap.Component.pdpErikLogger.getCurrent(i));
 		}
 		prefixedLog("NavX yaw: " + RobotMap.Component.navx.getYaw());
 		prefixedLog("NavX y acceleration: " + RobotMap.Component.navx.getWorldLinearAccelY());
