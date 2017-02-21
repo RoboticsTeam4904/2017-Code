@@ -7,6 +7,6 @@ import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 
 public class FlywheelSpinup extends MotorConstant {
 	public FlywheelSpinup() {
-		super(RobotMap.Component.flywheel, Flywheel.SHOOTING_SPEED);
+		super("FlywheelSpinup", RobotMap.Component.flywheel, Flywheel.SHOOTING_SPEED);
 	}
 }

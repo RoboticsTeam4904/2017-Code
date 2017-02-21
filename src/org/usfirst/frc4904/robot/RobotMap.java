@@ -17,6 +17,7 @@ import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
@@ -31,7 +32,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -55,9 +55,9 @@ public class RobotMap {
 			public static final int ballioElevatorAndIntakeRoller = 3;
 			public static final int climbMotorA = 4;
 			public static final int climbMotorB = 5;
-			public static final int flywheelMotorA = 6; // WIP
-			public static final int flywheelMotorB = 7; // WIP
-			public static final int indexerMotor = 8; // WIP
+			public static final int flywheelMotorA = 6;
+			public static final int flywheelMotorB = 7;
+			public static final int indexerMotor = 8;
 		}
 
 		public static class PWM {
@@ -169,9 +169,9 @@ public class RobotMap {
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter
-		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
-		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
-		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
+		CANTalon flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
+		CANTalon flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
+		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
