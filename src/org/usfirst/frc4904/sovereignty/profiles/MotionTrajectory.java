@@ -60,7 +60,7 @@ strictfp public class MotionTrajectory {
 	}
 
 	public double calcMaxSpeed(double s) {
-		return RobotMap.maxVel / (1 + plantWidth * splineGenerator.calcCurvature(s) / 2);
+		return RobotMap.maxVel / (1 + plantWidth * Math.abs(splineGenerator.calcCurvature(s)) / 2);
 	}
 
 	public double calcMaxAngularVel(double s) {
@@ -78,8 +78,8 @@ strictfp public class MotionTrajectory {
 		double splineSpeedD = (splineAcc.getX() * splineVel.getX() + splineAcc.getY() * splineVel.getY())
 			/ (splineSpeed * splineSpeed); // The derivative of the speed of the spline / v
 		Tuple<Double, Double> perpDerivative = new Tuple(
-			(splineVel.getY() * splineSpeedD - splineAcc.getY()) / splineSpeed * plantWidth,
-			(splineAcc.getX() - splineVel.getX() * splineSpeedD) / splineSpeed * plantWidth);
+			(splineVel.getY() * splineSpeedD - splineAcc.getY()) / splineSpeed * plantWidth / 2.0,
+			(splineAcc.getX() - splineVel.getX() * splineSpeedD) / splineSpeed * plantWidth / 2.0);
 		return new Tuple(perpDerivative, splineVel);
 	}
 }
