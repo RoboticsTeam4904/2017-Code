@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot.humaninterface.operators;
 
-import java.util.function.Supplier;
 
+import java.util.function.Supplier;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.BallioCycle;
 import org.usfirst.frc4904.robot.commands.BallioFloorClear;
@@ -12,7 +12,6 @@ import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DefaultOperator extends Operator {
@@ -28,11 +27,11 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
-		RobotMap.Component.teensyStick.button12.whenPressed(new CalibrateCameraExposure());
+		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY,
-				DefaultOperator.INTAKE_THRESHOLD).start();
+			DefaultOperator.INTAKE_THRESHOLD).start();
 		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
-				-DefaultOperator.INTAKE_THRESHOLD, true).start();
+			-DefaultOperator.INTAKE_THRESHOLD, true).start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
 	}
 
