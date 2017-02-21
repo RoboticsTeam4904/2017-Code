@@ -16,8 +16,10 @@ public class MotionTrajectory {
 		this.plantWidth = plantWidth;
 		this.tickTime = tickTime;
 		this.tickTotal = tickTotal;
-		leftWheel = new WheelTrajectory(this, Wheel.LEFT, tickTotal);
-		rightWheel = new WheelTrajectory(this, Wheel.RIGHT, tickTotal);
+		// TODO: Update the threshold to reflect a real value.
+		LinkedList<SplineSegment> featureSegments = splineGenerator.generateFeatureSegments(1000, 0.0);
+		leftWheel = new WheelTrajectory(this, featureSegments, Wheel.LEFT, tickTotal);
+		rightWheel = new WheelTrajectory(this, featureSegments, Wheel.RIGHT, tickTotal);
 	}
 
 	public LinkedList<SplineSegment> generateFeatureSegments(double granularity, double curveThreshold) {
@@ -42,7 +44,6 @@ public class MotionTrajectory {
 		return featureSegments;
 	}
 
-	// public LinkedList<MotionTrajectorySegment> generateSegments(LinkedList<MotionTrajectorySegment> featureSegments)
 	public double fromTickToS(double t) {
 		return t / tickTotal;
 	}

@@ -1,8 +1,11 @@
 package org.usfirst.frc4904.sovereignty.profiles;
 
 
+import java.util.LinkedList;
+
 public class WheelTrajectory {
 	protected final MotionTrajectory motionTrajectoryProfile;
+	protected final LinkedList<SplineSegment> featureSegments;
 	protected final Wheel wheel;
 	protected final double tickTotal;
 
@@ -10,10 +13,21 @@ public class WheelTrajectory {
 		LEFT, RIGHT;
 	}
 
-	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, Wheel wheel, double tickTotal) {
+	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
+		Wheel wheel, double tickTotal) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
+		this.featureSegments = featureSegments;
 		this.wheel = wheel;
 		this.tickTotal = tickTotal;
+	}
+
+	public LinkedList<WheelTrajectorySegment> generateForwardConsistency(LinkedList<SplineSegment> featureSegments) {
+		LinkedList<WheelTrajectorySegment> trajectorySegments = new LinkedList<>();
+		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, 0);
+		for (SplineSegment feature : featureSegments) {
+			// trajectorySegments.
+		}
+		return trajectorySegments;
 	}
 
 	public double calcPos(double s, MotionTrajectoryPoint lastPoint) {

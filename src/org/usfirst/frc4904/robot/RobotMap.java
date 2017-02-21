@@ -119,6 +119,7 @@ public class RobotMap {
 		public static AligningCamera alignCamera;
 	}
 	public static double maxAccel = 1;
+	public static double maxVel = Double.NEGATIVE_INFINITY;
 
 	public RobotMap() {
 		Component.pdp = new PDP();
