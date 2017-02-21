@@ -2,6 +2,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 
 
 import java.util.LinkedList;
+import java.util.Map;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.sovereignty.profiles.WheelTrajectory.Wheel;
 
@@ -10,6 +11,12 @@ public class MotionTrajectory {
 	protected final double plantWidth;
 	protected final double tickTime, tickTotal;
 	protected final WheelTrajectory leftWheel, rightWheel;
+	protected final LinkedList<SplineSegment> featureSegments;
+	/**
+	 * Maps a tick to a left/right-specific segment, and the time that the tick occurs at relative to
+	 * the beginning time of the segment.
+	 */
+	protected final Map<Integer, Tuple<Double, WheelTrajectorySegment>> leftWheelTickMap, rightWheelTickMap;
 
 	public MotionTrajectory(SplineGenerator splineGenerator, double plantWidth, double tickTime, double tickTotal) {
 		this.splineGenerator = splineGenerator;
@@ -17,9 +24,11 @@ public class MotionTrajectory {
 		this.tickTime = tickTime;
 		this.tickTotal = tickTotal;
 		// TODO: Update the threshold to reflect a real value.
-		LinkedList<SplineSegment> featureSegments = splineGenerator.generateFeatureSegments(1000, 0.0);
-		leftWheel = new WheelTrajectory(this, featureSegments, Wheel.LEFT, tickTotal);
-		rightWheel = new WheelTrajectory(this, featureSegments, Wheel.RIGHT, tickTotal);
+		featureSegments = splineGenerator.generateFeatureSegments(1000, 0.0);
+		leftWheel = new WheelTrajectory(this, featureSegments, Wheel.LEFT, tickTotal, tickTime);
+		rightWheel = new WheelTrajectory(this, featureSegments, Wheel.RIGHT, tickTotal, tickTime);
+		leftWheelTickMap = leftWheel.generateTickMap();
+		rightWheelTickMap = rightWheel.generateTickMap();
 	}
 
 	public LinkedList<SplineSegment> generateFeatureSegments(double granularity, double curveThreshold) {
@@ -44,18 +53,11 @@ public class MotionTrajectory {
 		return featureSegments;
 	}
 
-	public double fromTickToS(double t) {
-		return t / tickTotal;
-	}
-
-	public Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> calcPoint(int t,
-		Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> lastPoint) {
-		double s = fromTickToS(t);
-		MotionTrajectoryPoint leftPoint = new MotionTrajectoryPoint(t, leftWheel.calcPos(s, lastPoint.getX()),
-			leftWheel.calcMaxVel(s), leftWheel.calcAcc(s, lastPoint.getX()));
-		MotionTrajectoryPoint rightPoint = new MotionTrajectoryPoint(t, rightWheel.calcPos(s, lastPoint.getY()),
-			rightWheel.calcMaxVel(s), rightWheel.calcAcc(s, lastPoint.getY()));
-		return new Tuple<>(leftPoint, rightPoint);
+	public Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> calcPoint(int tick) {
+		Tuple<Double, WheelTrajectorySegment> leftWheelTick = leftWheelTickMap.get(tick);
+		Tuple<Double, WheelTrajectorySegment> rightWheelTick = rightWheelTickMap.get(tick);
+		return new Tuple<>(leftWheelTick.getY().findSetPoint(leftWheelTick.getX(), tick),
+			rightWheelTick.getY().findSetPoint(rightWheelTick.getX(), tick));
 	}
 
 	public double calcMaxSpeed(double s) {

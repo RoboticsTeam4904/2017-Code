@@ -20,7 +20,7 @@ public class MotionTrajectoryQueue {
 	protected class MotionTrajectoryBuilder implements Runnable {
 		private final MotionTrajectory trajectory;
 		private final LinkedBlockingDeque<Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint>> queue;
-		private Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> lastPoint = new Tuple<>(
+		private final Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> zeroPoint = new Tuple<>(
 			new MotionTrajectoryPoint(0, 0, 0, 0), new MotionTrajectoryPoint(0, 0, 0, 0));
 		private int tickNum = 0;
 
@@ -28,13 +28,13 @@ public class MotionTrajectoryQueue {
 			LinkedBlockingDeque<Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint>> queue) {
 			this.trajectory = trajectory;
 			this.queue = queue;
+			queue.add(zeroPoint);
 		}
 
 		@Override
 		public void run() {
-			Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> newPoint = trajectory.calcPoint(tickNum += 1, lastPoint);
-			queue.add(newPoint);
-			lastPoint = newPoint;
+			Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> point = trajectory.calcPoint(tickNum += 1);
+			queue.add(point);
 		}
 	}
 }

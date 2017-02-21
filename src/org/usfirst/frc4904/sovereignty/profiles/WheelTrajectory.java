@@ -1,24 +1,28 @@
 package org.usfirst.frc4904.sovereignty.profiles;
 
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class WheelTrajectory {
 	protected final MotionTrajectory motionTrajectoryProfile;
-	protected final LinkedList<WheelTrajectorySegment> trajectorySegments;
+	protected LinkedList<WheelTrajectorySegment> trajectorySegments;
 	protected final Wheel wheel;
 	protected final double tickTotal;
+	protected final double tickTime;
 
 	public static enum Wheel {
 		LEFT, RIGHT;
 	}
 
 	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
-		Wheel wheel, double tickTotal) {
+		Wheel wheel, double tickTotal, double tickTime) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
 		trajectorySegments = finalizeSegments(generateBackwardConsistency(generateForwardConsistency(featureSegments)));
 		this.wheel = wheel;
 		this.tickTotal = tickTotal;
+		this.tickTime = tickTime;
 	}
 
 	public LinkedList<WheelTrajectorySegment> generateForwardConsistency(LinkedList<SplineSegment> featureSegments) {
@@ -44,10 +48,30 @@ public class WheelTrajectory {
 	}
 
 	public LinkedList<WheelTrajectorySegment> finalizeSegments(LinkedList<WheelTrajectorySegment> trajectorySegments) {
+		double timePassed = 0;
+		double distanceTraveled = 0;
 		for (WheelTrajectorySegment segment : trajectorySegments) {
 			segment.dividePath();
+			segment.context = new AbsoluteSegmentContext(timePassed, distanceTraveled);
+			timePassed += segment.duration;
+			distanceTraveled += segment.length;
 		}
 		return trajectorySegments;
+	}
+
+	public Map<Integer, Tuple<Double, WheelTrajectorySegment>> generateTickMap() {
+		HashMap<Integer, Tuple<Double, WheelTrajectorySegment>> map = new HashMap<>();
+		int currentSegmentIndex = 0;
+		double timeOverSegment = 0.0;
+		for (int i = 0; i < tickTotal; i++) {
+			double timeDiff = (timeOverSegment += tickTime) - trajectorySegments.get(currentSegmentIndex).duration;
+			if (timeDiff > 0) {
+				timeOverSegment = timeDiff;
+				currentSegmentIndex++;
+			}
+			map.put(i, new Tuple<Double, WheelTrajectorySegment>(timeOverSegment, trajectorySegments.get(currentSegmentIndex)));
+		}
+		return map;
 	}
 
 	/**

@@ -17,6 +17,7 @@ public class WheelTrajectorySegment {
 	protected double rampDownDistance;
 	protected double cruiseDistance;
 	protected double cruiseTime;
+	public AbsoluteSegmentContext context;
 
 	public WheelTrajectorySegment(double initVel, double finVel,
 		double maxVel, double length) {
@@ -95,6 +96,6 @@ public class WheelTrajectorySegment {
 		}
 		vel = Vel(t, vel, accel);
 		pos += Pos(t, vel, accel);
-		return new MotionTrajectoryPoint(tick, pos, vel, accel);
+		return new MotionTrajectoryPoint(tick, context.absoluteDistance + pos, vel, accel);
 	}
 }

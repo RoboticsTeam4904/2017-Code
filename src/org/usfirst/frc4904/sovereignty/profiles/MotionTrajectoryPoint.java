@@ -13,7 +13,7 @@ public class MotionTrajectoryPoint {
 		this.vel = vel;
 		this.accel = accel;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "MP#" + tick + "{" + pos + ", " + vel + ", " + accel + "}";
