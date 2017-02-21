@@ -11,6 +11,7 @@ import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.SetOverride;
+import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -27,7 +28,6 @@ public class DefaultOperator extends Operator {
 	public void bindCommands() {
 		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
 		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
-		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
@@ -40,6 +40,11 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
 		RobotMap.Component.teensyStick.getButton(4).whenPressed(new SetOverride(true, new Shoot()));
 		RobotMap.Component.teensyStick.getButton(4).whenReleased(new SetOverride(false, new Shoot()));
+		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(12)
+			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
+		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
 	}
 
 	private class ThresholdCommand extends Command {

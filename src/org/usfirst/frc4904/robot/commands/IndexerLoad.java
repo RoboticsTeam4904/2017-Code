@@ -7,6 +7,6 @@ import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 
 public class IndexerLoad extends MotorConstant {
 	public IndexerLoad() {
-		super(RobotMap.Component.shooter.indexer, Shooter.INDEXER_LOAD_SPEED);
+		super("IndexerLoad", RobotMap.Component.shooter.indexer, Shooter.INDEXER_LOAD_SPEED);
 	}
 }

@@ -135,8 +135,8 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisDriveMC.setInputRange(-180, 180);
 		Component.chassisDriveMC.setContinuous(true);
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
@@ -149,11 +149,13 @@ public class RobotMap {
 		Component.rightWheel.setInverted(true);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
-		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
+			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
-		Motor ballioHopperRollers = new Motor(new CANTalon(Port.CANMotor.ballioHopperRollers));
+		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
-		Motor ballioElevatorAndIntakeRoller = new Motor(new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller",
+			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
@@ -164,22 +166,23 @@ public class RobotMap {
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
 			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
+		// Climber
+		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter
 		SpeedController flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
 		SpeedController flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
-		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, false);
+		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
-		Motor indexer = new Motor(new CANTalon(Port.CANMotor.indexerMotor));
+		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
+		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
-
-		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Human inputs
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		// Main Subsystems
@@ -191,7 +194,8 @@ public class RobotMap {
 			LIDAR.TURN_F, Component.lidarTurnEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
+				Component.hopper,
 				Component.lidar};
 	}
 }
