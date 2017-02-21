@@ -2,6 +2,7 @@ package org.usfirst.frc4904.sovereignty.profiles;
 
 
 import java.util.LinkedList;
+import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.sovereignty.profiles.WheelTrajectory.Wheel;
 
 public class MotionTrajectory {
@@ -50,21 +51,21 @@ public class MotionTrajectory {
 		Tuple<MotionTrajectoryPoint, MotionTrajectoryPoint> lastPoint) {
 		double s = fromTickToS(t);
 		MotionTrajectoryPoint leftPoint = new MotionTrajectoryPoint(t, leftWheel.calcPos(s, lastPoint.getX()),
-			leftWheel.calcSpeed(s), leftWheel.calcAcc(s, lastPoint.getX()));
+			leftWheel.calcMaxVel(s), leftWheel.calcAcc(s, lastPoint.getX()));
 		MotionTrajectoryPoint rightPoint = new MotionTrajectoryPoint(t, rightWheel.calcPos(s, lastPoint.getY()),
-			rightWheel.calcSpeed(s), rightWheel.calcAcc(s, lastPoint.getY()));
+			rightWheel.calcMaxVel(s), rightWheel.calcAcc(s, lastPoint.getY()));
 		return new Tuple<>(leftPoint, rightPoint);
 	}
 
-	public double calcSpeed(double s) {
-		return splineGenerator.calcSpeed(s);
+	public double calcMaxSpeed(double s) {
+		return RobotMap.maxVel / (1 + plantWidth * splineGenerator.calcCurvature(s) / 2);
 	}
 
-	public double calcAngularVel(double s) {
-		return calcTurning(s) * plantWidth; // = theta/second * circumference/2pi = distance / second
+	public double calcMaxAngularVel(double s) {
+		return calcTurning(s, calcMaxSpeed(s)) * plantWidth; // = theta/second * circumference/2pi = distance / second
 	}
 
-	protected double calcTurning(double s) {
-		return splineGenerator.calcCurvature(s) * calcSpeed(s);
+	protected double calcTurning(double s, double speed) {
+		return splineGenerator.calcCurvature(s) * speed;
 	}
 }

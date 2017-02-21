@@ -17,7 +17,7 @@ public class WheelTrajectory {
 	}
 
 	public double calcPos(double s, MotionTrajectoryPoint lastPoint) {
-		return lastPoint.pos + ((calcSpeed(s) + lastPoint.vel) / 2) * (1/tickTotal);
+		return lastPoint.pos + ((calcMaxVel(s) + lastPoint.vel) / 2) * (1 / tickTotal);
 	}
 
 	/**
@@ -26,13 +26,13 @@ public class WheelTrajectory {
 	 * @param s
 	 * @return
 	 */
-	public double calcSpeed(double s) {
-		return motionTrajectoryProfile.calcSpeed(s)
-			+ (motionTrajectoryProfile.calcAngularVel(s) * (wheel == Wheel.RIGHT ? 1 : -1)) / 2.0;
+	public double calcMaxVel(double s) {
+		return motionTrajectoryProfile.calcMaxSpeed(s)
+			+ (motionTrajectoryProfile.calcMaxAngularVel(s) * (wheel == Wheel.RIGHT ? 1 : -1)) / 2.0;
 	}
 
 	public double calcAcc(double s, MotionTrajectoryPoint lastPoint) {
-		return (calcSpeed(s) - lastPoint.vel) / (1/tickTotal);
+		return (calcMaxVel(s) - lastPoint.vel) / (1 / tickTotal);
 	}
 	// Interval, Tick, Velocity, Acceleration, Pos
 }
