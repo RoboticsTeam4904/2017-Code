@@ -40,7 +40,7 @@ public class MotionTrajectory {
 		for (double i = 0; i < 1; i += 1 / granularity) {
 			double instantCurve = splineGenerator.calcCurvature(i);
 			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
-				double curveLen = splineGenerator.calcLength(1000, lastPercentage, i + 1 / granularity);
+				double curveLen = splineGenerator.calcLength(lastPercentage, i + 1 / granularity, 1000);
 				lastPercentage = i;
 				lastCurve = instantCurve;
 				lastTrajectorySegment.length = curveLen;
@@ -48,7 +48,7 @@ public class MotionTrajectory {
 				lastTrajectorySegment = new SplineSegment(lastTrajectorySegment.finCurve);
 			}
 		}
-		lastTrajectorySegment.length = splineGenerator.calcLength(1000, lastPercentage, 1);
+		lastTrajectorySegment.length = splineGenerator.calcLength(lastPercentage, 1, 1000);
 		featureSegments.add(lastTrajectorySegment);
 		return featureSegments;
 	}

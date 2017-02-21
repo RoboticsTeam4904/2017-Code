@@ -4,6 +4,8 @@ package org.usfirst.frc4904.sovereignty.profiles;
 import java.util.LinkedList;
 
 public abstract class SplineGenerator {
+	public static double INTEGRATION_GRANULARITY = 1000;
+
 	/**
 	 * Generates an ordered list of distinct features of the spline. Distinct features are
 	 * defined as a sudden change in curvature above the provided curve threshold.
@@ -17,25 +19,34 @@ public abstract class SplineGenerator {
 		double lastPercentage = 0.0;
 		// Hopefully the curvature is never non-zero at the initial position of the arc.
 		double lastCurve = 0.0;
-		SplineSegment lastTrajectorySegment = new SplineSegment(0);
+		SplineSegment lastFeature = new SplineSegment(0);
 		for (double i = 0; i < 1; i += 1 / granularity) {
 			double instantCurve = calcCurvature(i);
 			if (Math.abs(lastCurve - instantCurve) > curveThreshold) {
-				double curveLen = calcLength(1000, lastPercentage, i + 1 / granularity);
+				double curveLen = calcLength(lastPercentage, i + 1 / granularity);
 				lastPercentage = i;
 				lastCurve = instantCurve;
-				lastTrajectorySegment.length = curveLen;
-				lastTrajectorySegment.finPercentage = lastPercentage;
-				featureSegments.add(lastTrajectorySegment);
-				lastTrajectorySegment = new SplineSegment(lastTrajectorySegment.finCurve);
+				lastFeature.length = curveLen;
+				lastFeature.finPercentage = lastPercentage;
+				featureSegments.add(lastFeature);
+				lastFeature = new SplineSegment(lastFeature.finCurve);
 			}
 		}
-		lastTrajectorySegment.length = calcLength(1000, lastPercentage, 1);
-		featureSegments.add(lastTrajectorySegment);
+		lastFeature.length = calcLength(lastPercentage, 1);
+		featureSegments.add(lastFeature);
 		return featureSegments;
 	}
 
-	public double calcLength(double granularity, double a, double b) {
+	/**
+	 * Calculates the arc-length traveled given percentages a and b. Granularity
+	 * determines the accuracy of the integration.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param granularity
+	 * @return
+	 */
+	public double calcLength(double a, double b, double granularity) {
 		double arcSum = 0;
 		for (double i = a; i < b; i += 1 / granularity) {
 			arcSum += calcSpeed(i);
@@ -43,20 +54,28 @@ public abstract class SplineGenerator {
 		return arcSum / granularity;
 	}
 
-	protected double calcLength(double granularity, double b) {
-		return calcLength(granularity, 0.0, b);
+	/**
+	 * Calculates the arc-length traveled given percentages a and b,
+	 * with granularity set to a constant.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public double calcLength(double a, double b) {
+		return calcLength(a, b, SplineGenerator.INTEGRATION_GRANULARITY);
 	}
 
 	protected double calcAbsoluteLength(double granularity) {
-		return calcLength(granularity, 0.0, 1.0);
+		return calcLength(0.0, 1.0, granularity);
 	}
 
 	protected double calcAbsoluteLength() {
-		return calcLength(1000, 0.0, 1.0);
+		return calcLength(0.0, 1.0, SplineGenerator.INTEGRATION_GRANULARITY);
 	}
 
 	/**
-	 * (X'(s) * Y''(s) - X''(s) * Y'(s)) / v(t)^3
+	 * Equation for the curvature at a percentage of the arc-length.
 	 * 
 	 * @param s
 	 *        the position along the spline from [0-1]
@@ -81,7 +100,7 @@ public abstract class SplineGenerator {
 	}
 
 	/**
-	 * Position
+	 * Initialize the position polynomial coefficients
 	 */
 	protected abstract void initializePos();
 
@@ -99,7 +118,8 @@ public abstract class SplineGenerator {
 	protected abstract double PosY(double s);
 
 	/**
-	 * Velocity is the first derivative of position
+	 * Initialize the velocity polynomial coefficients. The complexity for this is much
+	 * simpler since you can use the position coefficients.
 	 */
 	protected abstract void initializeVel();
 
@@ -112,7 +132,7 @@ public abstract class SplineGenerator {
 	protected abstract double VelY(double s);
 
 	/**
-	 * Acceleration is the second derivative of position
+	 * Initialize the acceleration polynomial coefficients.
 	 */
 	protected abstract void initializeAcc();
 
