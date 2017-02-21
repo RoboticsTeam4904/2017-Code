@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TestSubsystems extends Command {
-	public static final int totalSubsystems = 5; // WIP
+	public static final int totalSubsystems = 7; // WIP
 	public int currentTestNumber = 0;
 	public boolean running = true;
 	public Command[] systemTests = new Command[TestSubsystems.totalSubsystems + 1];
