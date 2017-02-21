@@ -15,4 +15,8 @@ public class SplineSegment {
 	public SplineSegment(double initCurve) {
 		this.initCurve = initCurve;
 	}
+
+	public double averageCurvature() {
+		return (initCurve + finCurve) / 2;
+	}
 }
