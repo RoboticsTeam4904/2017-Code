@@ -10,6 +10,8 @@ import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.HopperAgitate;
+import org.usfirst.frc4904.robot.commands.SetOverride;
+import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,6 +36,11 @@ public class DefaultOperator extends Operator {
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
 		RobotMap.Component.teensyStick.getButton(9).onlyWhileHeld(new HopperAgitate());
+		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(12)
+			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
+		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
 	}
 
 	private class ThresholdCommand extends Command {
