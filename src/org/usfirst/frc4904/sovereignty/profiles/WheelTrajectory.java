@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class WheelTrajectory {
 	protected final MotionTrajectory motionTrajectoryProfile;
-	protected final LinkedList<SplineSegment> featureSegments;
+	protected final LinkedList<WheelTrajectorySegment> trajectorySegments;
 	protected final Wheel wheel;
 	protected final double tickTotal;
 
@@ -16,7 +16,7 @@ public class WheelTrajectory {
 	public WheelTrajectory(MotionTrajectory motionTrajectoryProfile, LinkedList<SplineSegment> featureSegments,
 		Wheel wheel, double tickTotal) {
 		this.motionTrajectoryProfile = motionTrajectoryProfile;
-		this.featureSegments = featureSegments;
+		trajectorySegments = generateBackwardConsistency(generateForwardConsistency(featureSegments));
 		this.wheel = wheel;
 		this.tickTotal = tickTotal;
 	}
