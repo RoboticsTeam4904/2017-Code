@@ -51,14 +51,16 @@ strictfp public class WheelTrajectory {
 		LinkedList<WheelTrajectorySegment> trajectorySegments = new LinkedList<>();
 		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, calcMaxVel(0));
 		for (int i = 0; i < featureSegments.size(); i++) {
+			double newMaxVel = calcMaxVelFromCurvature(featureSegments.get(i).calcMaxCurvature());
 			lastSegment.length = calcLength(featureSegments.get(i).initPercentage, featureSegments.get(i).finPercentage);
-			lastSegment.finVel = lastSegment.calcReachableEndVel();
+			lastSegment.finVel = Math.min(lastSegment.calcReachableEndVel(), Math.min(lastSegment.maxVel, newMaxVel));
 			trajectorySegments.add(lastSegment);
 			if (i != featureSegments.size() - 1) {
 				lastSegment = new WheelTrajectorySegment(lastSegment.finVel,
-					calcMaxVelFromCurvature(featureSegments.get(i).calcMaxCurvature()));
+					newMaxVel);
 			}
 		}
+		lastSegment.finVel = 0;
 		return trajectorySegments;
 	}
 

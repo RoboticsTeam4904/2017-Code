@@ -43,11 +43,11 @@ public class WheelTrajectorySegment {
 	}
 
 	public double calcReachableEndVel() {
-		return Math.min(finVel, maxReachableVel(length, initVel));
+		return maxReachableVel(length, initVel);
 	}
 
 	public double calcReachableStartVel() {
-		return Math.min(initVel, maxReachableVel(length, finVel));
+		return maxReachableVel(length, finVel);
 	}
 
 	protected double Pos(double t, double initVel, double a) {
