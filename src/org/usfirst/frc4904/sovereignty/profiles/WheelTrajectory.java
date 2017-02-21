@@ -34,6 +34,19 @@ public class WheelTrajectory {
 		this.tickTime = tickTime;
 	}
 
+	/**
+	 * Generates a 'forward consistent' set of segments for each spline feature segment. This ensures that
+	 * the movement follows the acceleration constraints of both the robot and path.
+	 * 
+	 * The segments that this returns are not ready to be used and should be run through the backward consistency
+	 * filter and afterwards finalized.
+	 * 
+	 * @see {@link WheelTrajectory#generateBackwardConsistency}
+	 * @see {@link WheelTrajectory#finalizeSegments}
+	 * 
+	 * @param featureSegments
+	 * @return ordered right/left trajectory segments that are forward consistent.
+	 */
 	public LinkedList<WheelTrajectorySegment> generateForwardConsistency(LinkedList<SplineSegment> featureSegments) {
 		LinkedList<WheelTrajectorySegment> trajectorySegments = new LinkedList<>();
 		WheelTrajectorySegment lastSegment = new WheelTrajectorySegment(0, calcMaxVel(0));
@@ -48,6 +61,14 @@ public class WheelTrajectory {
 		return trajectorySegments;
 	}
 
+	/**
+	 * Generates a 'backward consistent' set of segments from a 'forward consistent' set of segments. Establishing
+	 * backwards consistency ensures the segments obey deceleration constraints.
+	 * 
+	 * @param trajectorySegments
+	 *        ordered segments that are forward consistent
+	 * @return ordered right/left trajectory segments that are forward and backward consistent.
+	 */
 	public LinkedList<WheelTrajectorySegment> generateBackwardConsistency(
 		LinkedList<WheelTrajectorySegment> trajectorySegments) {
 		for (int i = trajectorySegments.size() - 1; i > 0; i--) {
@@ -56,6 +77,13 @@ public class WheelTrajectory {
 		return trajectorySegments;
 	}
 
+	/**
+	 * Attach an absolute context and finalize the path of each of the segments.
+	 * 
+	 * @param trajectorySegments
+	 *        ordered segments that are forward and backward consistent.
+	 * @return finalized ordered right/left trajectory segments with absolute context attached.
+	 */
 	public LinkedList<WheelTrajectorySegment> finalizeSegments(LinkedList<WheelTrajectorySegment> trajectorySegments) {
 		double timePassed = 0;
 		double distanceTraveled = 0;
@@ -68,6 +96,14 @@ public class WheelTrajectory {
 		return trajectorySegments;
 	}
 
+	/**
+	 * Generates a map of each of the possible ticks, and maps each one to the segment during which
+	 * that tick occurs, and the time during the segment that the tick occurs at.
+	 * 
+	 * The generation herein potentially ignores any segments shorter than the tick time.
+	 * 
+	 * @return Map<Tick, Tuple<Time of tick occurrence, Trajectory Segment that the tick happens during>>
+	 */
 	public Map<Integer, Tuple<Double, WheelTrajectorySegment>> generateTickMap() {
 		HashMap<Integer, Tuple<Double, WheelTrajectorySegment>> map = new HashMap<>();
 		int currentSegmentIndex = 0;
@@ -83,12 +119,6 @@ public class WheelTrajectory {
 		return map;
 	}
 
-	/**
-	 * Calculates the velocity (in the eyes of CTRE)
-	 * 
-	 * @param s
-	 * @return
-	 */
 	public double calcMaxVel(double s) {
 		return motionTrajectoryProfile.calcMaxSpeed(s)
 			+ (motionTrajectoryProfile.calcMaxAngularVel(s) * wheel.getModifier()) / 2.0;
@@ -97,5 +127,4 @@ public class WheelTrajectory {
 	public double calcAcc(double s, MotionTrajectoryPoint lastPoint) {
 		return (calcMaxVel(s) - lastPoint.vel) / (1 / tickTotal);
 	}
-	// Interval, Tick, Velocity, Acceleration, Pos
 }
