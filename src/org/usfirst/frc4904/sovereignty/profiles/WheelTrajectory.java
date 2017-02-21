@@ -55,7 +55,8 @@ strictfp public class WheelTrajectory {
 			lastSegment.finVel = lastSegment.calcReachableEndVel();
 			trajectorySegments.add(lastSegment);
 			if (i != featureSegments.size() - 1) {
-				lastSegment = new WheelTrajectorySegment(lastSegment.finVel, calcMaxVel(featureSegments.get(i).finPercentage));
+				lastSegment = new WheelTrajectorySegment(lastSegment.finVel,
+					calcMaxVelFromCurvature(featureSegments.get(i).calcMaxCurvature()));
 			}
 		}
 		return trajectorySegments;
@@ -122,6 +123,12 @@ strictfp public class WheelTrajectory {
 	public double calcMaxVel(double s) {
 		return motionTrajectoryProfile.calcMaxSpeed(s)
 			+ (motionTrajectoryProfile.calcMaxAngularVel(s) * wheel.getModifier()) / 2.0;
+	}
+
+	public double calcMaxVelFromCurvature(double curvature) {
+		double maxTranslational = motionTrajectoryProfile.calcMaxSpeedFromCurvature(curvature);
+		return maxTranslational
+			+ (motionTrajectoryProfile.calcAngularVel(maxTranslational, curvature) * wheel.getModifier()) / 2.0;
 	}
 
 	public double calcAcc(double s, MotionTrajectoryPoint lastPoint) {
