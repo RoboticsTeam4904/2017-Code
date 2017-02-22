@@ -22,6 +22,7 @@ public class Flywheel extends VelocitySensorMotor {
 		this.encoder = encoder;
 		this.encoder.setPIDSourceType(PIDSourceType.kRate);
 		motionController.setAbsoluteTolerance(Flywheel.FLYWHEEL_TOLERANCE);
+		motionController.setOutputRange(-1, 1);
 	}
 
 	public boolean isReady() {
