@@ -8,9 +8,9 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisTurn;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonPlaceGearOnPeg1BlueAndPeg3Red extends CommandGroup {
-	public static final double MOVE_BASE_IN_INCHES_1 = 2;
-	public static final double MOVE_BASE_IN_INCHES_2 = 2;
-	public static final int TURN_BASE_IN_DEGREES_1 = 2;
+	public static final double MOVE_BASE_IN_INCHES_1 = 42;
+	public static final double MOVE_BASE_IN_INCHES_2 = 60;
+	public static final int TURN_BASE_IN_DEGREES_1 = 31;
 
 	public AutonPlaceGearOnPeg1BlueAndPeg3Red() {
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
