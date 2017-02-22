@@ -14,6 +14,7 @@ public class Shoot extends CommandGroup {
 		addSequential(new RunAllParallel(
 			new RunFor(new IndexerUnload(), Shooter.INDEXER_UNLOAD_TIME),
 			new WaitUntil(RobotMap.Component.shooter.flywheel::isReady)));
+		addParallel(new Agitate());
 		addParallel(new IndexerLoad());
 	}
 }
