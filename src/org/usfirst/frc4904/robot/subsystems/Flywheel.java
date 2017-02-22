@@ -29,8 +29,7 @@ public class Flywheel extends VelocitySensorMotor {
 	}
 
 	public boolean isReady() {
-		return true;
-		// TODO Once flywheel PID is tuned, use:
-		// return motionController.onTarget();
+		return motionController.onTarget();
+	}
 	}
 }
