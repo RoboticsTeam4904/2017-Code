@@ -75,8 +75,8 @@ public class RobotMap {
 
 		public static class Pneumatics {
 			// Shifter - blue solenoid
-			public static final int solenoidUp = 6;
-			public static final int solenoidDown = 7;
+			public static final int shifterUp = 6;
+			public static final int shifterDown = 7;
 			// GearIO gull wings - red solenoid
 			public static final int gearioGullWingsUp = 0;
 			public static final int gearioGullWingsDown = 1;
@@ -120,7 +120,7 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisDriveMC.setInputRange(-180, 180);
