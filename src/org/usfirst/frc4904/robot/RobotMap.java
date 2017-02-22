@@ -55,7 +55,6 @@ public class RobotMap {
 		}
 
 		public static class PWM {
-			// SOME MOTORS AREN'T EXACT - work in progress
 			public static int leftDriveA = 1;
 			public static int leftDriveB = 2;
 			public static int rightDriveA = 3;
@@ -64,7 +63,7 @@ public class RobotMap {
 			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
-			public static final int lidarMotor = 9; // WIP
+			public static final int lidarMotor = 9;
 		}
 
 		public static class CAN {
