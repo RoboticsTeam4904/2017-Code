@@ -121,14 +121,14 @@ public class RobotMap {
 	public RobotMap() {
 		// Chassis
 		Component.pdp = new PDP();
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
@@ -163,7 +163,7 @@ public class RobotMap {
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
-		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder, false);
+		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder);
 		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
 		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
 			LIDAR.TURN_F, Component.lidarTurnEncoder);
