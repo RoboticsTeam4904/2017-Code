@@ -33,10 +33,12 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
- * to a variable name. This provides flexibility changing wiring, makes checking
- * the wiring easier and significantly reduces the number of magic numbers
- * floating around.
+ * The RobotMap is a map of the physical robot. It stores all port numbers used for all
+ * sensors and actuators, which provides flexibility changing wiring and makes checking
+ * the wiring easier. Whole-robot metrics such as robot dimensions can also be stored here,
+ * But any subsystem-specific constants should be stored in the respective subsystem's
+ * class. Finally, this class stores the instances of all the robot's components (subsystems,
+ * sensors, motion controllers, controls, etc.).
  */
 public class RobotMap {
 	public static class Port {
