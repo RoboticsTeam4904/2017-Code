@@ -160,7 +160,8 @@ public class RobotMap {
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
-		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick,
+			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
