@@ -141,7 +141,7 @@ public class RobotMap {
 		ballioDirectionalRoller.setInverted(true);
 		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
-		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller",
+		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller", new AccelerationCap(Component.pdp),
 			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
