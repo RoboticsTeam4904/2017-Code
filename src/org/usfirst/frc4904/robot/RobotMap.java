@@ -111,7 +111,7 @@ public class RobotMap {
 		public static CustomJoystick operatorStick;
 		public static TeensyController teensyStick;
 		public static FusibleNavX navx;
-		public static AligningCamera alignCamera;
+		public static AligningCamera gearAlignCamera;
 		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
@@ -164,7 +164,7 @@ public class RobotMap {
 			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
+		Component.gearAlignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
 		Component.lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
