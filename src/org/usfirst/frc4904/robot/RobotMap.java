@@ -94,49 +94,45 @@ public class RobotMap {
 	}
 
 	public static class Component {
+		public static PDP pdp;
+		public static CustomEncoder leftWheelEncoder;
+		public static CustomEncoder rightWheelEncoder;
+		public static Motor leftWheel;
+		public static Motor rightWheel;
+		public static SolenoidShifters shifter;
+		public static TankDriveShifting chassis;
+		public static BallIO ballIO;
+		public static GearIO gearIO;
+		public static Climber climber;
+		public static Hopper hopper;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
 		public static TeensyController teensyStick;
-		public static PDP pdp;
-		public static Motor leftWheel;
-		public static Motor rightWheel;
-		public static CustomEncoder leftWheelEncoder;
-		public static CustomEncoder rightWheelEncoder;
-		public static SolenoidShifters shifter;
-		public static TankDriveShifting chassis;
-		public static MotionController chassisDriveMC;
-		public static BallIO ballIO;
-		public static GearIO gearIO;
-		public static Hopper hopper;
-		public static Subsystem[] mainSubsystems;
-		public static CustomPIDController lidarMC;
-		public static CANEncoder lidarTurnEncoder;
-		public static LIDAR lidar;
 		public static FusibleNavX navx;
-		public static Climber climber;
-		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
+		public static CANEncoder lidarTurnEncoder;
+		public static CustomPIDController lidarMC;
+		public static LIDAR lidar;
+		public static MotionController chassisDriveMC;
+		public static MotionController chassisTurnMC;
+		public static Subsystem[] mainSubsystems;
 	}
 
 	public RobotMap() {
+		// Chassis
 		Component.pdp = new PDP();
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
-		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisDriveMC.setInputRange(-180, 180);
-		Component.chassisDriveMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
+		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
 		Motor ballioDirectionalRoller = new Motor(new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
@@ -155,16 +151,16 @@ public class RobotMap {
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
-		// Human inputs
+		// Controls
+		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
+		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
 		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
 		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
-		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
-		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
-		// Main Subsystems
+		// Sensors
+		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
 		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder, false);
@@ -173,6 +169,13 @@ public class RobotMap {
 			LIDAR.TURN_F, Component.lidarTurnEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
+		// Motion controllers
+		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisDriveMC.setInputRange(-180, 180);
+		Component.chassisDriveMC.setContinuous(true);
+		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
+			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
 				Component.lidar};
 	}
