@@ -23,7 +23,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.SpeedModifierGroup;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -70,10 +69,9 @@ public class RobotMap {
 
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
-			public static final int flywheelEncoder = 0x605;
 			public static final int lidarTurnEncoder = 0x607;
-			public static final int leftEncoder = 0x611;
-			public static final int rightEncoder = 0x612;
+			public static final int leftEncoder = 0x610;
+			public static final int rightEncoder = 0x611;
 		}
 
 		public static class Pneumatics {
@@ -93,7 +91,7 @@ public class RobotMap {
 	}
 
 	public static class Metrics {
-		public static final double WHEEL_PULSES_PER_REVOLUTION = 256;
+		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 		public static final double WHEEL_DIAMETER_INCHES = 3.5;
 		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI;
 		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
@@ -128,23 +126,21 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
+		Component.navx = new FusibleNavX(SerialPort.Port.kUSB);
+		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
+		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, true);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
-		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder, 100, 100));
-		Component.leftWheel = new Motor("LeftWheel", false, new SpeedModifierGroup(
-			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
+		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
-		Component.rightWheel = new Motor("RightWheel", false, new SpeedModifierGroup(
-			HumanInterfaceConfig.autoShifter.getHighGearShiftRampingModifier(), new AccelerationCap(Component.pdp)),
+		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		// BallIO
