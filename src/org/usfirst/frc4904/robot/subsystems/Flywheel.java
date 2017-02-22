@@ -14,11 +14,12 @@ public class Flywheel extends VelocitySensorMotor {
 	public static final double FLYWHEEL_I = 0.0;
 	public static final double FLYWHEEL_D = 0.0;
 	public static final double FLYWHEEL_TOLERANCE = 0;
+	// public static final double FLYWHEEL_F = 0.0001343283582;
 	protected final CustomEncoder encoder;
 
 	public Flywheel(SpeedController motorA, SpeedController motorB, CustomEncoder encoder) {
 		super(new CustomPIDController(Flywheel.FLYWHEEL_P, Flywheel.FLYWHEEL_I,
-			Flywheel.FLYWHEEL_D, encoder), motorA, motorB);
+			Flywheel.FLYWHEEL_D, Flywheel.FLYWHEEL_F, encoder), motorA, motorB);
 		this.encoder = encoder;
 		this.encoder.setPIDSourceType(PIDSourceType.kRate);
 		motionController.setAbsoluteTolerance(Flywheel.FLYWHEEL_TOLERANCE);
