@@ -16,6 +16,9 @@ public class Flywheel extends VelocitySensorMotor {
 	public static final double FLYWHEEL_D = -0.005;
 	public static final double FLYWHEEL_F = 0.0001343283582;
 	public static final double FLYWHEEL_TOLERANCE = 10; // RPM
+	public static final double ENCODER_PPR = 192.0;
+	// This is the distance per pulse. Pulses per second (original units) * revolutions per pulse (1 / ENCODER_PPR) * seconds per minute (60) = revolutions per minute.
+	public static final double ENCODER_PPS_TO_RPM = 60.0 / Flywheel.ENCODER_PPR;
 	protected final CustomEncoder encoder;
 
 	public Flywheel(SpeedController motorA, SpeedController motorB, CustomEncoder encoder) {
