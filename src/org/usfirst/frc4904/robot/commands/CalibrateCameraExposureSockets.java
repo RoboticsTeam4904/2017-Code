@@ -14,12 +14,6 @@ public class CalibrateCameraExposureSockets extends Command {
 	private PrintWriter output;
 
 	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
 	protected void execute() {
 		Socket s = connect();
 		try {
@@ -47,12 +41,10 @@ public class CalibrateCameraExposureSockets extends Command {
 		}
 	}
 
-	public static void main(String[] args) {
-		new CalibrateCameraExposureSockets();
-	}
-
-	public CalibrateCameraExposureSockets() {
-		execute();
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
