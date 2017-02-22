@@ -70,7 +70,7 @@ public class RobotMap {
 
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
-			public static final int lidarTurnEncoder = 0x607;
+			public static final int lidarEncoder = 0x607;
 			public static final int leftEncoder = 0x610;
 			public static final int rightEncoder = 0x611;
 		}
@@ -112,7 +112,7 @@ public class RobotMap {
 		public static TeensyController teensyStick;
 		public static FusibleNavX navx;
 		public static AligningCamera alignCamera;
-		public static CANEncoder lidarTurnEncoder;
+		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
 		public static MotionController chassisDriveMC;
@@ -166,10 +166,10 @@ public class RobotMap {
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.alignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
-		Component.lidarTurnEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarTurnEncoder);
-		Component.lidarTurnEncoder.setPIDSourceType(PIDSourceType.kRate);
+		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
+		Component.lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
 		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
-			LIDAR.TURN_F, Component.lidarTurnEncoder);
+			LIDAR.TURN_F, Component.lidarEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
 		// Motion controllers
