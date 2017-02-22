@@ -132,7 +132,7 @@ public class RobotMap {
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder, 100, 100));
+			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
