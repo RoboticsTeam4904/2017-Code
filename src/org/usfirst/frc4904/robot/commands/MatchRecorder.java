@@ -18,9 +18,6 @@ public class MatchRecorder extends Command {
 	}
 
 	@Override
-	public void initialize() {}
-
-	@Override
 	public void execute() {
 		if (ticksSinceLast < MatchRecorder.TICK_THROTTLE) {
 			ticksSinceLast++;
