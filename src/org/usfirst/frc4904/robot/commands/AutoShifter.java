@@ -67,25 +67,25 @@ public class AutoShifter extends Command {
 		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
 		// Also, take the absolute value to treat forwards & backwards the same.
 		double absoluteThrottle = Math.abs(Arrays.stream(motorThrottles).average().getAsDouble());
+		// If we're flooring it and nothing's in our way, shift up.
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
 		boolean isThrottleFast = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
-		// If we're flooring it and nothing's in our way, shift up.
 		if (isAboveMediumSpeed && isThrottleFast) {
 			LogKitten.v("Upshifting to allow the driver to floor it.");
 			shiftUpCommand.start();
 			return;
 		}
+		// If we're just driving very slowly, shift down.
 		boolean isSpeedSlow = absoluteForwardSpeed < AutoShifter.SLOW_SPEED_THRESHOLD;
 		boolean isThrottleLessThanSlow = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
-		// If we're just driving very slowly, shift down.
 		if (isSpeedSlow && isThrottleLessThanSlow) {
 			LogKitten.v("Downshift for slow driving.");
 			shiftDownCommand.start();
 			return;
 		}
+		// If we're pushing against something (throttling high but going slow), shift down.
 		boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_SPEED_THRESHOLD;
 		boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
-		// If we're pushing against something (throttling high but going slow), shift down.
 		if (isBelowMediumSpeed && isThrottleAboveMedium) {
 			LogKitten.v("Downshifting to push something.");
 			shiftDownCommand.start();
