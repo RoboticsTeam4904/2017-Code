@@ -75,8 +75,8 @@ public class AutoShifter extends Command {
 			shiftUpCommand.start();
 			return;
 		}
-		boolean isThrottleLessThanSlow = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
 		boolean isSpeedSlow = absoluteForwardSpeed < AutoShifter.SLOW_SPEED_THRESHOLD;
+		boolean isThrottleLessThanSlow = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
 		// If we're just driving very slowly, shift down.
 		if (isSpeedSlow && isThrottleLessThanSlow) {
 			LogKitten.v("Downshift for slow driving.");
