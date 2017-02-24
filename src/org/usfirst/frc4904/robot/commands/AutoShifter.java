@@ -51,10 +51,6 @@ public class AutoShifter extends Command {
 		if (hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
-		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
-		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
-		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
-		double absoluteThrottle = Math.abs(Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble());
 		// Find what speed value both sides of the robot were set to, and their difference.
 		double leftWheelSpeedValue = RobotMap.Component.chassis.getMotorSpeeds()[0];
 		double rightWheelSpeedValue = RobotMap.Component.chassis.getMotorSpeeds()[1];
@@ -66,6 +62,10 @@ public class AutoShifter extends Command {
 			shiftDownCommand.start();
 			return;
 		}
+		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
+		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
+		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
+		double absoluteThrottle = Math.abs(Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble());
 		// Also, take the absolute value to treat forwards & backwards the same.
 		double absoluteSpeed = Math.abs(forwardSpeed);
 		boolean isAboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
