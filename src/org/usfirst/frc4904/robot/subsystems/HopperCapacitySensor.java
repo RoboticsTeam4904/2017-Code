@@ -9,6 +9,7 @@ public class HopperCapacitySensor extends CANSensor {
 	protected static final double SENSOR_HEIGHT_ABOVE_HOPPER_INCHES = 36.8;
 	protected static final double MAX_SENSOR_VALUE_INCHES = 83.82;
 	protected static final double BALL_HEIGHT_INCHES = 12.7;
+	protected static final double TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR = 1.0 / 100.0;
 
 	public HopperCapacitySensor(int port) {
 		super("HopperCapacitySensor", port);
@@ -16,8 +17,8 @@ public class HopperCapacitySensor extends CANSensor {
 
 	public double getCapacity() throws InvalidSensorException {
 		// final double hopperHeight = 41.9;
-		double teensyOutputLeft = (readSensor()[0]) / 100.0;
-		double teensyOutputRight = (readSensor()[1]) / 100.0;
+		double teensyOutputLeft = (readSensor()[0]) * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
+		double teensyOutputRight = (readSensor()[1]) * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
 		// divide by 100 to get accurate ball
 		double rightBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
 			* (HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES - teensyOutputLeft)
