@@ -133,21 +133,21 @@ public class RobotMap {
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
-			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+			new CANTalon(Port.CANMotor.leftDriveA), new CANTalon(Port.CANMotor.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
-			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
+			new CANTalon(Port.CANMotor.rightDriveA), new CANTalon(Port.CANMotor.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
 		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
-			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
+			new VictorSP(Port.PWM.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
-		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
+		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new VictorSP(Port.PWM.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
 		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller", new AccelerationCap(Component.pdp),
-			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
+			new VictorSP(Port.PWM.ballioElevatorAndIntakeRoller));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
