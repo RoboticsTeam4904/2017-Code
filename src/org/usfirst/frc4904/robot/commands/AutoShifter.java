@@ -55,6 +55,7 @@ public class AutoShifter extends Command {
 		double[] motorThrottles = RobotMap.Component.chassis.getMotorSpeeds();
 		boolean isNotGoingStraight = Math.abs(
 			motorThrottles[0] - motorThrottles[1]) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
+		// If the robot is trying to turn (sharply), shift down (the chassis can't turn well in high gear).
 		if (isNotGoingStraight) {
 			LogKitten.v("Downshifting to make turning easier.");
 			shiftDownCommand.start();
