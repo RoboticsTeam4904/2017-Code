@@ -17,10 +17,8 @@ public class HopperCapacitySensor extends CANSensor {
 
 	public double getCapacity() throws InvalidSensorException {
 		int[] rawSensorOutput = readSensor();
-		// final double hopperHeight = 41.9;
 		double teensyOutputLeft = (rawSensorOutput[0]) * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
 		double teensyOutputRight = (rawSensorOutput[1]) * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
-		// divide by 100 to get accurate ball
 		double rightBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
 			* (HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES - teensyOutputLeft)
 			/ HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES)
