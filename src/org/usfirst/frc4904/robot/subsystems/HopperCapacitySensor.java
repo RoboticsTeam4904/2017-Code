@@ -19,9 +19,9 @@ public class HopperCapacitySensor extends CANSensor {
 		int[] rawSensorOutput = readSensor();
 		double sensorOutputLeft = rawSensorOutput[0] * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
 		double sensorOutputRight = rawSensorOutput[1] * HopperCapacitySensor.TEENSY_OUTPUT_TO_INCHES_CONVERSION_FACTOR;
-		double rightBalls = HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
-			* (1 - (sensorOutputLeft / HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES)) / HopperCapacitySensor.BALL_HEIGHT_INCHES;
 		double leftBalls = HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
+			* (1 - (sensorOutputLeft / HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES)) / HopperCapacitySensor.BALL_HEIGHT_INCHES;
+		double rightBalls = HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
 			* (1 - (sensorOutputRight / HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES))
 			/ HopperCapacitySensor.BALL_HEIGHT_INCHES;
 		double averageBalls = (rightBalls + leftBalls) / 2;
