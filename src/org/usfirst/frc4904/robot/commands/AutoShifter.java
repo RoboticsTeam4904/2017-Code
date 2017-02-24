@@ -16,9 +16,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * @see <a href="https://www.chiefdelphi.com/forums/showpost.php?s=7c250a45af41fe4d4517562e541a0f67&p=1087911&postcount=6">Chief Delphi post by apalrd</a>
  */
 public class AutoShifter extends Command {
-	protected final CustomEncoder leftEncoder;
-	protected final CustomEncoder rightEncoder;
-	protected final AutoSolenoidShifters shifter;
 	public static final double MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION = 0.5;
 	public static final double SLOW_ENCODER_RATE_THRESHOLD = 24; // inches per sec, according to the encoders
 	public static final double MEDIUM_ENCODER_RATE_THRESHOLD = 40;
@@ -27,6 +24,9 @@ public class AutoShifter extends Command {
 	public static final double FAST_THROTTLE_THRESHOLD = 0.8;
 	public static final double LAST_MANUAL_SHIFT_TIME_MILLIS = 5000; // TODO
 	public static final double LAST_AUTO_SHIFT_TIME_MILLIS = 250;// TODO
+	protected final CustomEncoder leftEncoder;
+	protected final CustomEncoder rightEncoder;
+	protected final AutoSolenoidShifters shifter;
 	protected final ChassisShiftAsAuto shiftUpCommand;
 	protected final ChassisShiftAsAuto shiftDownCommand;
 
