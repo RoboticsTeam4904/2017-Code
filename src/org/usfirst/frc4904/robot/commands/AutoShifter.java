@@ -44,10 +44,9 @@ public class AutoShifter extends Command {
 
 	@Override
 	protected void execute() {
-		// Determine how recently the robot has shifted.
+		// If the robot has shifted recently, don't shift again.
 		boolean hasManuallyShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
 		boolean hasAutomaticallyShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME_MILLIS;
-		// If the robot has shifted recently, don't shift again.
 		if (hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
