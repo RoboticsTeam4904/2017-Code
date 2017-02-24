@@ -162,7 +162,6 @@ public class RobotMap {
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
-		Component.hopper.getCapacity();
 		// Controls
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
