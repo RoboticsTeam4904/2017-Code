@@ -1,8 +1,8 @@
 package org.usfirst.frc4904.robot.commands;
 
+
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HopperAgitate extends Command {
