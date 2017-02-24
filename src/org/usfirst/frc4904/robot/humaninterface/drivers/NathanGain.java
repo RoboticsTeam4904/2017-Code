@@ -68,6 +68,8 @@ public class NathanGain extends Driver {
 		// Inverted (airplane-style) analog gain control
 		new Climb(() -> Math.max(0,
 			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
+		alignAssist.start();
+		HumanInterfaceConfig.autoShifter.start();
 	}
 
 	@Override
