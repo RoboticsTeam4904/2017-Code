@@ -77,7 +77,7 @@ public class AutoShifter extends Command {
 		}
 		boolean isThrottleLessThanSlow = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
 		boolean isSpeedSlow = absoluteForwardSpeed < AutoShifter.SLOW_ENCODER_RATE_THRESHOLD;
-		// If we're just driving very slowly (basically stopped), shift down.
+		// If we're just driving very slowly, shift down.
 		if (isSpeedSlow && isThrottleLessThanSlow) {
 			LogKitten.v("Downshift for slow driving.");
 			shiftDownCommand.start();
@@ -85,7 +85,7 @@ public class AutoShifter extends Command {
 		}
 		boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
 		boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
-		// If we're throttling high but going slow (pushing something we just hit)
+		// If we're pushing against something (throttling high but going slow), shift down.
 		if (isBelowMediumSpeed && isThrottleAboveMedium) {
 			LogKitten.v("Downshifting to push something.");
 			shiftDownCommand.start();
