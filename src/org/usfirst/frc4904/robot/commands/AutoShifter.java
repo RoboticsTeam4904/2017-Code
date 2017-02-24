@@ -51,12 +51,10 @@ public class AutoShifter extends Command {
 		if (hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
-		// Find what speed value both sides of the robot were set to, and their difference.
-		double leftWheelSpeedValue = RobotMap.Component.chassis.getMotorSpeeds()[0];
-		double rightWheelSpeedValue = RobotMap.Component.chassis.getMotorSpeeds()[1];
-		boolean isNotGoingStraight = Math
-			.abs(leftWheelSpeedValue
-				- rightWheelSpeedValue) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
+		// Figure out whether the code wants the robot to go straight by looking at the difference between motor speeds of both sides.
+		double[] motorThrottles = RobotMap.Component.chassis.getMotorSpeeds();
+		boolean isNotGoingStraight = Math.abs(
+			motorThrottles[0] - motorThrottles[1]) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
 		if (isNotGoingStraight) {
 			LogKitten.v("Downshifting to make turning easier.");
 			shiftDownCommand.start();
@@ -65,7 +63,7 @@ public class AutoShifter extends Command {
 		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
 		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
 		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
-		double absoluteThrottle = Math.abs(Arrays.stream(RobotMap.Component.chassis.getMotorSpeeds()).average().getAsDouble());
+		double absoluteThrottle = Math.abs(Arrays.stream(motorThrottles).average().getAsDouble());
 		// Also, take the absolute value to treat forwards & backwards the same.
 		double absoluteSpeed = Math.abs(forwardSpeed);
 		boolean isAboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
