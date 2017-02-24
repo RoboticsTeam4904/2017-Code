@@ -15,26 +15,20 @@ public class HopperCapacitySensor extends CANSensor {
 	}
 
 	public double getCapacity() throws InvalidSensorException {
-		double rightBalls;
-		double leftBalls;
-		double averageBalls;
-		double teensyOutputLeft;
-		double teensyOutputRight;
 		// final double hopperHeight = 41.9;
-		double output;
-		teensyOutputLeft = (readSensor()[0]) / 100.0;
-		teensyOutputRight = (readSensor()[1]) / 100.0;
+		double teensyOutputLeft = (readSensor()[0]) / 100.0;
+		double teensyOutputRight = (readSensor()[1]) / 100.0;
 		// divide by 100 to get accurate ball
-		rightBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
+		double rightBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
 			* (HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES - teensyOutputLeft)
 			/ HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES)
 			/ HopperCapacitySensor.BALL_HEIGHT_INCHES;
-		leftBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
+		double leftBalls = (HopperCapacitySensor.SENSOR_HEIGHT_ABOVE_HOPPER_INCHES
 			* (HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES - teensyOutputRight)
 			/ HopperCapacitySensor.MAX_SENSOR_VALUE_INCHES)
 			/ HopperCapacitySensor.BALL_HEIGHT_INCHES;
-		averageBalls = (rightBalls + leftBalls) / 2;
-		output = HopperCapacitySensor.BALLS_PER_LAYER * averageBalls;
+		double averageBalls = (rightBalls + leftBalls) / 2;
+		double output = HopperCapacitySensor.BALLS_PER_LAYER * averageBalls;
 		return output;
 	}
 }
