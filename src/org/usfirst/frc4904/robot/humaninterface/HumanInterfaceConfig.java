@@ -9,6 +9,7 @@ public class HumanInterfaceConfig {
 	public static final AutoShifter autoShifter = new AutoShifter();
 	public static final double XBOX_DEADZONE = 0.1;
 	public static final double JOYSTICK_DEADZONE = 0.1;
+	public static final int TEENSY_STICK_NUM_BUTTONS = 30;
 
 	private HumanInterfaceConfig() {}
 }
