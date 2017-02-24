@@ -49,18 +49,18 @@ public class RobotMap {
 		}
 
 		public static class CANMotor {
-			public static final int ballioDirectionalRoller = 1;
-			public static final int ballioHopperRollers = 2;
-			public static final int ballioElevatorAndIntakeRoller = 3;
+			public static int leftDriveA = 11;
+			public static int leftDriveB = 12;
+			public static int rightDriveA = 13;
+			public static int rightDriveB = 14;
 			public static final int flywheelLeftMotor = 6; // WIP
 			public static final int flywheelRightMotor = 7; // WIP
 		}
 
 		public static class PWM {
-			public static final int leftDriveA = 1;
-			public static final int leftDriveB = 2;
-			public static final int rightDriveA = 3;
-			public static final int rightDriveB = 4;
+			public static final int ballioDirectionalRoller = 1;
+			public static final int ballioHopperRollers = 2;
+			public static final int ballioElevatorAndIntakeRoller = 3;
 			public static final int climbMotorA = 5;
 			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
