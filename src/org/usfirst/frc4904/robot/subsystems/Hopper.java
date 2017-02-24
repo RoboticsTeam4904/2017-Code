@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.Idle;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -27,9 +26,9 @@ public class Hopper extends Subsystem {
 	protected HopperState currentState;
 	protected double currentCapacity;
 
-	public Hopper(DoubleSolenoid solenoid) {
+	public Hopper(DoubleSolenoid solenoid, HopperCapacitySensor capacitySensor) {
 		this.solenoid = solenoid;
-		capacitySensor = new HopperCapacitySensor(RobotMap.Port.CAN.hopperSensor);
+		this.capacitySensor = capacitySensor;
 		setState(HopperState.BALLIO);
 	}
 
