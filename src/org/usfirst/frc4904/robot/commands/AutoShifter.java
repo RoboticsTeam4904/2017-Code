@@ -22,8 +22,8 @@ public class AutoShifter extends Command {
 	public static final double SLOW_THROTTLE_THRESHOLD = 0.4;
 	public static final double MEDIUM_THROTTLE_THRESHOLD = 0.5;
 	public static final double FAST_THROTTLE_THRESHOLD = 0.8;
-	public static final double LAST_MANUAL_SHIFT_TIME_MILLIS = 5000; // TODO
-	public static final double LAST_AUTO_SHIFT_TIME_MILLIS = 250;// TODO
+	public static final double LAST_MANUAL_SHIFT_TIME_MILLIS = 5000;
+	public static final double LAST_AUTO_SHIFT_TIME_MILLIS = 250;
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
