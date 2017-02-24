@@ -62,12 +62,12 @@ public class AutoShifter extends Command {
 			return;
 		}
 		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
-		double forwardSpeed = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
-		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
-		double absoluteThrottle = Math.abs(Arrays.stream(motorThrottles).average().getAsDouble());
 		// Also, take the absolute value to treat forwards & backwards the same.
-		double absoluteSpeed = Math.abs(forwardSpeed);
-		boolean isAboveMediumSpeed = absoluteSpeed > AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
+		double absoluteForwardSpeed = Math.abs((leftEncoder.getRate() + rightEncoder.getRate()) / 2);
+		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
+		// Also, take the absolute value to treat forwards & backwards the same.
+		double absoluteThrottle = Math.abs(Arrays.stream(motorThrottles).average().getAsDouble());
+		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
 		boolean isThrottleFast = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
 		// If we're flooring it and nothing's in our way, shift up.
 		if (isAboveMediumSpeed && isThrottleFast) {
@@ -76,14 +76,14 @@ public class AutoShifter extends Command {
 			return;
 		}
 		boolean isThrottleLessThanSlow = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
-		boolean isSpeedSlow = absoluteSpeed < AutoShifter.SLOW_ENCODER_RATE_THRESHOLD;
+		boolean isSpeedSlow = absoluteForwardSpeed < AutoShifter.SLOW_ENCODER_RATE_THRESHOLD;
 		// If we're just driving very slowly (basically stopped), shift down.
 		if (isSpeedSlow && isThrottleLessThanSlow) {
 			LogKitten.v("Downshift for slow driving.");
 			shiftDownCommand.start();
 			return;
 		}
-		boolean isBelowMediumSpeed = absoluteSpeed < AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
+		boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_ENCODER_RATE_THRESHOLD;
 		boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
 		// If we're throttling high but going slow (pushing something we just hit)
 		if (isBelowMediumSpeed && isThrottleAboveMedium) {
