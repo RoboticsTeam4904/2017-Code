@@ -14,6 +14,7 @@ import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
@@ -111,5 +112,11 @@ public class NathanGain extends Driver {
 		double turnSpeed = scaleGain(modifier.modify(rawTurnSpeed), NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
 			* NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
+	}
+
+	private void bindDpadCommand(Button direction, double angle, Command normalDrive) {
+		direction.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, angle,
+			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+		direction.whenReleased(normalDrive);
 	}
 }
