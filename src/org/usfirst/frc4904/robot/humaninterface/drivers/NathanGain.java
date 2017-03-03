@@ -40,12 +40,14 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.driverXbox.lb.whenPressed(
-			new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.Component.driverXbox.lb
+			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.rb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.driverXbox.lb.onlyWhileHeld(new RunAllSequential(
-			new RunFor(alignAssist, NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS), new SetEnableableModifier(true, modifier)));
+		RobotMap.Component.driverXbox.lb
+			.onlyWhileHeld(
+				new RunAllSequential(new RunFor(alignAssist, NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS),
+					new SetEnableableModifier(true, modifier)));
 		RobotMap.Component.driverXbox.lb.onlyWhileReleased(alignAssist);
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
@@ -64,8 +66,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
-		new Climb(() -> Math.max(0, -scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN,
-			NathanGain.CLIMB_EXP))).start();
+		new Climb(() -> Math.max(0,
+			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
 		alignAssist.start();
 		HumanInterfaceConfig.autoShifter.start();
 	}

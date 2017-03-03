@@ -155,7 +155,8 @@ public class RobotMap {
 		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
 			Port.Pneumatics.gearioGullWingsDown);
-		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp, Port.Pneumatics.gearioRampDown);
+		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
+			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
