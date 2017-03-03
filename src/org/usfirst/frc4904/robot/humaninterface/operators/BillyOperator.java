@@ -17,11 +17,11 @@ import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class BillyOP extends Operator {
+public class BillyOperator extends Operator {
 	public static final double INTAKE_THRESHOLD = 0.5;
 
-	public BillyOP() {
-		super("DefaultOperator");
+	public BillyOperator() {
+		super("BillyOperator");
 	}
 
 	@Override
@@ -35,9 +35,9 @@ public class BillyOP extends Operator {
 		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button9.onlyWhileHeld(new BallioIntake());
-		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY, BillyOP.INTAKE_THRESHOLD)
+		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY, BillyOperator.INTAKE_THRESHOLD)
 			.start();
-		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY, -BillyOP.INTAKE_THRESHOLD,
+		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY, -BillyOperator.INTAKE_THRESHOLD,
 			true)
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
