@@ -27,7 +27,7 @@ public class AutonPlaceGearOnPeg1BlueAndPeg3Red extends CommandGroup {
 			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
 		addSequential(new GearioOuttake());
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonPlaceGearOnPeg2.DISTANCE_BACK_TO_CLEAR_PEG_IN_INCHES,
+			AutonGearCenterPeg.DISTANCE_BACK_TO_CLEAR_PEG_IN_INCHES,
 			RobotMap.Component.chassisDriveMC,
 			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
 	}
