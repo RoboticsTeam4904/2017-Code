@@ -53,17 +53,17 @@ public class RobotMap {
 			public static int leftDriveB = 12;
 			public static int rightDriveA = 13;
 			public static int rightDriveB = 14;
-			public static final int flywheelLeftMotor = 6; // WIP
-			public static final int flywheelRightMotor = 7; // WIP
+			public static final int gearioIntakeRoller = 15;
 		}
 
 		public static class PWM {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
-			public static final int climbMotorA = 5;
-			public static final int climbMotorB = 6;
-			public static final int gearioIntakeRoller = 7;
+			public static final int climbMotorA = 4;
+			public static final int climbMotorB = 5;
+			public static final int flywheelLeftMotor = 6;
+			public static final int flywheelRightMotor = 7;
 			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9;
 		}
@@ -152,7 +152,7 @@ public class RobotMap {
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		// GearIO
-		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
+		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new CANTalon(Port.CANMotor.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
 			Port.Pneumatics.gearioGullWingsDown);
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
