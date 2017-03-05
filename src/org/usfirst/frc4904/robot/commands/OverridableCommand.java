@@ -1,30 +1,23 @@
 package org.usfirst.frc4904.robot.commands;
 
 
-/**
- * This interface allows commands to easily override other commands
- */
-public interface OverridableCommand {
-	/**
-	 * sets a static override to a boolean you give it
-	 * 
-	 * @param override
-	 */
-	void setOverride(boolean setValue);
+import edu.wpi.first.wpilibj.command.Command;
 
-	/**
-	 * returns if override is on or off
-	 * 
-	 * @return
-	 */
-	boolean isOverridden();
+public class OverridableCommand extends Command implements Overridable {
+	public static boolean override;
 
-	/**
-	 * opposite of getOverride
-	 * 
-	 * @return
-	 */
-	default boolean isNotOverridden() {
-		return !isOverridden();
+	@Override
+	public void setOverridden(boolean override) {
+		OverridableCommand.override = override;
+	}
+
+	@Override
+	public boolean isOverridden() {
+		return OverridableCommand.override;
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return false;
 	}
 }
