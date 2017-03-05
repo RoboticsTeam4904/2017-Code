@@ -24,6 +24,10 @@ public class DefaultOperator extends Operator {
 		super("DefaultOperator");
 	}
 
+	public DefaultOperator(String name) {
+		super(name);
+	}
+
 	@Override
 	public void bindCommands() {
 		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
