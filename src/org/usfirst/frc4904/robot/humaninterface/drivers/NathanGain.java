@@ -66,8 +66,8 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
-		new Climb(() -> Math.max(0,
-			-scaleGain(RobotMap.Component.driverXbox.rightStick.getY(), NathanGain.CLIMB_GAIN, NathanGain.CLIMB_EXP))).start();
+		RobotMap.Component.driverXbox.x
+			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
 		alignAssist.start();
 		HumanInterfaceConfig.autoShifter.start();
 	}
