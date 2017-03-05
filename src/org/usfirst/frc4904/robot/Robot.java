@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegDR;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
 import org.usfirst.frc4904.robot.commands.CANInformer;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -18,7 +18,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new AutonGearCenterPegDR());
+		autoChooser.addDefault(new AutonGearCenterPegTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
