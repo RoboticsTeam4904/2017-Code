@@ -32,7 +32,8 @@ public class BillyOperator extends Operator {
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
 		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new BallioFloorClear());
-		// RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioOuttake());
+		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioOuttake());
+		RobotMap.Component.operatorStick.button10.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioIntake());
 		new ThresholdCommand<Double>(new GearioIntake(), RobotMap.Component.operatorStick::getY,
 			BillyOperator.INTAKE_THRESHOLD)
