@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninterface.operators;
 
 
-import java.util.function.Supplier;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.BallioCycle;
 import org.usfirst.frc4904.robot.commands.BallioFloorClear;
@@ -14,8 +13,8 @@ import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
+import org.usfirst.frc4904.standard.commands.ThresholdCommand;
 import org.usfirst.frc4904.standard.humaninput.Operator;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class BillyOperator extends Operator {
 	public static final double INTAKE_THRESHOLD = 0.5;
@@ -35,9 +34,11 @@ public class BillyOperator extends Operator {
 		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new BallioFloorClear());
 		// RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioIntake());
-		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY, BillyOperator.INTAKE_THRESHOLD)
-			.start();
-		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY, -BillyOperator.INTAKE_THRESHOLD,
+		new ThresholdCommand<Double>(new GearioIntake(), RobotMap.Component.operatorStick::getY,
+			BillyOperator.INTAKE_THRESHOLD)
+				.start();
+		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
+			-BillyOperator.INTAKE_THRESHOLD,
 			true)
 				.start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
@@ -46,41 +47,5 @@ public class BillyOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
-	}
-
-	private class ThresholdCommand extends Command {
-		protected final Command command;
-		protected final Supplier<Double> axis;
-		protected final double threshold;
-		protected final boolean invert;
-
-		public ThresholdCommand(Command command, Supplier<Double> axis, double threshold, boolean invert) {
-			this.command = command;
-			this.axis = axis;
-			this.threshold = threshold;
-			this.invert = invert;
-		}
-
-		public ThresholdCommand(Command command, Supplier<Double> axis, double threshold) {
-			this(command, axis, threshold, false);
-		}
-
-		protected boolean pastThreshold(double value) {
-			return (!invert && value >= threshold) || (invert && value <= threshold);
-		}
-
-		@Override
-		protected void execute() {
-			if (pastThreshold(axis.get()) && !command.isRunning()) {
-				command.start();
-			} else if (!pastThreshold(axis.get()) && command.isRunning()) {
-				command.cancel();
-			}
-		}
-
-		@Override
-		protected boolean isFinished() {
-			return false;
-		}
 	}
 }
