@@ -49,21 +49,21 @@ public class RobotMap {
 		}
 
 		public static class CANMotor {
-			public static int leftDriveA = 11;
-			public static int leftDriveB = 12;
-			public static int rightDriveA = 13;
-			public static int rightDriveB = 14;
-			public static final int gearioIntakeRoller = 15;
-		}
-
-		public static class PWM {
 			public static final int ballioDirectionalRoller = 1;
 			public static final int ballioHopperRollers = 2;
 			public static final int ballioElevatorAndIntakeRoller = 3;
-			public static final int climbMotorA = 4;
-			public static final int climbMotorB = 5;
-			public static final int flywheelLeftMotor = 6;
-			public static final int flywheelRightMotor = 7;
+			public static final int flywheelLeftMotor = 6; // WIP
+			public static final int flywheelRightMotor = 7; // WIP
+		}
+
+		public static class PWM {
+			public static final int leftDriveA = 1;
+			public static final int leftDriveB = 2;
+			public static final int rightDriveA = 3;
+			public static final int rightDriveB = 4;
+			public static final int climbMotorA = 5;
+			public static final int climbMotorB = 6;
+			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9;
 		}
@@ -133,26 +133,26 @@ public class RobotMap {
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
-			new CANTalon(Port.CANMotor.leftDriveA), new CANTalon(Port.CANMotor.leftDriveB));
+			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
-			new CANTalon(Port.CANMotor.rightDriveA), new CANTalon(Port.CANMotor.rightDriveB));
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
 		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
-			new VictorSP(Port.PWM.ballioDirectionalRoller));
+			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
 		ballioDirectionalRoller.setInverted(true);
-		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new VictorSP(Port.PWM.ballioHopperRollers));
+		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
 		ballioHopperRollers.setInverted(true);
 		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller", new AccelerationCap(Component.pdp),
-			new VictorSP(Port.PWM.ballioElevatorAndIntakeRoller));
+			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
 		// GearIO
-		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new CANTalon(Port.CANMotor.gearioIntakeRoller));
+		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
 			Port.Pneumatics.gearioGullWingsDown);
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
