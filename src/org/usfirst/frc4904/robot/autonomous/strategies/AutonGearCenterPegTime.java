@@ -25,7 +25,7 @@ public class AutonGearCenterPegTime extends CommandGroup {
 			AutonGearCenterPegTime.TIME_INITIAL_APPROACH));
 		addSequential(
 			new RunFor(new ChassisMove(RobotMap.Component.chassis, new WiggleApproach()), AutonGearCenterPegTime.WIGGLE_TIME));
-		addParallel(new GearioOuttake(), 2);
+		addParallel(new RunFor(new GearioOuttake(), 2));
 		addParallel(new RunAllSequential(new WaitCommand(1),
 			new ChassisConstant(RobotMap.Component.chassis, 0, -AutonGearCenterPegTime.DRIVE_SPEED, 0,
 				AutonGearCenterPegTime.TIME_BACK_TO_CLEAR_PEG)));
