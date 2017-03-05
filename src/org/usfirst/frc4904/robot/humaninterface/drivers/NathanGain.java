@@ -27,6 +27,7 @@ public class NathanGain extends Driver {
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double FINE_SCALE = 0.5;
 	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
+	public static final double PASSIVE_CLIMBER_SPIN_SPEED = 0.05;
 	public final EnableableModifier modifier = new EnableableModifier(new LinearModifier(NathanGain.FINE_SCALE));
 	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
 
@@ -68,6 +69,7 @@ public class NathanGain extends Driver {
 		// Inverted (airplane-style) analog gain control
 		RobotMap.Component.driverXbox.x
 			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
+		RobotMap.Component.driverXbox.x.onlyWhileHeld(new Climb(() -> NathanGain.PASSIVE_CLIMBER_SPIN_SPEED));
 		alignAssist.start();
 		HumanInterfaceConfig.autoShifter.start();
 	}
