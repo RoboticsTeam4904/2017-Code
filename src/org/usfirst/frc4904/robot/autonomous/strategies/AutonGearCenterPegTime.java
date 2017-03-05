@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearCenterPegTime extends CommandGroup {
-	public static final double TIME_BACK_TO_CLEAR_PEG = 2;
-	public static final double DRIVE_SPEED = -0.3;
-	public static final double TIME_INITIAL_APPROACH = 4;
-	public static final double WIGGLE_TIME = 1.5; // It's wiggle time!
+	public static final double TIME_BACK_TO_CLEAR_PEG = 1;
+	public static final double DRIVE_SPEED = -0.6;
+	public static final double TIME_INITIAL_APPROACH = 1.5;
+	public static final double WIGGLE_SPEED = -0.3;
+	public static final double WIGGLE_TIME = 2.0; // It's wiggle time!
 	public static final double WIGGLE_AMPLITUDE = 0.5;
-	public static final double WIGGLE_PERIOD = 1.0 / 16.0;
+	public static final double WIGGLE_PERIOD = 1.0 / 64.0;
 
 	public AutonGearCenterPegTime() {
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonGearCenterPegTime.DRIVE_SPEED, 0,
@@ -38,7 +39,7 @@ public class AutonGearCenterPegTime extends CommandGroup {
 
 		@Override
 		public double getY() {
-			return AutonGearCenterPegTime.DRIVE_SPEED;
+			return AutonGearCenterPegTime.WIGGLE_SPEED;
 		}
 
 		@Override
