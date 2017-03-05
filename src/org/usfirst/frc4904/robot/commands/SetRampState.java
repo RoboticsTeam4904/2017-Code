@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
 
 public class SetRampState extends OverridableCommand {
 	protected final RampState state;
+	public static boolean rampOverride;
 
 	public SetRampState(RampState state) {
 		this.state = state;
@@ -14,10 +15,6 @@ public class SetRampState extends OverridableCommand {
 	@Override
 	protected void initialize() {
 		RobotMap.Component.gearIO.setRampState(state);
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
+		override = SetRampState.rampOverride;
 	}
 }
