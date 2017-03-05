@@ -35,7 +35,7 @@ public class NathanGain extends Driver {
 	}
 
 	protected double scaleGain(double input, double gain, double exp) {
-		return Math.pow(input, exp) * gain * Math.signum(input);
+		return Math.pow(Math.abs(input), exp) * gain * Math.signum(input);
 	}
 
 	@Override
