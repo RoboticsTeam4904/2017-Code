@@ -183,8 +183,9 @@ public class RobotMap {
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
+		Component.chassisDriveMC = new CustomPIDController(0.0, 0.0, -0.0,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.chassisDriveMC.setAbsoluteTolerance(1.0);
 		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
 				Component.lidar};
