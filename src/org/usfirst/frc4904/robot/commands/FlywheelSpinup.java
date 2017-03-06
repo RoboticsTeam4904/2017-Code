@@ -10,7 +10,7 @@ public class FlywheelSpinup extends MotorConstant implements OverridableCommand 
 	protected static boolean flywheelSpeedOverride = false;
 
 	public FlywheelSpinup() {
-		super(RobotMap.Component.flywheel, Flywheel.SHOOTING_SPEED);
+		super("FlywheelSpinup", RobotMap.Component.flywheel, Flywheel.SHOOTING_SPEED);
 	}
 
 	public FlywheelSpinup(Supplier<Double> speedSupplier) {

@@ -2,11 +2,9 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.robot.subsystems.Hopper;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class HopperSetShooter extends CommandGroup {
+public class HopperSetShooter extends HopperSet {
 	public HopperSetShooter() {
-		addSequential(new BallioDoorSetIntake());
-		addSequential(new HopperSet(Hopper.HopperState.SHOOTER));
+		super(Hopper.HopperState.SHOOTER);
 	}
 }
