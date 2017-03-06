@@ -39,15 +39,15 @@ public class DefaultOperator extends Operator {
 		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY, -DefaultOperator.INTAKE_THRESHOLD,
 			true)
 				.start();
-		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		new SetRampState(GearIO.RampState.EXTENDED).start();
 		RobotMap.Component.teensyStick.getButton(6)
 			.whenPressed(new SetOverride(true, new BallioOuttake(), new BallioCycle(), new Shoot()));
 		RobotMap.Component.teensyStick.getButton(6)
 			.whenReleased(new SetOverride(false, new BallioOuttake(), new BallioCycle(), new Shoot()));
 		RobotMap.Component.teensyStick.getButton(7).whenPressed(new HopperSetBallio());
 		RobotMap.Component.teensyStick.getButton(8).whenPressed(new HopperSetShooter());
-		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
-		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, new SetRampState(null)));
+		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, new SetRampState(null)));
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
