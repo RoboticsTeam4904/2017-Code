@@ -14,7 +14,7 @@ public class SetRampState extends OverridableCommand {
 
 	@Override
 	protected void initialize() {
-		RobotMap.Component.gearIO.setRampState(state);
 		override = SetRampState.rampOverride;
+		RobotMap.Component.gearIO.setRampState(state);
 	}
 }
