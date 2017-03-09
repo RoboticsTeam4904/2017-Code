@@ -50,5 +50,12 @@ public class CalibrateCameraExposureSockets extends Command {
 	protected void end() {
 		output.println("do the autocalibrate thing please");
 		output.flush();
+		output.close();
+		try {
+			socket.close();
+		}
+		catch (IOException e) {
+			LogKitten.ex(e);
+		}
 	}
 }
