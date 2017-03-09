@@ -25,8 +25,6 @@ public class CalibrateCameraExposureSockets extends Command {
 		catch (IOException e) {
 			LogKitten.ex(e);
 		}
-		output.println("do the autocalibrate thing please");
-		output.flush();
 	}
 
 	protected Socket connect() {
@@ -46,5 +44,11 @@ public class CalibrateCameraExposureSockets extends Command {
 	@Override
 	protected boolean isFinished() {
 		return true;
+	}
+
+	@Override
+	protected void end() {
+		output.println("do the autocalibrate thing please");
+		output.flush();
 	}
 }
