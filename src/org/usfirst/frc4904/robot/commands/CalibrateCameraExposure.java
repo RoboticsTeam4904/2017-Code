@@ -24,8 +24,6 @@ public class CalibrateCameraExposure extends Command {
 
 	@Override
 	protected void execute() {
-		// System.out.println("num calibrations is " +
-		// CalibrateCameraExposure3.numCalibrations);
 		CalibrateCameraExposure.numCalibrations += 1;
 		table.putNumber("autocalibrate", CalibrateCameraExposure.numCalibrations);
 	}
@@ -34,14 +32,4 @@ public class CalibrateCameraExposure extends Command {
 	protected boolean isFinished() {
 		return table.getBoolean("didCalibrate", false);
 	}
-	// public static void main(String[] args) {
-	// new CalibrateCameraExposure();
-	// }
-	//
-	// public CalibrateCameraExposure() {
-	// initialize();
-	// while (!isFinished()) {
-	// execute();
-	// }
-	// }
 }

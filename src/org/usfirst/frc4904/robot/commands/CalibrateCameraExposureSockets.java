@@ -19,7 +19,6 @@ public class CalibrateCameraExposureSockets extends Command {
 			output = new PrintWriter(s.getOutputStream());
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		output.println("do the autocalibrate thing please");
@@ -35,8 +34,6 @@ public class CalibrateCameraExposureSockets extends Command {
 			}
 			catch (IOException e) {
 				System.out.println("no connection");
-				// fatalError("Error connecting to the server, try again
-				// later.");
 			}
 		}
 	}
