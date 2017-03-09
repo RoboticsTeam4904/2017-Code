@@ -25,13 +25,12 @@ public class MatchRecorder extends Command {
 		}
 		totalTicks++;
 		prefixedLog("------MATCH RECORDER//TICK " + totalTicks + "------");
-		prefixedLog("PDP voltage = " + RobotMap.Component.CANPDPlogger.getVoltage());
-		prefixedLog("PDP temperature = " + RobotMap.Component.CANPDPlogger.getTemperature());
-		prefixedLog("PDP total current = " + RobotMap.Component.CANPDPlogger.getTotalCurrent());
-		prefixedLog("PDP total power = " + RobotMap.Component.CANPDPlogger.getTotalPower());
-		prefixedLog("PDP total energy = " + RobotMap.Component.CANPDPlogger.getTotalEnergy());
+		prefixedLog("PDP voltage = " + RobotMap.Component.pdp.getVoltage());
+		prefixedLog("PDP total current = " + RobotMap.Component.pdp.getTotalCurrent());
+		prefixedLog("PDP total power = " + RobotMap.Component.pdp.getTotalPower());
+		prefixedLog("PDP total energy = " + RobotMap.Component.pdp.getTotalEnergy());
 		for (int i = 0; i <= 15; i++) {
-			prefixedLog("PDP channel " + i + " current = " + RobotMap.Component.CANPDPlogger.getCurrent(i));
+			prefixedLog("PDP channel " + i + " current = " + RobotMap.Component.pdp.getCurrent(i));
 		}
 		prefixedLog("NavX yaw = " + RobotMap.Component.navx.getYaw());
 		prefixedLog("NavX y acceleration = " + RobotMap.Component.navx.getWorldLinearAccelY());

@@ -26,7 +26,6 @@ import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.Acceleration
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
@@ -103,7 +102,6 @@ public class RobotMap {
 
 	public static class Component {
 		public static PDP pdp;
-		public static PowerDistributionPanel CANPDPlogger;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
 		public static Motor leftWheel;
@@ -130,7 +128,6 @@ public class RobotMap {
 	public RobotMap() {
 		// Chassis
 		Component.pdp = new PDP();
-		Component.CANPDPlogger = new PowerDistributionPanel();
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
