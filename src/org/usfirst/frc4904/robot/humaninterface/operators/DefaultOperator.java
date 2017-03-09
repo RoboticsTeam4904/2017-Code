@@ -29,7 +29,6 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
-		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY,
 			DefaultOperator.INTAKE_THRESHOLD).start();
 		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
@@ -40,6 +39,7 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 	}
 
 	private class ThresholdCommand extends Command {
