@@ -10,10 +10,6 @@ public class CalibrateCameraExposure extends Command {
 
 	public CalibrateCameraExposure() {
 		table = NetworkTable.getTable("autocalibrate");
-		// NetworkTable.setIPAddress("10.49.4.2");
-		// NetworkTable.setClientMode();
-		// NetworkTable.setTeam(4904);
-		// NetworkTable.initialize();
 	}
 
 	@Override
