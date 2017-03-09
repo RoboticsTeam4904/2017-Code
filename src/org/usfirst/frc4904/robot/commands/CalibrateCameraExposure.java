@@ -9,11 +9,6 @@ public class CalibrateCameraExposure extends Command {
 	static double numCalibrations = 0;
 	boolean didCalibrate = false;
 
-	@Override
-	protected boolean isFinished() {
-		return table.getBoolean("didCalibrate", false);
-	}
-
 	public CalibrateCameraExposure() {
 		table = NetworkTable.getTable("autocalibrate");
 		// NetworkTable.setIPAddress("10.49.4.2");
@@ -35,6 +30,10 @@ public class CalibrateCameraExposure extends Command {
 		table.putNumber("autocalibrate", CalibrateCameraExposure.numCalibrations);
 	}
 
+	@Override
+	protected boolean isFinished() {
+		return table.getBoolean("didCalibrate", false);
+	}
 	// public static void main(String[] args) {
 	// new CalibrateCameraExposure();
 	// }
