@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public class CalibrateCameraExposure extends Command {
 	NetworkTable table;
 	static double numCalibrations = 0;
-	boolean didCalibrate = false;
 
 	public CalibrateCameraExposure() {
 		table = NetworkTable.getTable("autocalibrate");
