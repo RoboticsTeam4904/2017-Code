@@ -16,6 +16,12 @@ public class CalibrateCameraExposureSockets extends Command {
 	protected Socket socket;
 
 	@Override
+	protected void initialize() {
+		socket = null;
+		output = null;
+	}
+
+	@Override
 	protected void execute() {
 		if (socket == null) {
 			try {
