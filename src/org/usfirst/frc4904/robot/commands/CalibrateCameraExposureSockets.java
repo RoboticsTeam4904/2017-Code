@@ -9,9 +9,9 @@ import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateCameraExposureSockets extends Command {
-	private final String HOSTNAME = "tegra-ubuntu.local";
-	private final int PORT_NUMBER = 5001;
-	private PrintWriter output;
+	protected final String HOSTNAME = "tegra-ubuntu.local";
+	protected final int PORT_NUMBER = 5001;
+	protected PrintWriter output;
 
 	@Override
 	protected void execute() {
