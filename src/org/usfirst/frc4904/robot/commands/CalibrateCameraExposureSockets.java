@@ -11,44 +11,43 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CalibrateCameraExposureSockets extends Command {
 	protected static final String HOSTNAME = "tegra-ubuntu.local";
 	protected static final int PORT_NUMBER = 5001;
+	protected static final String AUTOCALIBRATION_MESSAGE = "do the autocalibrate thing please";
 	protected PrintWriter output;
 	protected Socket socket;
 
 	@Override
 	protected void execute() {
 		if (socket == null) {
-			socket = connect();
-		}
-		try {
-			output = new PrintWriter(socket.getOutputStream());
-		}
-		catch (IOException e) {
-			LogKitten.ex(e);
-		}
-	}
-
-	protected Socket connect() {
-		while (true) {
 			try {
-				Socket s = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
+				socket = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
 					CalibrateCameraExposureSockets.PORT_NUMBER);
-				LogKitten.v("Autocalibration socket sucessfully connected");
-				return s;
 			}
 			catch (IOException e) {
 				LogKitten.w("Autocalibration could not connect to the socket");
+				LogKitten.ex(e);
+				return;
+			}
+		}
+		if (output == null) {
+			try {
+				output = new PrintWriter(socket.getOutputStream());
+			}
+			catch (IOException e) {
+				LogKitten.ex(e);
+				return;
 			}
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return socket != null && output != null;
 	}
 
 	@Override
 	protected void end() {
-		output.println("do the autocalibrate thing please");
+		LogKitten.v("Autocalibration socket sucessfully connected");
+		output.println(CalibrateCameraExposureSockets.AUTOCALIBRATION_MESSAGE);
 		output.flush();
 		output.close();
 		try {
