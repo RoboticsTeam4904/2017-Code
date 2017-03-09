@@ -12,12 +12,15 @@ public class CalibrateCameraExposureSockets extends Command {
 	protected static final String HOSTNAME = "tegra-ubuntu.local";
 	protected static final int PORT_NUMBER = 5001;
 	protected PrintWriter output;
+	protected Socket socket;
 
 	@Override
 	protected void execute() {
-		Socket s = connect();
+		if (socket == null) {
+			socket = connect();
+		}
 		try {
-			output = new PrintWriter(s.getOutputStream());
+			output = new PrintWriter(socket.getOutputStream());
 		}
 		catch (IOException e) {
 			LogKitten.ex(e);
