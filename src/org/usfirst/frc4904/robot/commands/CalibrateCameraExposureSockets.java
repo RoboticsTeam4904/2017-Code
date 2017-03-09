@@ -31,11 +31,11 @@ public class CalibrateCameraExposureSockets extends Command {
 			try {
 				Socket s = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
 					CalibrateCameraExposureSockets.PORT_NUMBER);
-				LogKitten.v("Socket achieved");
+				LogKitten.v("Autocalibration socket sucessfully connected");
 				return s;
 			}
 			catch (IOException e) {
-				LogKitten.w("no connection");
+				LogKitten.w("Autocalibration could not connect to the socket");
 			}
 		}
 	}
