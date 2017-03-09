@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateCameraExposureSockets extends Command {
@@ -19,7 +20,7 @@ public class CalibrateCameraExposureSockets extends Command {
 			output = new PrintWriter(s.getOutputStream());
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			LogKitten.ex(e);
 		}
 		output.println("do the autocalibrate thing please");
 		output.flush();
@@ -29,18 +30,17 @@ public class CalibrateCameraExposureSockets extends Command {
 		while (true) {
 			try {
 				Socket s = new Socket(InetAddress.getByName(HOSTNAME), PORT_NUMBER);
-				System.out.println("Socket achieved");
+				LogKitten.v("Socket achieved");
 				return s;
 			}
 			catch (IOException e) {
-				System.out.println("no connection");
+				LogKitten.w("no connection");
 			}
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }
