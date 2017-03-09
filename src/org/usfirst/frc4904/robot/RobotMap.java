@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
+import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
@@ -18,7 +19,6 @@ import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
@@ -94,6 +94,11 @@ public class RobotMap {
 
 	public static class Metrics {
 		public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
+		public static final double WHEEL_DIAMETER_INCHES = 3.5;
+		public static final double WHEEL_CIRCUMFERENCE_INCHES = Metrics.WHEEL_DIAMETER_INCHES * Math.PI;
+		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
+			/ Metrics.WHEEL_PULSES_PER_REVOLUTION;
+		public static final double HIGH_TO_LOW_GEAR_RATIO = 3.15;
 	}
 
 	public static class Component {
@@ -103,7 +108,7 @@ public class RobotMap {
 		public static CustomEncoder rightWheelEncoder;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
-		public static SolenoidShifters shifter;
+		public static AutoSolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static BallIO ballIO;
 		public static GearIO gearIO;
@@ -128,15 +133,15 @@ public class RobotMap {
 		Component.CANPDPlogger = new PowerDistributionPanel();
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
+		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
+		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// BallIO
 		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",

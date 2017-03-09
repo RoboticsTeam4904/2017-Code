@@ -1,8 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.commands.MatchRecorder;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
+import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
@@ -20,6 +21,7 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new AutonGearCenterPegTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
