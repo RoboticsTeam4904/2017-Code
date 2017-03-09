@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class CalibrateCameraExposure extends Command {
 	protected NetworkTable table;
-	protected static double numCalibrations = 0;
+	protected double numCalibrations;
 
 	public CalibrateCameraExposure() {
 		table = NetworkTable.getTable("autocalibrate");
@@ -18,13 +18,12 @@ public class CalibrateCameraExposure extends Command {
 
 	@Override
 	protected void initialize() {
-		CalibrateCameraExposure.numCalibrations = 0;
+		numCalibrations = 0;
 	}
 
 	@Override
 	protected void execute() {
-		CalibrateCameraExposure.numCalibrations += 1;
-		table.putNumber("autocalibrate", CalibrateCameraExposure.numCalibrations);
+		table.putNumber("autocalibrate", ++numCalibrations);
 	}
 
 	@Override
