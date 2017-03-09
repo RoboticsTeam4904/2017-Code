@@ -3,10 +3,10 @@ package org.usfirst.frc4904.robot.commands;
 
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class SetRampState extends Command {
+public class SetRampState extends OverridableCommand {
 	protected final RampState state;
+	public static boolean rampOverride;
 
 	public SetRampState(RampState state) {
 		this.state = state;
@@ -14,11 +14,7 @@ public class SetRampState extends Command {
 
 	@Override
 	protected void initialize() {
+		override = SetRampState.rampOverride;
 		RobotMap.Component.gearIO.setRampState(state);
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
 	}
 }
