@@ -141,18 +141,18 @@ public class RobotMap {
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderGroup(100, Component.leftWheelEncoder, Component.rightWheelEncoder));
+			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.leftWheel = new Motor("LeftWheel", false, Component.leftWheelAccelerationCap,
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.rightWheel = new Motor("RightWheel", false, Component.rightWheelAccelerationCap,
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
-			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
