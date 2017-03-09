@@ -1,10 +1,10 @@
 package org.usfirst.frc4904.robot.commands;
 
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class CalibrateCameraExposure extends Command {
-
 	NetworkTable table;
 	static double numCalibrations = 0;
 	boolean didCalibrate = false;
@@ -44,5 +44,4 @@ public class CalibrateCameraExposure extends Command {
 	// execute();
 	// }
 	// }
-
 }
