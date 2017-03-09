@@ -9,8 +9,8 @@ import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateCameraExposureSockets extends Command {
-	protected final String HOSTNAME = "tegra-ubuntu.local";
-	protected final int PORT_NUMBER = 5001;
+	protected static final String HOSTNAME = "tegra-ubuntu.local";
+	protected static final int PORT_NUMBER = 5001;
 	protected PrintWriter output;
 
 	@Override
@@ -29,7 +29,8 @@ public class CalibrateCameraExposureSockets extends Command {
 	private Socket connect() {
 		while (true) {
 			try {
-				Socket s = new Socket(InetAddress.getByName(HOSTNAME), PORT_NUMBER);
+				Socket s = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
+					CalibrateCameraExposureSockets.PORT_NUMBER);
 				LogKitten.v("Socket achieved");
 				return s;
 			}
