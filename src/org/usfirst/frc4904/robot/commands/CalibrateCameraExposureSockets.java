@@ -26,7 +26,7 @@ public class CalibrateCameraExposureSockets extends Command {
 		output.flush();
 	}
 
-	private Socket connect() {
+	protected Socket connect() {
 		while (true) {
 			try {
 				Socket s = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
