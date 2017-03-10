@@ -1,8 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.commands.CANInformer;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
+import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
@@ -13,18 +14,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	CANInformer matchConfigBroadcast = new MatchInformer();
+	MatchRecorder logger = new MatchRecorder();
+	MatchInformer matchConfigBroadcast = new MatchInformer();
 
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new AutonGearCenterPegTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
 		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
+		logger.start();
 	}
 
 	@Override
