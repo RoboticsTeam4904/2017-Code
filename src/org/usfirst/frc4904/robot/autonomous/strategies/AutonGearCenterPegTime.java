@@ -11,21 +11,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearCenterPegTime extends CommandGroup {
-	public static final double TIME_BACK_TO_CLEAR_PEG = 1;
-	public static final double DRIVE_SPEED = -0.6;
 	public static final double TIME_INITIAL_APPROACH = 1.5;
-	public static final double WIGGLE_TIME = 2.0; // It's wiggle time!
-	public static final double OUTTAKE_TIME = 2.0;
 
 	public AutonGearCenterPegTime() {
-		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonGearCenterPegTime.DRIVE_SPEED, 0,
+		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
 			AutonGearCenterPegTime.TIME_INITIAL_APPROACH));
 		addSequential(
-			new RunFor(new ChassisMove(RobotMap.Component.chassis, new WiggleApproach()), AutonGearCenterPegTime.WIGGLE_TIME));
-		addParallel(new RunFor(new GearioOuttake(), AutonGearCenterPegTime.OUTTAKE_TIME));
+			new RunFor(new ChassisMove(RobotMap.Component.chassis, new WiggleApproach()), AutonConfig.DEAD_RECKON_WIGGLE_TIME));
+		addParallel(new RunFor(new GearioOuttake(), AutonConfig.DEAD_RECKON_OUTTAKE_TIME));
 		addParallel(new RunAllSequential(
-			new WaitCommand(AutonGearCenterPegTime.OUTTAKE_TIME - AutonGearCenterPegTime.TIME_BACK_TO_CLEAR_PEG),
-			new ChassisConstant(RobotMap.Component.chassis, 0, -AutonGearCenterPegTime.DRIVE_SPEED, 0,
-				AutonGearCenterPegTime.TIME_BACK_TO_CLEAR_PEG)));
+			new WaitCommand(AutonConfig.DEAD_RECKON_OUTTAKE_TIME - AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG),
+			new ChassisConstant(RobotMap.Component.chassis, 0, -AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
+				AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG)));
 	}
 }
