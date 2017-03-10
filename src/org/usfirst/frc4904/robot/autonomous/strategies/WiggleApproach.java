@@ -18,9 +18,7 @@ public class WiggleApproach implements ChassisController {
 	}
 
 	public WiggleApproach() {
-		wiggleSpeed = WiggleApproach.WIGGLE_SPEED;
-		wigglePeriod = WiggleApproach.WIGGLE_PERIOD;
-		wiggleAmplitude = WiggleApproach.WIGGLE_AMPLITUDE;
+		this(WiggleApproach.WIGGLE_SPEED, WiggleApproach.WIGGLE_PERIOD, WiggleApproach.WIGGLE_AMPLITUDE);
 	}
 
 	@Override
