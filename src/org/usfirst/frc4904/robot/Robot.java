@@ -2,8 +2,8 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
-import org.usfirst.frc4904.robot.commands.CANInformer;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
+import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	CANInformer matchConfigBroadcast = new MatchInformer();
+	MatchRecorder logger = new MatchRecorder();
+	MatchInformer matchConfigBroadcast = new MatchInformer();
 
 	@Override
 	public void initialize() {
@@ -29,6 +30,7 @@ public class Robot extends CommandRobotBase {
 		operatorChooser.addObject(new BillyOperator());
 		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
+		logger.start();
 	}
 
 	@Override

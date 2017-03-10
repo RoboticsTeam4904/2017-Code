@@ -9,6 +9,8 @@ import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.commands.HopperSetBallio;
+import org.usfirst.frc4904.robot.commands.HopperSetShooter;
 import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
@@ -33,8 +35,15 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
-		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new BallioFloorClear());
-		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioCycle());
+		RobotMap.Component.operatorStick.button5.whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.operatorStick.button5.whenReleased(new SetRampState(GearIO.RampState.EXTENDED));
+		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioFloorClear());
+		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new BallioFloorClear());
+		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioCycle());
+		RobotMap.Component.operatorStick.button9.whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.operatorStick.button10.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
+		RobotMap.Component.operatorStick.button11.whenPressed(new HopperSetShooter());
+		RobotMap.Component.operatorStick.button12.whenPressed(new HopperSetBallio());
 		new ThresholdCommand<Double>(new GearioIntake(), RobotMap.Component.operatorStick::getY,
 			DefaultOperator.INTAKE_THRESHOLD).start();
 		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
