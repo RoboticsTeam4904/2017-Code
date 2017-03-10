@@ -18,8 +18,9 @@ public class AutonGearLoadPegTime extends CommandGroup {
 	public AutonGearLoadPegTime() {
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
 			AutonGearLoadPegTime.TIME_INITIAL_APPROACH_1));
-		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, 0, AutonConfig.DEAD_RECKON_TURN_SPEED,
-			AutonGearLoadPegTime.TIME_TURN));
+		addSequential(
+			new ChassisConstant(RobotMap.Component.chassis, 0, 0,
+				AutonConfig.DEAD_RECKON_TURN_SPEED * AutonConfig.ALLIANCE_FACTOR, AutonGearLoadPegTime.TIME_TURN));
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
 			AutonGearLoadPegTime.TIME_INITIAL_APPROACH_2));
 		addSequential(
