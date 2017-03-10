@@ -180,6 +180,11 @@ public class RobotMap {
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
 		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
+		// Human inputs
+		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
+		Component.operatorStick.setDeadzone(HumanInterfaceConfig.JOYSTICK_DEADZONE);
+		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick,
+			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Controls
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
