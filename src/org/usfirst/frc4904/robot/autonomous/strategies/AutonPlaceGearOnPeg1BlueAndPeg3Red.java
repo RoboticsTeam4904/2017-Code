@@ -14,21 +14,15 @@ public class AutonPlaceGearOnPeg1BlueAndPeg3Red extends CommandGroup {
 
 	public AutonPlaceGearOnPeg1BlueAndPeg3Red() {
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonPlaceGearOnPeg1BlueAndPeg3Red.MOVE_BASE_IN_INCHES_1,
-			RobotMap.Component.chassisDriveMC,
-			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			AutonPlaceGearOnPeg1BlueAndPeg3Red.MOVE_BASE_IN_INCHES_1, RobotMap.Component.chassisDriveMC));
 		addSequential(
 			new ChassisTurn(RobotMap.Component.chassis,
 				AutonPlaceGearOnPeg1BlueAndPeg3Red.TURN_BASE_IN_DEGREES_1,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonPlaceGearOnPeg1BlueAndPeg3Red.MOVE_BASE_IN_INCHES_2,
-			RobotMap.Component.chassisDriveMC,
-			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			AutonPlaceGearOnPeg1BlueAndPeg3Red.MOVE_BASE_IN_INCHES_2, RobotMap.Component.chassisDriveMC));
 		addSequential(new GearioOuttake());
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonGearCenterPeg.DISTANCE_BACK_TO_CLEAR_PEG_IN_INCHES,
-			RobotMap.Component.chassisDriveMC,
-			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			AutonGearCenterPeg.DISTANCE_BACK_TO_CLEAR_PEG_IN_INCHES, RobotMap.Component.chassisDriveMC));
 	}
 }

@@ -19,16 +19,12 @@ public class AutonGearCenterPegAndLowGoalRed extends CommandGroup {
 			new ChassisTurn(RobotMap.Component.chassis, AutonGearCenterPegAndLowGoalRed.ANGLE_MOVE_1_IN_DEGREES,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonGearCenterPegAndLowGoalRed.MOVE_CHASSIS_TO_X_DISTANCE_IN_INCHES,
-			RobotMap.Component.chassisDriveMC, RobotMap.Component.leftWheelEncoder,
-			RobotMap.Component.rightWheelEncoder));
+			AutonGearCenterPegAndLowGoalRed.MOVE_CHASSIS_TO_X_DISTANCE_IN_INCHES, RobotMap.Component.chassisDriveMC));
 		addSequential(
 			new ChassisTurn(RobotMap.Component.chassis, AutonGearCenterPegAndLowGoalRed.ANGLE_MOVE_2_IN_DEGREES,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonGearCenterPegAndLowGoalRed.MOVE_CHASSIS_TO_2ndX_DISTANCE_IN_INCHES,
-			RobotMap.Component.chassisDriveMC, RobotMap.Component.leftWheelEncoder,
-			RobotMap.Component.rightWheelEncoder));
+			AutonGearCenterPegAndLowGoalRed.MOVE_CHASSIS_TO_2ndX_DISTANCE_IN_INCHES, RobotMap.Component.chassisDriveMC));
 		addSequential(new BallioOuttake());
 	}
 }

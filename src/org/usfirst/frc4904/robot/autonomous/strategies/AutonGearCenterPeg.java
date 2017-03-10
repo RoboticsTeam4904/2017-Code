@@ -15,13 +15,11 @@ public class AutonGearCenterPeg extends CommandGroup {
 		* (AutonGearCenterPeg.DISTANCE_TO_GEAR2_IN_INCHES - AutonGearCenterPeg.ROBOT_LENGTH_IN_INCHES);
 
 	public AutonGearCenterPeg() {
-		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
-			AutonGearCenterPeg.DISTANCE_TO_DRIVE_IN_INCHES, RobotMap.Component.chassisDriveMC,
-			RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, AutonGearCenterPeg.DISTANCE_TO_DRIVE_IN_INCHES,
+			RobotMap.Component.chassisDriveMC));
 		addSequential(new GearioOuttake());
 		addSequential(
 			new ChassisMoveDistance(RobotMap.Component.chassis, AutonGearCenterPeg.DISTANCE_BACK_TO_CLEAR_PEG_IN_INCHES,
-				RobotMap.Component.chassisDriveMC, RobotMap.Component.leftWheelEncoder,
-				RobotMap.Component.rightWheelEncoder));
+				RobotMap.Component.chassisDriveMC));
 	}
 }

@@ -14,18 +14,13 @@ public class AutonLowGoalAndCrossBaselineBlue extends CommandGroup {
 	public AutonLowGoalAndCrossBaselineBlue() {
 		addSequential(new AutonLowGoalBlue());
 		addSequential(
-			new ChassisMoveDistance(RobotMap.Component.chassis,
-				AutonLowGoalAndCrossBaselineBlue.BACKING_UP_DISTANCE_IN_INCHES,
-				RobotMap.Component.chassisDriveMC,
-				RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			new ChassisMoveDistance(RobotMap.Component.chassis, AutonLowGoalAndCrossBaselineBlue.BACKING_UP_DISTANCE_IN_INCHES,
+				RobotMap.Component.chassisDriveMC));
 		addSequential(
 			new ChassisTurn(RobotMap.Component.chassis,
 				AutonLowGoalAndCrossBaselineBlue.TURNING_ANGLE_FOR_BASELINE_IN_DEGREES,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
-		addSequential(
-			new ChassisMoveDistance(RobotMap.Component.chassis,
-				AutonLowGoalAndCrossBaselineBlue.MOVING_FORWARD_DISTANCE_IN_INCHES,
-				RobotMap.Component.chassisDriveMC,
-				RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+		addSequential(new ChassisMoveDistance(RobotMap.Component.chassis,
+			AutonLowGoalAndCrossBaselineBlue.MOVING_FORWARD_DISTANCE_IN_INCHES, RobotMap.Component.chassisDriveMC));
 	}
 }

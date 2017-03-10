@@ -11,7 +11,6 @@ public class AutonCrossBaseline extends CommandGroup {
 	public AutonCrossBaseline() {
 		addSequential(
 			new ChassisMoveDistance(RobotMap.Component.chassis, AutonCrossBaseline.DISTANCE_TO_CLEAR_BASELINE_IN_INCHES,
-				RobotMap.Component.chassisDriveMC,
-				RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+				RobotMap.Component.chassisDriveMC));
 	}
 }

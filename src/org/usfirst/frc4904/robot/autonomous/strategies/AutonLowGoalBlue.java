@@ -13,18 +13,14 @@ public class AutonLowGoalBlue extends CommandGroup {
 
 	public AutonLowGoalBlue() {
 		addSequential(
-			new ChassisMoveDistance(RobotMap.Component.chassis,
-				AutonLowGoalBlue.DISTANCE_TO_APPROACH_BOALER_AT_45_IN_INCHES,
-				RobotMap.Component.chassisDriveMC,
-				RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			new ChassisMoveDistance(RobotMap.Component.chassis, AutonLowGoalBlue.DISTANCE_TO_APPROACH_BOALER_AT_45_IN_INCHES,
+				RobotMap.Component.chassisDriveMC));
 		addSequential(
 			new ChassisTurn(RobotMap.Component.chassis,
 				AutonLowGoalBlue.ANGLE_TO_APPROACH_BOILER_IN_DEGREES,
 				RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		addSequential(
-			new ChassisMoveDistance(RobotMap.Component.chassis,
-				AutonLowGoalBlue.DISTANCE_TO_APPROACH_BOALER_IN_INCHES,
-				RobotMap.Component.chassisDriveMC,
-				RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder));
+			new ChassisMoveDistance(RobotMap.Component.chassis, AutonLowGoalBlue.DISTANCE_TO_APPROACH_BOALER_IN_INCHES,
+				RobotMap.Component.chassisDriveMC));
 	}
 }
