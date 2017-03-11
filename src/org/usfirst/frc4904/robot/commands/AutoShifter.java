@@ -25,14 +25,12 @@ public class AutoShifter extends Command {
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
-	protected final ChassisShiftAsAuto shiftUpCommand;
 	protected final ChassisShiftAsAuto shiftDownCommand;
 
 	public AutoShifter(AutoSolenoidShifters shifter, CustomEncoder leftEncoder, CustomEncoder rightEncoder) {
 		this.shifter = shifter;
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
-		shiftUpCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.UP);
 		shiftDownCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.DOWN);
 	}
 
