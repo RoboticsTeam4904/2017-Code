@@ -2,28 +2,38 @@ package org.usfirst.frc4904.robot.commands;
 
 
 import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.commands.KittenCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class CommandWithMessage extends Command {
-	Object message;
-	Command command;
+	Command mainCommand;
+	Command startingKittenCommand;
+	Command executingKittenCommand;
+	Command endingKittenCommand;
+	Command interruptedKittenCommand;
 
-	public CommandWithMessage(Command command, Object message) {
-		this.message = message;
-		this.command = command;
+	public CommandWithMessage(Command mainCommand, LogKitten.KittenLevel initializeLevel, LogKitten.KittenLevel executeLevel,
+		LogKitten.KittenLevel endingLevel, LogKitten.KittenLevel interruptLevel) {
+		this.mainCommand = mainCommand;
+		startingKittenCommand = new KittenCommand("Starting " + mainCommand.getName(), initializeLevel);
+		executingKittenCommand = new KittenCommand("Running " + mainCommand.getName(), executeLevel);
+		endingKittenCommand = new KittenCommand("Finishing " + mainCommand.getName(), endingLevel);
+		interruptedKittenCommand = new KittenCommand("INTERRUPTED: " + mainCommand.getName(), interruptLevel);
 	}
 
 	@Override
 	protected void initialize() {
-		LogKitten.wtf(message);
-		command.start();
+		mainCommand.start();
+		startingKittenCommand.start();
 	}
 
 	@Override
-	protected void execute() {}
+	protected void execute() {
+		executingKittenCommand.start();
+	}
 
 	@Override
 	protected boolean isFinished() {
@@ -32,11 +42,13 @@ public class CommandWithMessage extends Command {
 
 	@Override
 	protected void end() {
-		command.cancel();
+		mainCommand.cancel();
+		endingKittenCommand.start();
 	}
 
 	@Override
 	protected void interrupted() {
-		command.cancel();
+		mainCommand.cancel();
+		interruptedKittenCommand.start();
 	}
 }
