@@ -1,10 +1,13 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTime;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
+import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -22,10 +25,13 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		autoChooser.addObject(new AutonGearCenterPegTime());
+		autoChooser.addObject(new AutonGearLoadPegTime());
+		autoChooser.addObject(new AutonGearBoilerPegTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
 		operatorChooser.addDefault(new DefaultOperator());
+		operatorChooser.addObject(new BillyOperator());
 		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
 		logger.start();
