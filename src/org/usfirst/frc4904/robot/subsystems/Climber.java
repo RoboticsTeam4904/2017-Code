@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Climber extends Motor {
 	public Climber(SpeedController... climbMotors) {
-		super(new CapSpeedModifier(0, 1), climbMotors); // Really REALLY don't give this motor any nonpositive values
+		super("Climber", new CapSpeedModifier(0, 1), climbMotors); // Really REALLY don't give this motor any nonpositive values
 	}
 }
