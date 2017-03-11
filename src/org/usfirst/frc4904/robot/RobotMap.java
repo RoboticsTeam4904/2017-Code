@@ -110,6 +110,7 @@ public class RobotMap {
 		public static PDP pdp;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
+		public static EncoderPair chassisEncoders;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static AutoSolenoidShifters shifter;
@@ -141,6 +142,7 @@ public class RobotMap {
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.chassisEncoders = new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder);
 		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
@@ -201,8 +203,9 @@ public class RobotMap {
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.chassisDriveMC = new CustomPIDController(0.07, 0.000002, -0.025,
+			Component.chassisEncoders);
+		Component.chassisDriveMC.setAbsoluteTolerance(3.0);
 		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
 				Component.hopper, Component.lidar};
