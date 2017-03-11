@@ -7,12 +7,12 @@ public abstract class OverridableCommand extends Command implements Overridable 
 	private volatile boolean isOverridden;
 
 	@Override
-	public void setOverridden(boolean override) {
+	final public synchronized void setOverridden(boolean isOverridden) {
 		this.isOverridden = isOverridden;
 	}
 
 	@Override
-	public boolean isOverridden() {
+	final public synchronized boolean isOverridden() {
 		return isOverridden;
 	}
 }
