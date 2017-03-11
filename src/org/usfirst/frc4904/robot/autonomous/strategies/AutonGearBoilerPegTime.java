@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearBoilerPegTime extends CommandGroup {
 	// These constants are based on those in AutonGearLoadPegTime.
-	public static final double TIME_INITIAL_APPROACH_1 = 2;
+	public static final double TIME_INITIAL_APPROACH_1 = 1.7;
 	public static final double TIME_TURN = 1;
 	public static final double TIME_INITIAL_APPROACH_2 = 0.75;
 
