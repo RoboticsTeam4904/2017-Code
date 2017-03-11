@@ -3,8 +3,8 @@ package org.usfirst.frc4904.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class OverridableCommand extends Command implements Overridable {
 	public boolean override;
+public abstract class OverridableCommand extends Command implements Overridable {
 
 	@Override
 	public void setOverridden(boolean override) {
