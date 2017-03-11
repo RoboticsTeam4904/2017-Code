@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearIO extends Subsystem {
-	protected final Motor intakeRoller;
-	protected final DoubleSolenoid gullWings;
-	protected final DoubleSolenoid ramp;
+	public final Motor intakeRoller;
+	public final DoubleSolenoid gullWings;
+	public final DoubleSolenoid ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
 
