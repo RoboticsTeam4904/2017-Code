@@ -3,14 +3,13 @@ package org.usfirst.frc4904.robot.commands;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateCameraExposureSockets extends Command {
-	protected static final String HOSTNAME = "tegra-ubuntu.local";
 	protected static final int PORT_NUMBER = 5001;
+	protected static final String HOSTNAME = "10.49.4.73";
 	protected static final String AUTOCALIBRATION_MESSAGE = "do the autocalibrate thing please";
 	protected PrintWriter output;
 	protected Socket socket;
@@ -25,8 +24,7 @@ public class CalibrateCameraExposureSockets extends Command {
 	protected void execute() {
 		if (socket == null) {
 			try {
-				socket = new Socket(InetAddress.getByName(CalibrateCameraExposureSockets.HOSTNAME),
-					CalibrateCameraExposureSockets.PORT_NUMBER);
+				socket = new Socket(CalibrateCameraExposureSockets.HOSTNAME, CalibrateCameraExposureSockets.PORT_NUMBER);
 			}
 			catch (IOException e) {
 				LogKitten.w("Autocalibration could not connect to the socket");
