@@ -8,8 +8,8 @@ import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateCameraExposureSockets extends Command {
-	protected static final int PORT_NUMBER = 5001;
 	protected static final String HOSTNAME = "10.49.4.73";
+	protected static final int PORT_NUMBER = 5800;
 	protected static final String AUTOCALIBRATION_MESSAGE = "do the autocalibrate thing please";
 	protected PrintWriter output;
 	protected Socket socket;
