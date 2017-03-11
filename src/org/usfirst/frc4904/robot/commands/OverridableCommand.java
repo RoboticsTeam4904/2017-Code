@@ -4,7 +4,7 @@ package org.usfirst.frc4904.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class OverridableCommand extends Command implements Overridable {
-	public boolean isOverridden;
+	private volatile boolean isOverridden;
 
 	@Override
 	public void setOverridden(boolean override) {
