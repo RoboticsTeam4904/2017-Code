@@ -70,7 +70,8 @@ public class RobotMap {
 
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
-			public static final int lidar = 0x620;
+			public static final int lidarPhase1 = 0x620;
+			public static final int lidarPhase2 = 0x622;
 			public static final int lidarEncoder = 0x621;
 			public static final int leftEncoder = 0x610;
 			public static final int rightEncoder = 0x611;
@@ -99,6 +100,8 @@ public class RobotMap {
 		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
 			/ Metrics.WHEEL_PULSES_PER_REVOLUTION;
 		public static final double HIGH_TO_LOW_GEAR_RATIO = 3.15;
+		public static final double ROBOT_LENGTH_INCHES = 40;
+		public static final double ROBOT_WIDTH_INCHES = 36;
 	}
 
 	public static class Component {

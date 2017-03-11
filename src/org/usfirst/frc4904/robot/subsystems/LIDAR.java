@@ -20,19 +20,25 @@ public class LIDAR extends Subsystem {
 	public static final double TARGET_MRPM = 240000;
 	protected final VelocitySensorMotor lidarMotor;
 	protected final CustomPIDController lidarMotorController;
-	protected final CANSensor lidarSensor;
+	protected final CANSensor lidarPhase1Sensor;
+	protected final CANSensor lidarPhase2Sensor;
 
-	public LIDAR(SpeedController motor, int lidarID, int lidarEncoderID) {
+	public LIDAR(SpeedController motor, int lidarPhase1ID, int lidarPhase2ID, int lidarEncoderID) {
 		CANEncoder lidarEncoder = new CANEncoder(lidarEncoderID);
 		lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
 		lidarMotorController = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
 			lidarEncoder);
 		lidarMotor = new VelocitySensorMotor(lidarMotorController, motor);
-		lidarSensor = new CANSensor("LIDAR", lidarID);
+		lidarPhase1Sensor = new CANSensor("LIDAR", lidarPhase1ID);
+		lidarPhase2Sensor = new CANSensor("LIDAR", lidarPhase2ID);
 	}
 
-	public CANSensor getLidarSensor() {
-		return lidarSensor;
+	public CANSensor getLidarSensor1() {
+		return lidarPhase1Sensor;
+	}
+
+	public CANSensor getLidarSensor2() {
+		return lidarPhase2Sensor;
 	}
 
 	public VelocitySensorMotor getLidarMotor() {
