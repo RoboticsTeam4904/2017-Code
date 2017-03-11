@@ -5,7 +5,7 @@ import org.usfirst.frc4904.standard.commands.RunIf;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public abstract class OverrideableCommandGroup extends CommandGroup implements Overridable {
+public abstract class OverridableCommandGroup extends CommandGroup implements Overridable {
 	private volatile boolean isOverridden;
 
 	/**
