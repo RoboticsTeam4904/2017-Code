@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearLoadPegTime extends CommandGroup {
-	public static final double TIME_INITIAL_APPROACH_1 = 2;
+	public static final double TIME_INITIAL_APPROACH_1 = 1.9;
 	public static final double TIME_TURN = 1;
-	public static final double TIME_INITIAL_APPROACH_2 = 0.75;
+	public static final double TIME_INITIAL_APPROACH_2 = 1;
 
 	public AutonGearLoadPegTime() {
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
