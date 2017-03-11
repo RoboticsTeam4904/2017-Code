@@ -34,8 +34,8 @@ public class DefaultOperator extends Operator {
 			true)
 				.start();
 		new SetRampState(GearIO.RampState.EXTENDED).start();
-		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, new SetRampState(null)));
-		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, new SetRampState(null)));
+		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
