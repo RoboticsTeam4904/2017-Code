@@ -1,7 +1,9 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.robot.ChassisControllerGroup;
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.autonomous.strategies.WiggleApproach;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -51,6 +53,9 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.y
+			.onlyWhileHeld(new ChassisMove(RobotMap.Component.chassis, new ChassisControllerGroup(this, new WiggleApproach())));
+		RobotMap.Component.driverXbox.y.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
 		RobotMap.Component.driverXbox.x
