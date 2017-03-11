@@ -6,24 +6,27 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public abstract class OverrideableCommandGroup extends CommandGroup implements Overridable {
-	protected volatile boolean isOverriden;
+	private volatile boolean isOverridden;
 
-	public OverrideableCommandGroup() {
-		super();
+	/**
+	 * Set whether this command is overridden.
+	 * 
+	 * @param isOverridden
+	 *        Whether to override the command or not
+	 */
+	@Override
+	final public synchronized void setOverridden(boolean isOverridden) {
+		this.isOverridden = isOverridden;
 	}
 
-	public OverrideableCommandGroup(String name) {
-		super(name);
-	}
-
+	/**
+	 * Get whether this command is overridden.
+	 * 
+	 * @returns Whether this command is overridden.
+	 */
 	@Override
 	final public synchronized boolean isOverridden() {
-		return isOverriden;
-	}
-
-	@Override
-	final public synchronized void setOverridden(boolean isOverriden) {
-		this.isOverriden = isOverriden;
+		return isOverridden;
 	}
 
 	public final synchronized void addSequentialUnlessOverridden(Command command) {
