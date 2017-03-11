@@ -6,23 +6,25 @@ package org.usfirst.frc4904.robot.commands;
  */
 public interface Overridable {
 	/**
-	 * sets a static override to a boolean you give it
+	 * Set whether this command is overridden.
 	 * 
-	 * @param override
+	 * @param isOverridden
+	 *        Whether to override the command or not
 	 */
-	void setOverridden(boolean setValue);
+	public void setOverridden(boolean isOverridden);
 
 	/**
-	 * returns if override is on or off
+	 * Get whether this command is overridden.
 	 * 
-	 * @return
+	 * @returns Whether this command is overridden.
 	 */
 	public boolean isOverridden();
 
 	/**
-	 * opposite of getOverride
+	 * Get whether this command is NOT overridden.
+	 * Useful for creating BooleanSuppliers with Java 8 syntax (e.g. this::isNotOverridden).
 	 * 
-	 * @return
+	 * @returns Whether this command is NOT overridden.
 	 */
 	default boolean isNotOverridden() {
 		return !isOverridden();
