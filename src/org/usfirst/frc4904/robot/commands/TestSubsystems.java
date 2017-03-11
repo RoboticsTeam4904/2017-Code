@@ -30,12 +30,16 @@ public class TestSubsystems extends Command {
 		systemTests[10] = new BallioDoorSetIntake();
 		systemTests[11] = new BallioDoorSetOuttake();
 		systemTests[12] = new HopperAgitate();
-		LogKitten.wtf("Initializing TestSubsystem Commands.");
+		for (Command test : systemTests) {
+			test = new CommandWithMessage(test, LogKitten.LEVEL_WARN, LogKitten.LEVEL_DEBUG, LogKitten.LEVEL_WARN,
+				LogKitten.LEVEL_ERROR);
+		}
+		LogKitten.w("Initializing TestSubsystem Commands.");
 	}
 
 	@Override
 	protected void initialize() {
-		LogKitten.wtf("Starting testing action.");
+		LogKitten.w("Starting testing action.");
 		currentTestNumber = 0;
 		CheckOperator.counter = 0;
 		running = true;
@@ -44,23 +48,16 @@ public class TestSubsystems extends Command {
 	@Override
 	protected void execute() {
 		if (currentTestNumber != CheckOperator.counter) {
-			LogKitten.wtf("current " + currentTestNumber);
-			LogKitten.wtf("counter " + CheckOperator.counter);
-			LogKitten.wtf("Button Press Recieved.");
 			if (CheckOperator.counter >= TestSubsystems.totalSubsystems + 1) {
 				systemTests[currentTestNumber].cancel();
 				running = false;
 			} else {
-				LogKitten.wtf("Changing test.");
+				LogKitten.w("Changing test.");
 				systemTests[currentTestNumber].cancel();
-				LogKitten.wtf("Cancelling: " + systemTests[currentTestNumber].getName());
-				LogKitten.wtf(systemTests[CheckOperator.counter].getName());
-				LogKitten.wtf("Starting: " + systemTests[CheckOperator.counter].getName());
 				systemTests[CheckOperator.counter].start();
 				currentTestNumber = CheckOperator.counter;
 			}
 		}
-		// LogKitten.wtf(CheckOperator.counter);
 	}
 
 	@Override
@@ -70,11 +67,11 @@ public class TestSubsystems extends Command {
 
 	@Override
 	protected void end() {
-		LogKitten.wtf("Testing ended");
+		LogKitten.w("Testing ended");
 	}
 
 	@Override
 	protected void interrupted() {
-		LogKitten.wtf("Testing interrupted.");
+		LogKitten.e("Testing interrupted.");
 	}
 }
