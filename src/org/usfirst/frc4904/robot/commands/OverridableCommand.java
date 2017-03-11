@@ -13,11 +13,6 @@ public abstract class OverridableCommand extends Command implements Overridable 
 
 	@Override
 	public boolean isOverridden() {
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return false;
 		return isOverridden;
 	}
 }
