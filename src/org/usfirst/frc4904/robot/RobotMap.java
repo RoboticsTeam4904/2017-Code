@@ -14,7 +14,6 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
@@ -120,8 +119,8 @@ public class RobotMap {
 		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
-		public static MotionController chassisDriveMC;
-		public static MotionController chassisTurnMC;
+		public static CustomPIDController chassisDriveMC;
+		public static CustomPIDController chassisTurnMC;
 		public static Subsystem[] mainSubsystems;
 	}
 

@@ -9,8 +9,9 @@ import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.commands.chassis.ChassisMoveDistance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,12 +23,13 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		// autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		autoChooser.addObject(new AutonGearCenterPeg());
 		autoChooser.addObject(new AutonGearLoadPeg(false));
 		autoChooser.addObject(new AutonGearBoilerPeg(false));
 		autoChooser.addObject(new AutonGearLoadPeg(true));
-		autoChooser.addObject(new AutonGearBoilerPeg(true));
+		// autoChooser.addDefault(new AutonGearBoilerPeg(true));
+		autoChooser.addDefault(new ChassisMoveDistance(RobotMap.Component.chassis, 3 * 12, RobotMap.Component.chassisDriveMC));
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
@@ -65,6 +67,15 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void alwaysExecute() {
+		RobotMap.Component.chassisDriveMC.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
+			SmartDashboard.getNumber("D", 0));
+		LogKitten.wtf("P: " + RobotMap.Component.chassisDriveMC.getP());
+		LogKitten.wtf("I: " + RobotMap.Component.chassisDriveMC.getI());
+		LogKitten.wtf("D: " + RobotMap.Component.chassisDriveMC.getD());
+		LogKitten.wtf("ERR: " + RobotMap.Component.chassisDriveMC.getError());
+		SmartDashboard.putNumber("Error", RobotMap.Component.chassisDriveMC.getError());
+		SmartDashboard.putNumber("Sensor", RobotMap.Component.chassisDriveMC.getSensorValue());
+		SmartDashboard.putNumber("Setpoint", RobotMap.Component.chassisDriveMC.getSetpoint());
 		putSDSubsystemSummary();
 	}
 
