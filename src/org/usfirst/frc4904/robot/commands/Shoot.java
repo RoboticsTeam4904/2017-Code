@@ -8,9 +8,8 @@ import org.usfirst.frc4904.standard.commands.RunFor;
 import org.usfirst.frc4904.standard.commands.WaitUntil;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class Shoot extends CommandGroup implements OverridableCommand {
+public class Shoot extends CommandGroup {
 	public final static double unloadDuration = 0.25; // TODO
-	public boolean antiJamOverride;
 
 	public Shoot() {
 		addSequential(new HopperSetShooter());
@@ -19,15 +18,5 @@ public class Shoot extends CommandGroup implements OverridableCommand {
 			new WaitUntil(RobotMap.Component.shooter.flywheel::isReady)));
 		addParallel(new Agitate());
 		addParallel(new IndexerLoad());
-	}
-
-	@Override
-	public void setOverride(boolean setValue) {
-		antiJamOverride = setValue;
-	}
-
-	@Override
-	public boolean isOverridden() {
-		return antiJamOverride;
 	}
 }
