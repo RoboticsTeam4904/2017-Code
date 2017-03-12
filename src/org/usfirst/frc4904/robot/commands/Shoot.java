@@ -17,6 +17,7 @@ public class Shoot extends CommandGroup implements OverridableCommand {
 		addSequential(new RunAllParallel(
 			new RunFor(new IndexerUnload(), Shooter.INDEXER_UNLOAD_TIME),
 			new WaitUntil(RobotMap.Component.shooter.flywheel::isReady)));
+		addParallel(new Agitate());
 		addParallel(new IndexerLoad());
 	}
 
