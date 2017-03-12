@@ -200,7 +200,8 @@ public class RobotMap {
 		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
 			LIDAR.TURN_F, Component.lidarEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
-		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Port.CAN.lidar, Port.CAN.lidarEncoder);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Port.CAN.lidarPhase1, Port.CAN.lidarPhase2,
+			Port.CAN.lidarEncoder);
 		// Motion controllers
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
