@@ -146,7 +146,6 @@ public class RobotMap {
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
-		// Ball Intake
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
@@ -161,11 +160,6 @@ public class RobotMap {
 		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
 		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
 			ballioDoorServo);
-		// Flywheel
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
-		// Human inputs
-		Component.operatorStick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.teensyStick = new TeensyController(Port.HumanInput.teensyStick, 30);
 		// GearIO
 		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
