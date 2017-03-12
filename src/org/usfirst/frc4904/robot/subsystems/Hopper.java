@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Hopper extends Subsystem implements Overridable {
 	protected final DoubleSolenoid solenoid;
 	public static final double AGITATE_DELAY_MS = 500;
-	protected boolean overridden;
+	protected boolean isOverridden;
 
 	public static enum HopperState {
 		BALLIO(DoubleSolenoid.Value.kForward), SHOOTER(DoubleSolenoid.Value.kReverse);
@@ -28,7 +28,7 @@ public class Hopper extends Subsystem implements Overridable {
 	public Hopper(DoubleSolenoid solenoid) {
 		this.solenoid = solenoid;
 		setState(HopperState.BALLIO);
-		overridden = false;
+		isOverridden = false;
 	}
 
 	public HopperState getState() {
@@ -47,11 +47,11 @@ public class Hopper extends Subsystem implements Overridable {
 
 	@Override
 	public void setOverridden(boolean isOverridden) {
-		overridden = isOverridden;
+		this.isOverridden = isOverridden;
 	}
 
 	@Override
 	public boolean isOverridden() {
-		return overridden;
+		return isOverridden;
 	}
 }
