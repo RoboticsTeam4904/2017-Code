@@ -21,9 +21,7 @@ public class GearIO extends Subsystem implements Overridable {
 		this.gullWings = gullWings;
 		this.ramp = ramp;
 		setState(GearState.TRANSPORT);
-		if (isNotOverridden()) {
-			setRampState(GearIO.RampState.EXTENDED);
-		}
+		setRampState(GearIO.RampState.EXTENDED);
 	}
 
 	public static enum GearState {
