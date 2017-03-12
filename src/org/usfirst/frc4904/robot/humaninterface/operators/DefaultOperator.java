@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.commands.BallioCycle;
 import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
+import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
@@ -54,5 +55,6 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 	}
 }
