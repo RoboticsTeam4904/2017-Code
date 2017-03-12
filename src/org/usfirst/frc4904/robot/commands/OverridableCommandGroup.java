@@ -13,9 +13,9 @@ public abstract class OverridableCommandGroup extends CommandGroup {
 		this.overridable = overridable;
 	}
 
-	public OverridableCommandGroup(String name, Overridable overridableSubsystem) {
+	public OverridableCommandGroup(String name, Overridable overridable) {
 		super(name);
-		overridable = overridableSubsystem;
+		this.overridable = overridable;
 	}
 
 	public final synchronized void addSequentialUnlessOverridden(Command command) {
