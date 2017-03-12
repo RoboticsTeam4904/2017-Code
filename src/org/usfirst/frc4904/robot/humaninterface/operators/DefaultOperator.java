@@ -8,6 +8,7 @@ import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
+import org.usfirst.frc4904.robot.commands.FlywheelManualSpinup;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
@@ -38,7 +39,7 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
 		RobotMap.Component.operatorStick.button2.onlyWhileHeld(
 			new RunIfElse(new FlywheelSpinup(),
-				new FlywheelSpinup(() -> RobotMap.Component.teensyStick.getAxis(0)),
+				new FlywheelManualSpinup(() -> RobotMap.Component.teensyStick.getAxis(0)),
 				RobotMap.Component.flywheel::isNotOverridden));
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
