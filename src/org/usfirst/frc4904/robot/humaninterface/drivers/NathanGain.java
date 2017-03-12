@@ -51,13 +51,13 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		// Inverted airplane-style analog control
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.y
 			.onlyWhileHeld(new ChassisMove(RobotMap.Component.chassis, new ChassisControllerGroup(this, new WiggleApproach())));
 		RobotMap.Component.driverXbox.y.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
+		// Inverted airplane-style analog control
 		RobotMap.Component.driverXbox.x
 			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(new Climb(() -> NathanGain.PASSIVE_CLIMBER_SPIN_SPEED));
