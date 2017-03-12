@@ -48,9 +48,9 @@ public class CheckMotorConstant extends Command { // TODO: Add comments to make 
 			motor.set(0);
 			if (Math.abs(
 				1 - ((secondMotorSpeed / firstMotorSpeed) / (secondEncoderReading / firstEncoderReading))) < allowedError) {
-				LogKitten.wtf(motor.getName() + " checks successful.");
+				LogKitten.w(motor.getName() + " checks successful.");
 			} else {
-				LogKitten.wtf("WARNING: " + motor.getName() + " checks failed.");
+				LogKitten.w("WARNING: " + motor.getName() + " checks failed.");
 			}
 			finished = true;
 		}
