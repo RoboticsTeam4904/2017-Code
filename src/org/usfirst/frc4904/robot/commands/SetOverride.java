@@ -1,9 +1,9 @@
 package org.usfirst.frc4904.robot.commands;
 
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetOverride extends Command {
+public class SetOverride extends InstantCommand {
 	protected final boolean setValue;
 	protected final Overridable[] overridables;
 
@@ -17,10 +17,5 @@ public class SetOverride extends Command {
 		for (Overridable overridable : overridables) {
 			overridable.setOverridden(setValue);
 		}
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
 	}
 }

@@ -137,10 +137,6 @@ public class RobotMap {
 	public RobotMap() {
 		// Chassis
 		Component.pdp = new PDP();
-		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisDriveMC.setInputRange(-180, 180);
-		Component.chassisDriveMC.setContinuous(true);
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
@@ -177,8 +173,9 @@ public class RobotMap {
 		CANTalon flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
 		CANTalon flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
 		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
+		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
-		Component.flywheel.disableMotionController(); // TODO Remove once flywheel PID is tuned
+		Component.flywheel.enableMotionController(); // TODO Remove once flywheel PID is tuned
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
@@ -207,7 +204,7 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Main subsystems (the ones that get monitored on SmartDashboard)
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.hopper,
-				Component.lidar};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
+				Component.hopper, Component.lidar};
 	}
 }

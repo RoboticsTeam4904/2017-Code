@@ -5,11 +5,9 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 
-public class BallioCycle extends OverrideableCommandGroup {
-	public boolean ballioCycleHopperOverride;
-
+public class BallioCycle extends OverridableCommandGroup {
 	public BallioCycle() {
-		super("BallioCycle");
+		super("BallioCycle", RobotMap.Component.hopper);
 		requires(RobotMap.Component.ballIO);
 		addSequential(new BallioDoorSetOuttake());
 		addSequentialUnlessOverridden(new HopperSetBallio());
