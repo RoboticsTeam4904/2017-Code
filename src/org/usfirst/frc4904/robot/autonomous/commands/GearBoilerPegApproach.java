@@ -12,9 +12,9 @@ public class GearBoilerPegApproach extends CommandGroup {
 	public static final double TIME_INITIAL_APPROACH_1 = 1.7;
 	public static final double TIME_TURN = 1;
 	public static final double TIME_INITIAL_APPROACH_2 = 0.75;
-	public static final double INCHES_INITIAL_APPROACH_1 = -100;
+	public static final double INCHES_INITIAL_APPROACH_1 = -81;
 	public static final double DEGREES_TURN = -60; // Inverted for boiler.
-	public static final double INCHES_INITIAL_APPROACH_2 = -83;
+	public static final double INCHES_INITIAL_APPROACH_2 = -51;
 
 	public GearBoilerPegApproach(boolean useSensors) {
 		ChassisConstant timeMoveA = new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED,
