@@ -2,7 +2,7 @@ package org.usfirst.frc4904.robot.commands;
 
 
 /**
- * This interface allows commands to easily override other commands
+ * This interface allows subsystems to easily override commands
  */
 public interface Overridable {
 	/**
