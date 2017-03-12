@@ -1,19 +1,16 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
 
+import org.usfirst.frc4904.robot.ChassisControllerGroup;
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.autonomous.strategies.WiggleApproach;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.standard.commands.RunAllSequential;
-import org.usfirst.frc4904.standard.commands.RunFor;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
-import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
@@ -25,11 +22,7 @@ public class NathanGain extends Driver {
 	public static final double CLIMB_EXP = 2;
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
-	public static final double FINE_SCALE = 0.5;
-	public static final double THIRD_GEAR_ENGAGE_DELAY_SECONDS = 0.2;
 	public static final double PASSIVE_CLIMBER_SPIN_SPEED = 0.07;
-	public final EnableableModifier modifier = new EnableableModifier(new LinearModifier(NathanGain.FINE_SCALE));
-	protected final AlignAssist alignAssist = new AlignAssist(HumanInterfaceConfig.gearAlign, modifier);
 
 	public NathanGain() {
 		super("NathanGain");
@@ -45,11 +38,6 @@ public class NathanGain extends Driver {
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.rb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		RobotMap.Component.driverXbox.lb
-			.onlyWhileHeld(
-				new RunAllSequential(new RunFor(alignAssist, NathanGain.THIRD_GEAR_ENGAGE_DELAY_SECONDS),
-					new SetEnableableModifier(true, modifier)));
-		RobotMap.Component.driverXbox.lb.onlyWhileReleased(alignAssist);
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
@@ -65,12 +53,14 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.y
+			.onlyWhileHeld(new ChassisMove(RobotMap.Component.chassis, new ChassisControllerGroup(this, new WiggleApproach())));
+		RobotMap.Component.driverXbox.y.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
 		// Inverted (airplane-style) analog gain control
 		RobotMap.Component.driverXbox.x
 			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(new Climb(() -> NathanGain.PASSIVE_CLIMBER_SPIN_SPEED));
-		alignAssist.start();
 		HumanInterfaceConfig.autoShifter.start();
 	}
 
@@ -82,7 +72,7 @@ public class NathanGain extends Driver {
 	@Override
 	public double getY() {
 		double rawSpeed = RobotMap.Component.driverXbox.rt.getX() - RobotMap.Component.driverXbox.lt.getX();
-		double speed = scaleGain(modifier.modify(rawSpeed), NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP)
+		double speed = scaleGain(rawSpeed, NathanGain.SPEED_GAIN, NathanGain.SPEED_EXP)
 			* NathanGain.Y_SPEED_SCALE;
 		return speed;
 	}
@@ -90,7 +80,7 @@ public class NathanGain extends Driver {
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.Component.driverXbox.leftStick.getX();
-		double turnSpeed = scaleGain(modifier.modify(rawTurnSpeed), NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
+		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
 			* NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
 	}
