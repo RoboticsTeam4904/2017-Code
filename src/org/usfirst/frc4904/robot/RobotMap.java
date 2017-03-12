@@ -14,7 +14,6 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
@@ -120,8 +119,8 @@ public class RobotMap {
 		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
-		public static MotionController chassisDriveMC;
-		public static MotionController chassisTurnMC;
+		public static CustomPIDController chassisDriveMC;
+		public static CustomPIDController chassisTurnMC;
 		public static Subsystem[] mainSubsystems;
 	}
 
@@ -131,6 +130,7 @@ public class RobotMap {
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
