@@ -5,17 +5,17 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetOverride extends Command {
 	protected final boolean setValue;
-	protected final OverridableCommand[] commands;
+	protected final Overridable[] overridables;
 
-	public SetOverride(boolean setValue, OverridableCommand... commands) {
+	public SetOverride(boolean setValue, Overridable... overridables) {
 		this.setValue = setValue;
-		this.commands = commands;
+		this.overridables = overridables;
 	}
 
 	@Override
 	protected void initialize() {
-		for (OverridableCommand command : commands) {
-			command.setOverride(setValue);
+		for (Overridable overridable : overridables) {
+			overridable.setOverridden(setValue);
 		}
 	}
 

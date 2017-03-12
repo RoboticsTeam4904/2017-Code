@@ -23,7 +23,7 @@ public class Climb extends MotorSet {
 		set(Math.max(0, axis.get())); // No, really, always feed positive values
 										// to the climber motor
 		if (axis.get() >= Climb.MINIMUM_AXIS_VALUE_TO_FLIP_GEARIO_RAMP && RobotMap.Component.gearIO.isNotOverridden()) {
-			RobotMap.Component.gearIO.setRampState(GearIO.RampState.RETRACTED);
+			new SetRampState(GearIO.RampState.RETRACTED).start();
 		}
 		super.execute();
 	}
