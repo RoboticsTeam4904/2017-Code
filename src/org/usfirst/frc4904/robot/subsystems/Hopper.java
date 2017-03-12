@@ -2,6 +2,7 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Hopper extends OverridableSubsystem {
