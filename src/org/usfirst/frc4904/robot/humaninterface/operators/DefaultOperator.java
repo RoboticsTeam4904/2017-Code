@@ -51,9 +51,9 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button10.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.operatorStick.button11.whenPressed(new HopperSetShooter());
 		RobotMap.Component.operatorStick.button12.whenPressed(new HopperSetBallio());
-		new ThresholdCommand<Double>(new GearioIntake(), RobotMap.Component.operatorStick::getY,
+		new ThresholdCommand(new GearioIntake(), RobotMap.Component.operatorStick::getY,
 			DefaultOperator.INTAKE_THRESHOLD).start();
-		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
+		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
 			-DefaultOperator.INTAKE_THRESHOLD, true).start();
 		new SetRampState(GearIO.RampState.EXTENDED).start();
 		RobotMap.Component.teensyStick.getButton(2).whenPressed(new SetOverride(true, RobotMap.Component.flywheel));
