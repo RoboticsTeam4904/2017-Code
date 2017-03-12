@@ -6,47 +6,47 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public abstract class OverridableCommandGroup extends CommandGroup {
-	public Overridable overridableSubsystem;
+	public Overridable overridable;
 
-	public OverridableCommandGroup(Overridable overridableSubsystem) {
+	public OverridableCommandGroup(Overridable overridable) {
 		super();
-		this.overridableSubsystem = overridableSubsystem;
+		this.overridable = overridable;
 	}
 
 	public OverridableCommandGroup(String name, Overridable overridableSubsystem) {
 		super(name);
-		this.overridableSubsystem = overridableSubsystem;
+		overridable = overridableSubsystem;
 	}
 
 	public final synchronized void addSequentialUnlessOverridden(Command command) {
-		addSequential(new RunIf(command, overridableSubsystem::isNotOverridden));
+		addSequential(new RunIf(command, overridable::isNotOverridden));
 	}
 
 	public final synchronized void addSequentialUnlessOverridden(Command command, double timeout) {
-		addSequential(new RunIf(command, overridableSubsystem::isNotOverridden), timeout);
+		addSequential(new RunIf(command, overridable::isNotOverridden), timeout);
 	}
 
 	public final synchronized void addParallelUnlessOverridden(Command command) {
-		addParallel(new RunIf(command, overridableSubsystem::isNotOverridden));
+		addParallel(new RunIf(command, overridable::isNotOverridden));
 	}
 
 	public final synchronized void addParallelUnlessOverridden(Command command, double timeout) {
-		addParallel(new RunIf(command, overridableSubsystem::isNotOverridden), timeout);
+		addParallel(new RunIf(command, overridable::isNotOverridden), timeout);
 	}
 
 	public final synchronized void addSequentialIfOverridden(Command command) {
-		addSequential(new RunIf(command, overridableSubsystem::isOverridden));
+		addSequential(new RunIf(command, overridable::isOverridden));
 	}
 
 	public final synchronized void addSequentialIfOverridden(Command command, double timeout) {
-		addSequential(new RunIf(command, overridableSubsystem::isOverridden), timeout);
+		addSequential(new RunIf(command, overridable::isOverridden), timeout);
 	}
 
 	public final synchronized void addParallelIfOverridden(Command command) {
-		addParallel(new RunIf(command, overridableSubsystem::isOverridden));
+		addParallel(new RunIf(command, overridable::isOverridden));
 	}
 
 	public final synchronized void addParallelIfOverridden(Command command, double timeout) {
-		addParallel(new RunIf(command, overridableSubsystem::isOverridden), timeout);
+		addParallel(new RunIf(command, overridable::isOverridden), timeout);
 	}
 }
