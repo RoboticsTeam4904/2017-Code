@@ -15,6 +15,5 @@ public class BallioCycle extends OverridableCommandGroup {
 		addParallel(new MotorConstant(RobotMap.Component.ballIO.elevatorAndIntakeRoller,
 			BallIO.ELEVATOR_AND_INTAKE_ROLLER_FORWARD_SPEED));
 		addSequential(new MotorConstant(RobotMap.Component.ballIO.hopperRollers, BallIO.HOPPER_ROLLERS_FORWARD_SPEED));
-		addSequentialUnlessOverridden(new HopperSetBallio());
 	}
 }
