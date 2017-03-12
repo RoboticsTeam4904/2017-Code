@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -47,7 +48,9 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopExecute() {}
+	public void teleopExecute() {
+		LogKitten.wtf(RobotMap.Component.hopper.isOverridden());
+	}
 
 	@Override
 	public void autonomousInitialize() {
