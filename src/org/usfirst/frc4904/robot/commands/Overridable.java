@@ -1,30 +1,27 @@
 package org.usfirst.frc4904.robot.commands;
 
 
-/**
- * This interface allows subsystems to easily override commands
- */
 public interface Overridable {
 	/**
-	 * Set whether this command is overridden.
+	 * Set whether this object is overridden.
 	 * 
 	 * @param isOverridden
-	 *        Whether to override the command or not
+	 *        Whether to override the object or not
 	 */
 	public void setOverridden(boolean isOverridden);
 
 	/**
-	 * Get whether this command is overridden.
+	 * Get whether this object is overridden.
 	 * 
-	 * @returns Whether this command is overridden.
+	 * @returns Whether this object is overridden.
 	 */
 	public boolean isOverridden();
 
 	/**
-	 * Get whether this command is NOT overridden.
+	 * Get whether this object is NOT overridden.
 	 * Useful for creating BooleanSuppliers with Java 8 syntax (e.g. this::isNotOverridden).
 	 * 
-	 * @returns Whether this command is NOT overridden.
+	 * @returns Whether this object is NOT overridden.
 	 */
 	default boolean isNotOverridden() {
 		return !isOverridden();
