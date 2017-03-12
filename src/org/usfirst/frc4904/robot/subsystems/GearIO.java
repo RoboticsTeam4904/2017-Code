@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearIO extends Subsystem implements Overridable {
 	public final Motor intakeRoller;
-	protected final DoubleSolenoid gullWings;
-	protected final DoubleSolenoid ramp;
+	public final DoubleSolenoid gullWings;
+	public final DoubleSolenoid ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
 	public boolean rampOverride;
@@ -84,8 +84,8 @@ public class GearIO extends Subsystem implements Overridable {
 	}
 
 	@Override
-	public void setOverridden(boolean setValue) {
-		rampOverride = setValue;
+	public void setOverridden(boolean rampOverride) {
+		this.rampOverride = rampOverride;
 	}
 
 	@Override
