@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public abstract class OverridableCommandGroup extends CommandGroup {
-	public Overridable overridable;
+	protected final Overridable overridable;
 
 	public OverridableCommandGroup(Overridable overridable) {
 		super();
