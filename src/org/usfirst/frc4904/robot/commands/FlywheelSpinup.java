@@ -6,7 +6,7 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 
-public class FlywheelSpinup extends MotorConstant implements OverridableCommand {
+public class FlywheelSpinup extends MotorConstant {
 	protected static boolean flywheelSpeedOverride = false;
 
 	public FlywheelSpinup() {
@@ -15,15 +15,5 @@ public class FlywheelSpinup extends MotorConstant implements OverridableCommand 
 
 	public FlywheelSpinup(Supplier<Double> speedSupplier) {
 		super(RobotMap.Component.flywheel, speedSupplier.get());
-	}
-
-	@Override
-	public void setOverride(boolean flywheelSpeedOverride) {
-		FlywheelSpinup.flywheelSpeedOverride = flywheelSpeedOverride;
-	}
-
-	@Override
-	public boolean isOverridden() {
-		return FlywheelSpinup.flywheelSpeedOverride;
 	}
 }

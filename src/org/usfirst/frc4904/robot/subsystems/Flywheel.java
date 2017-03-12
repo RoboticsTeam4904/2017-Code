@@ -1,13 +1,15 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.commands.Overridable;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class Flywheel extends VelocitySensorMotor {
+public class Flywheel extends VelocitySensorMotor implements Overridable {
+	public boolean autoSpinupOverride;
 	// TODO: Tune this
 	// public static final double SHOOTING_SPEED = 0.45;
 	public static final double SHOOTING_SPEED = 3350.0; // RPM - MAKE THIS LOWER
@@ -33,5 +35,15 @@ public class Flywheel extends VelocitySensorMotor {
 
 	public boolean isReady() {
 		return motionController.onTarget();
+	}
+
+	@Override
+	public void setOverridden(boolean isOverridden) {
+		autoSpinupOverride = isOverridden;
+	}
+
+	@Override
+	public boolean isOverridden() {
+		return autoSpinupOverride;
 	}
 }
