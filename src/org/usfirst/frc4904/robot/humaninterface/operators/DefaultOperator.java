@@ -56,9 +56,6 @@ public class DefaultOperator extends Operator {
 			.whenReleased(new OverrideDisable(RobotMap.Component.hopper));
 		RobotMap.Component.teensyStick.getButton(11).whenPressed(new OverrideEnable(RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(11).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
-		RobotMap.Component.teensyStick.getButton(12)
-			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
-		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
 		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 	}
 }
