@@ -111,6 +111,8 @@ public class RobotMap {
 		public static PDP pdp;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
+		public static EnableableModifier rightWheelAccelerationCap;
+		public static EnableableModifier leftWheelAccelerationCap;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static AutoSolenoidShifters shifter;
@@ -130,8 +132,6 @@ public class RobotMap {
 		public static MotionController chassisDriveMC;
 		public static MotionController chassisTurnMC;
 		public static AligningCamera alignCamera;
-		public static EnableableModifier rightWheelAccelerationCap;
-		public static EnableableModifier leftWheelAccelerationCap;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
 		public static Subsystem[] mainSubsystems;
@@ -140,27 +140,17 @@ public class RobotMap {
 	public RobotMap() {
 		// Chassis
 		Component.pdp = new PDP();
-		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.chassisDriveMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisDriveMC.setInputRange(-180, 180);
-		Component.chassisDriveMC.setContinuous(true);
-		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_PULSES_PER_REVOLUTION);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
-		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
-		Component.leftWheel = new Motor("LeftWheel", false, Component.leftWheelAccelerationCap,
-			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
-		Component.leftWheel.setInverted(true);
-		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
-		Component.rightWheel = new Motor("RightWheel", false, Component.rightWheelAccelerationCap,
-			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
+		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
+		Component.leftWheel = new Motor("LeftWheel", Component.leftWheelAccelerationCap,
+			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+		Component.leftWheel.setInverted(true);
+		Component.rightWheel = new Motor("RightWheel", Component.rightWheelAccelerationCap,
+			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
