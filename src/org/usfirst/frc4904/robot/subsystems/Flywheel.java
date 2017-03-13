@@ -40,6 +40,11 @@ public class Flywheel extends VelocitySensorMotor implements Overridable {
 	@Override
 	public void setOverridden(boolean isOverridden) {
 		this.isOverridden = isOverridden;
+		if (isOverridden) {
+			motionController.startOverriding();
+		} else {
+			motionController.stopOverriding();
+		}
 	}
 
 	@Override
