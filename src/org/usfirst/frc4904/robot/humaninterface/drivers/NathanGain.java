@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot.humaninterface.drivers;
 import org.usfirst.frc4904.robot.ChassisControllerGroup;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.autonomous.strategies.WiggleApproach;
-import org.usfirst.frc4904.robot.commands.AutoShifter;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.standard.commands.Cancel;
@@ -25,7 +24,6 @@ public class NathanGain extends Driver {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double PASSIVE_CLIMBER_SPIN_SPEED = 0.07;
-	protected final AutoShifter autoShifter = new AutoShifter();
 
 	public NathanGain() {
 		super("NathanGain");
@@ -37,7 +35,6 @@ public class NathanGain extends Driver {
 
 	@Override
 	public void bindCommands() {
-		autoShifter.start();
 		RobotMap.Component.driverXbox.lb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.Component.driverXbox.rb
@@ -55,8 +52,6 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		// Inverted airplane-style analog control
-		new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())).start();
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.y
