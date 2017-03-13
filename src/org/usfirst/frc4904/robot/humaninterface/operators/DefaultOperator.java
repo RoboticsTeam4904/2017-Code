@@ -18,6 +18,7 @@ import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
 import org.usfirst.frc4904.standard.commands.OverrideEnable;
 import org.usfirst.frc4904.standard.commands.ThresholdCommand;
+import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Operator;
 
 public class DefaultOperator extends Operator {
@@ -58,6 +59,11 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(11).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
+		RobotMap.Component.teensyStick.getButton(14)
+			.whenPressed(new SetEnableableModifier(false, RobotMap.Component.rightWheelAccelerationCap,
+				RobotMap.Component.leftWheelAccelerationCap));
+		RobotMap.Component.teensyStick.getButton(14).whenReleased(new SetEnableableModifier(true,
+			RobotMap.Component.rightWheelAccelerationCap, RobotMap.Component.leftWheelAccelerationCap));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
 		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
 	}
