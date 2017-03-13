@@ -7,8 +7,8 @@ import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
-import org.usfirst.frc4904.robot.commands.FlywheelSpinupManual;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.FlywheelSpinupManual;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.HopperAgitate;
@@ -20,7 +20,6 @@ import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
 import org.usfirst.frc4904.standard.commands.OverrideEnable;
 import org.usfirst.frc4904.standard.commands.RunIfElse;
-import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.commands.ThresholdCommand;
 import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -76,9 +75,5 @@ public class DefaultOperator extends Operator {
 			RobotMap.Component.rightWheelAccelerationCap, RobotMap.Component.leftWheelAccelerationCap));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
 		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
-		RobotMap.Component.teensyStick.getButton(16)
-			.whenPressed(new SingleOp(RobotMap.Component.flywheel::disableMotionController));
-		RobotMap.Component.teensyStick.getButton(16)
-			.whenReleased(new SingleOp(RobotMap.Component.flywheel::disableMotionController));
 	}
 }
