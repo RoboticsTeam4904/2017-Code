@@ -13,7 +13,7 @@ public class GearLoadPegApproach extends CommandGroup {
 	public static final double TIME_TURN = 1;
 	public static final double TIME_INITIAL_APPROACH_2 = 0.75;
 	public static final double INCHES_INITIAL_APPROACH_1 = -100;
-	public static final double DEGREES_TURN = 60;
+	public static final double DEGREES_TURN = -60;
 	public static final double INCHES_INITIAL_APPROACH_2 = -69;
 
 	public GearLoadPegApproach(boolean useSensors) {
