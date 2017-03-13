@@ -6,12 +6,12 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisTurn;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 
-public class LidarTurn extends ChassisTurn {
+public class LIDARTurn extends ChassisTurn {
 	protected final static double BOILER_OFFSET_INCHES = Math
 		.sqrt(Math.pow(RobotMap.Metrics.ROBOT_LENGTH_INCHES, 2) + Math.pow(RobotMap.Metrics.ROBOT_WIDTH_INCHES, 2));
 	protected final CANSensor lidarSensor;
 
-	public LidarTurn(CANSensor lidarSensor) {
+	public LIDARTurn(CANSensor lidarSensor) {
 		super(RobotMap.Component.chassis, 0.0, RobotMap.Component.navx, RobotMap.Component.chassisTurnMC);
 		this.lidarSensor = lidarSensor;
 	}
@@ -21,7 +21,7 @@ public class LidarTurn extends ChassisTurn {
 		super.initialize();
 		try {
 			int[] lidarData = lidarSensor.readSensor();
-			super.initialAngle = ((lidarData[0] + 360) % 360 - 180);
+			initialAngle = ((lidarData[0] + 360) % 360 - 180);
 		}
 		catch (InvalidSensorException | NullPointerException e) {
 			cancel();
