@@ -10,8 +10,6 @@ import org.usfirst.frc4904.standard.commands.RunIf;
 import org.usfirst.frc4904.standard.commands.WaitUntil;
 
 public class Shoot extends OverridableCommandGroup {
-	public final static double unloadDuration = 0.25; // TODO
-
 	public Shoot() {
 		super(RobotMap.Component.hopper);
 		addSequentialUnlessOverridden(new HopperSetShooter());
