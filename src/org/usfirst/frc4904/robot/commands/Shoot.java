@@ -1,11 +1,13 @@
 package org.usfirst.frc4904.robot.commands;
 
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.standard.commands.OverridableCommandGroup;
 
-public class Shoot extends CommandGroup {
+public class Shoot extends OverridableCommandGroup {
 	public Shoot() {
-		addSequential(new HopperSetShooter());
+		super(RobotMap.Component.hopper);
+		addSequentialUnlessOverridden(new HopperSetShooter());
 		// addSequential(new RunAllParallel(
 		// new RunFor(new IndexerUnload(), Shooter.INDEXER_UNLOAD_TIME),
 		// new WaitUntil(RobotMap.Component.shooter.flywheel::isReady)));
