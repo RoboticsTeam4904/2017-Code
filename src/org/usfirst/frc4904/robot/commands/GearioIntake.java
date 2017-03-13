@@ -15,7 +15,7 @@ public class GearioIntake extends GearioSet {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		if (RobotMap.Component.gearIO.isNotOverridden()) {
+		if (RobotMap.Component.gearIO.isNotOverridden() && !rampCommand.isRunning()) {
 			rampCommand.start();
 		}
 	}
