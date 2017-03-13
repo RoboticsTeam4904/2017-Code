@@ -14,10 +14,11 @@ import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.HopperSetBallio;
 import org.usfirst.frc4904.robot.commands.HopperSetShooter;
-import org.usfirst.frc4904.robot.commands.SetOverride;
 import org.usfirst.frc4904.robot.commands.SetRampState;
 import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
+import org.usfirst.frc4904.standard.commands.OverrideDisable;
+import org.usfirst.frc4904.standard.commands.OverrideEnable;
 import org.usfirst.frc4904.standard.commands.RunIfElse;
 import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -57,10 +58,13 @@ public class DefaultOperator extends Operator {
 		new ThresholdCommand(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
 			-DefaultOperator.INTAKE_THRESHOLD, true).start();
 		new SetRampState(GearIO.RampState.EXTENDED).start();
-		RobotMap.Component.teensyStick.getButton(2).whenPressed(new SetOverride(true, RobotMap.Component.flywheel));
-		RobotMap.Component.teensyStick.getButton(2).whenReleased(new SetOverride(false, RobotMap.Component.flywheel));
-		RobotMap.Component.teensyStick.getButton(11).whenPressed(new SetOverride(true, RobotMap.Component.gearIO));
-		RobotMap.Component.teensyStick.getButton(11).whenReleased(new SetOverride(false, RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(2).whenPressed(new OverrideEnable(RobotMap.Component.flywheel));
+		RobotMap.Component.teensyStick.getButton(2).whenReleased(new OverrideDisable(RobotMap.Component.flywheel));
+		RobotMap.Component.teensyStick.getButton(6).whenPressed(new OverrideEnable(RobotMap.Component.hopper));
+		RobotMap.Component.teensyStick.getButton(6)
+			.whenReleased(new OverrideDisable(RobotMap.Component.hopper));
+		RobotMap.Component.teensyStick.getButton(11).whenPressed(new OverrideEnable(RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(11).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(12)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
