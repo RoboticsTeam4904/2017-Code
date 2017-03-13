@@ -51,7 +51,9 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
-		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
+		RobotMap.Component.driverXbox.a.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
+		RobotMap.Component.driverXbox.a.whenReleased(normalDrive);
+		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.boilerAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.y
 			.onlyWhileHeld(new ChassisMove(RobotMap.Component.chassis, new ChassisControllerGroup(this, new WiggleApproach())));
