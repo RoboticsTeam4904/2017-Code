@@ -39,7 +39,7 @@ public class MatchRecorder extends Command {
 		Motor[] motorsToRead = {RobotMap.Component.leftWheel, RobotMap.Component.rightWheel,
 				RobotMap.Component.ballIO.directionalRoller, RobotMap.Component.ballIO.elevatorAndIntakeRoller,
 				RobotMap.Component.ballIO.hopperRollers, RobotMap.Component.climber, RobotMap.Component.gearIO.intakeRoller,
-				RobotMap.Component.lidar};
+				RobotMap.Component.lidar.getLidarMotor()};
 		for (Motor motor : motorsToRead) {
 			prefixedLog("Motor[" + motor.getName() + "] = " + motor.get());
 		}
