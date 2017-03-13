@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class Flywheel extends VelocitySensorMotor implements Overridable {
-	public boolean autoSpinupOverride;
 	// TODO: Tune this
 	// public static final double SHOOTING_SPEED = 0.45;
 	public static final double SHOOTING_SPEED = 3350.0; // RPM - MAKE THIS LOWER
@@ -22,6 +21,7 @@ public class Flywheel extends VelocitySensorMotor implements Overridable {
 	// This is the distance per pulse. Pulses per second (original units) * revolutions per pulse (1 / ENCODER_PPR) * seconds per minute (60) = revolutions per minute.
 	public static final double ENCODER_PPS_TO_RPM = 60.0 / Flywheel.ENCODER_PPR;
 	protected final CustomEncoder encoder;
+	private boolean isOverridden;
 
 	public Flywheel(SpeedController motorA, SpeedController motorB, CustomEncoder encoder) {
 		super(new CustomPIDController(Flywheel.FLYWHEEL_P, Flywheel.FLYWHEEL_I,
@@ -39,11 +39,11 @@ public class Flywheel extends VelocitySensorMotor implements Overridable {
 
 	@Override
 	public void setOverridden(boolean isOverridden) {
-		autoSpinupOverride = isOverridden;
+		this.isOverridden = isOverridden;
 	}
 
 	@Override
 	public boolean isOverridden() {
-		return autoSpinupOverride;
+		return isOverridden;
 	}
 }
