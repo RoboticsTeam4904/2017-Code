@@ -29,7 +29,7 @@ public class GearBoilerPegApproach extends CommandGroup {
 			addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, GearBoilerPegApproach.INCHES_INITIAL_APPROACH_1,
 				RobotMap.Component.chassisDriveMC, timeMoveA));
 			addSequential(
-				new ChassisTurn(RobotMap.Component.chassis, GearBoilerPegApproach.DEGREES_TURN, RobotMap.Component.navx,
+				new ChassisTurn(RobotMap.Component.chassis, -GearBoilerPegApproach.DEGREES_TURN, RobotMap.Component.navx,
 					timeTurn, RobotMap.Component.chassisTurnMC));
 			addSequential(new ChassisMoveDistance(RobotMap.Component.chassis, GearBoilerPegApproach.INCHES_INITIAL_APPROACH_2,
 				RobotMap.Component.chassisDriveMC, timeMoveB));
