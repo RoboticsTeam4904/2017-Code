@@ -1,20 +1,18 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.OverridableCommand;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class GearIO extends Subsystem implements OverridableCommand {
+public class GearIO extends OverridableSubsystem {
 	public final Motor intakeRoller;
 	public final DoubleSolenoid gullWings;
 	public final DoubleSolenoid ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
-	public boolean rampOverride;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
@@ -79,15 +77,5 @@ public class GearIO extends Subsystem implements OverridableCommand {
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new Idle(this));
-	}
-
-	@Override
-	public void setOverride(boolean rampOverride) {
-		this.rampOverride = rampOverride;
-	}
-
-	@Override
-	public boolean isOverridden() {
-		return rampOverride;
 	}
 }
