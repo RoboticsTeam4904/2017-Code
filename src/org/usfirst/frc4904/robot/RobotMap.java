@@ -25,6 +25,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -109,6 +110,8 @@ public class RobotMap {
 		public static PDP pdp;
 		public static CustomEncoder leftWheelEncoder;
 		public static CustomEncoder rightWheelEncoder;
+		public static EnableableModifier rightWheelAccelerationCap;
+		public static EnableableModifier leftWheelAccelerationCap;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
 		public static AutoSolenoidShifters shifter;
@@ -141,10 +144,12 @@ public class RobotMap {
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
-		Component.leftWheel = new Motor("LeftWheel", new AccelerationCap(Component.pdp),
+		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
+		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
+		Component.leftWheel = new Motor("LeftWheel", Component.leftWheelAccelerationCap,
 			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
 		Component.leftWheel.setInverted(true);
-		Component.rightWheel = new Motor("RightWheel", new AccelerationCap(Component.pdp),
+		Component.rightWheel = new Motor("RightWheel", Component.rightWheelAccelerationCap,
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);

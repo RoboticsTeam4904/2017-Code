@@ -2,10 +2,10 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Hopper extends Subsystem {
+public class Hopper extends OverridableSubsystem {
 	protected final DoubleSolenoid solenoid;
 	public static final double AGITATE_DELAY_MS = 500;
 
