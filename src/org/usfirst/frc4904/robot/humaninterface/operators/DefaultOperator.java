@@ -10,6 +10,7 @@ import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.commands.HopperAgitate;
 import org.usfirst.frc4904.robot.commands.HopperSetBallio;
 import org.usfirst.frc4904.robot.commands.HopperSetShooter;
 import org.usfirst.frc4904.robot.commands.SetRampState;
@@ -55,6 +56,7 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.teensyStick.getButton(6).whenPressed(new OverrideEnable(RobotMap.Component.hopper));
 		RobotMap.Component.teensyStick.getButton(6)
 			.whenReleased(new OverrideDisable(RobotMap.Component.hopper));
+		RobotMap.Component.teensyStick.getButton(9).onlyWhileHeld(new HopperAgitate());
 		RobotMap.Component.teensyStick.getButton(11).whenPressed(new OverrideEnable(RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(11).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
 		RobotMap.Component.teensyStick.getButton(12)
