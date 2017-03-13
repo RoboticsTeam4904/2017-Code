@@ -193,6 +193,7 @@ public class RobotMap {
 			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
+		Component.navx.setPIDSourceType(PIDSourceType.kDisplacement);
 		Component.gearAlignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
