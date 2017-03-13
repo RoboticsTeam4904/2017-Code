@@ -11,6 +11,8 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.LinearModifier;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {

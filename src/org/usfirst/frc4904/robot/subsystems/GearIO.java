@@ -1,29 +1,25 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.Overridable;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class GearIO extends Subsystem implements Overridable {
+public class GearIO extends OverridableSubsystem {
 	public final Motor intakeRoller;
-	protected final DoubleSolenoid gullWings;
-	protected final DoubleSolenoid ramp;
+	public final DoubleSolenoid gullWings;
+	public final DoubleSolenoid ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
-	public boolean rampOverride;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
 		this.ramp = ramp;
 		setState(GearState.TRANSPORT);
-		if (isNotOverridden()) {
-			setRampState(GearIO.RampState.EXTENDED);
-		}
+		setRampState(GearIO.RampState.EXTENDED);
 	}
 
 	public static enum GearState {
@@ -81,15 +77,5 @@ public class GearIO extends Subsystem implements Overridable {
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new Idle(this));
-	}
-
-	@Override
-	public void setOverridden(boolean setValue) {
-		rampOverride = setValue;
-	}
-
-	@Override
-	public boolean isOverridden() {
-		return rampOverride;
 	}
 }

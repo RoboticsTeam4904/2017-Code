@@ -1,15 +1,13 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.Overridable;
 import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Hopper extends Subsystem implements Overridable {
+public class Hopper extends OverridableSubsystem {
 	protected final DoubleSolenoid solenoid;
 	public static final double AGITATE_DELAY_MS = 500;
-	public boolean hopperOverride;
 
 	public static enum HopperState {
 		BALLIO(DoubleSolenoid.Value.kForward), SHOOTER(DoubleSolenoid.Value.kReverse);
@@ -42,15 +40,5 @@ public class Hopper extends Subsystem implements Overridable {
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new Idle(this));
-	}
-
-	@Override
-	public void setOverridden(boolean isOverridden) {
-		hopperOverride = isOverridden;
-	}
-
-	@Override
-	public boolean isOverridden() {
-		return hopperOverride;
 	}
 }
