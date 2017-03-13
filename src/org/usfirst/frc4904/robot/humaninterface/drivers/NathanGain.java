@@ -41,16 +41,16 @@ public class NathanGain extends Driver {
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveStraightMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.up.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveStraightMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.down.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveStraightMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.left.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveStraightMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
