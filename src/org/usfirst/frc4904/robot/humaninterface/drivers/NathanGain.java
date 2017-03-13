@@ -24,9 +24,11 @@ public class NathanGain extends Driver {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double PASSIVE_CLIMBER_SPIN_SPEED = 0.07;
+	public final DriveStraightSpeedModifier driveStraightModifier;
 
 	public NathanGain() {
 		super("NathanGain");
+		driveStraightModifier = new DriveStraightSpeedModifier(this, RobotMap.Component.chassisDriveStraightMC);
 	}
 
 	protected double scaleGain(double input, double gain, double exp) {
@@ -83,8 +85,8 @@ public class NathanGain extends Driver {
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.Component.driverXbox.leftStick.getX();
-		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
-			* NathanGain.TURN_SPEED_SCALE;
+		double turnSpeed = driveStraightModifier
+			.modify(scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP) * NathanGain.TURN_SPEED_SCALE);
 		return turnSpeed;
 	}
 }
