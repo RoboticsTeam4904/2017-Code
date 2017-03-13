@@ -1,9 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTime;
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTime;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPeg;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPeg;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPeg;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -24,9 +24,11 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addObject(new AutonGearCenterPegTime());
-		autoChooser.addObject(new AutonGearLoadPegTime());
-		autoChooser.addObject(new AutonGearBoilerPegTime());
+		autoChooser.addObject(new AutonGearCenterPeg());
+		autoChooser.addObject(new AutonGearLoadPeg(false));
+		autoChooser.addObject(new AutonGearBoilerPeg(false));
+		autoChooser.addObject(new AutonGearLoadPeg(true));
+		autoChooser.addObject(new AutonGearBoilerPeg(true));
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser

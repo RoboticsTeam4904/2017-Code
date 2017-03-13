@@ -16,7 +16,6 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
@@ -129,8 +128,8 @@ public class RobotMap {
 		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
-		public static MotionController chassisDriveMC;
-		public static MotionController chassisTurnMC;
+		public static CustomPIDController chassisDriveMC;
+		public static CustomPIDController chassisTurnMC;
 		public static AligningCamera alignCamera;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
@@ -143,6 +142,7 @@ public class RobotMap {
 		Component.leftWheelEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder);
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.leftWheelEncoder.setReverseDirection(true);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
@@ -203,11 +203,13 @@ public class RobotMap {
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
 		// Motion controllers
-		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
+		Component.chassisTurnMC = new CustomPIDController(0.015, 0.0, 0, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
+		Component.chassisTurnMC.setAbsoluteTolerance(1);
+		Component.chassisDriveMC = new CustomPIDController(0.05, 0.000001, -0.01,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.chassisDriveMC.setAbsoluteTolerance(0.5);
 		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
 				Component.hopper, Component.lidar};
