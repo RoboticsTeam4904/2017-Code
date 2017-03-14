@@ -1,17 +1,21 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPeg;
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPeg;
-import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPeg;
+import org.usfirst.frc4904.robot.autonomous.commands.GearBoilerPegApproach;
+import org.usfirst.frc4904.robot.autonomous.commands.GearCenterPegApproach;
+import org.usfirst.frc4904.robot.autonomous.commands.GearLoadPegApproach;
+import org.usfirst.frc4904.robot.autonomous.commands.GearPegWiggleAndWithdraw;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.sovereignty.strategies.GearAlign;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
+import org.usfirst.frc4904.standard.commands.Noop;
+import org.usfirst.frc4904.standard.commands.RunAllSequential;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.custom.CommandSendableChooser;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,16 +23,22 @@ public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	MatchRecorder logger = new MatchRecorder();
 	MatchInformer matchConfigBroadcast = new MatchInformer();
+	protected final CommandSendableChooser autoApproachChooser = new CommandSendableChooser();
+	protected final CommandSendableChooser autoRealignChooser = new CommandSendableChooser();
+	protected final CommandSendableChooser autoFinishChooser = new CommandSendableChooser();
 
 	@Override
 	public void initialize() {
-		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
-		autoChooser.addObject(new AutonGearCenterPeg());
-		autoChooser.addObject(new AutonGearLoadPeg(false));
-		autoChooser.addObject(new AutonGearBoilerPeg(false));
-		autoChooser.addObject(new AutonGearLoadPeg(true));
-		autoChooser.addObject(new AutonGearBoilerPeg(true));
+		// Configure autonomous command choosers
+		autoApproachChooser.addDefault(new Noop());
+		autoApproachChooser.addObject(new GearCenterPegApproach());
+		autoApproachChooser.addObject(new GearLoadPegApproach(true));
+		autoApproachChooser.addObject(new GearLoadPegApproach(false));
+		autoApproachChooser.addObject(new GearBoilerPegApproach(true));
+		autoApproachChooser.addObject(new GearBoilerPegApproach(false));
+		autoRealignChooser.addDefault(new Noop());
+		autoRealignChooser.addObject(new GearAlign());
+		autoFinishChooser.addDefault(new Noop());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
@@ -54,6 +64,12 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousInitialize() {
 		RobotMap.Component.navx.zeroYaw();
+		autonomousCommand = new RunAllSequential(
+			autoApproachChooser.getSelected(),
+			autoRealignChooser.getSelected(),
+			new GearPegWiggleAndWithdraw(),
+			autoFinishChooser.getSelected());
+		autonomousCommand.start();
 	}
 
 	/**
