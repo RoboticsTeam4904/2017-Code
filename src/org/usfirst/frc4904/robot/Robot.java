@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
-	RobotMap map = new RobotMap();
-	MatchRecorder logger = new MatchRecorder();
-	MatchInformer matchConfigBroadcast = new MatchInformer();
+	protected final RobotMap map = new RobotMap();
+	protected final MatchRecorder logger = new MatchRecorder();
+	protected final MatchInformer matchConfigBroadcast = new MatchInformer();
 	protected final CommandSendableChooser autoApproachChooser = new CommandSendableChooser();
 	protected final CommandSendableChooser autoRealignChooser = new CommandSendableChooser();
 	protected final CommandSendableChooser autoFinishChooser = new CommandSendableChooser();
