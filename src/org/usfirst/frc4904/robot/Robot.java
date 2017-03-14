@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.autonomous.commands.GearBoilerPegApproach;
 import org.usfirst.frc4904.robot.autonomous.commands.GearCenterPegApproach;
 import org.usfirst.frc4904.robot.autonomous.commands.GearLoadPegApproach;
 import org.usfirst.frc4904.robot.autonomous.commands.GearPegWiggleAndWithdraw;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonDriveOut;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonHighGoal;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonLowGoal;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
@@ -45,6 +46,8 @@ public class Robot extends CommandRobotBase {
 		autoFinishChooser.addDefault(new AutonHighGoal(true));
 		autoFinishChooser.addDefault(new AutonLowGoal(false));
 		autoFinishChooser.addDefault(new AutonLowGoal(true));
+		autoFinishChooser.addDefault(new AutonDriveOut(false));
+		autoFinishChooser.addDefault(new AutonDriveOut(true));
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
