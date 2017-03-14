@@ -48,6 +48,9 @@ public class Robot extends CommandRobotBase {
 		autoFinishChooser.addDefault(new AutonLowGoal(true));
 		autoFinishChooser.addDefault(new AutonDriveOut(false));
 		autoFinishChooser.addDefault(new AutonDriveOut(true));
+		SmartDashboard.putData(SmartDashboardKey.AUTON_APPROACH_CHOOSER.key, autoApproachChooser);
+		SmartDashboard.putData(SmartDashboardKey.AUTON_REALIGN_CHOOSER.key, autoRealignChooser);
+		SmartDashboard.putData(SmartDashboardKey.AUTON_FINISH_CHOOSER.key, autoFinishChooser);
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
