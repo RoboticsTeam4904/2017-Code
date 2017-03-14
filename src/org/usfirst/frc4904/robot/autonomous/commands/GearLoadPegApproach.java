@@ -17,6 +17,7 @@ public class GearLoadPegApproach extends CommandGroup {
 	public static final double INCHES_INITIAL_APPROACH_2 = -69;
 
 	public GearLoadPegApproach(boolean useSensors) {
+		super(useSensors ? "GearLoadPegApproach" : "GearLoadPegApproachDR");
 		ChassisConstant timeMoveA = new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED,
 			0, GearLoadPegApproach.TIME_INITIAL_APPROACH_1);
 		ChassisConstant timeTurn = new ChassisConstant(RobotMap.Component.chassis, 0, 0,

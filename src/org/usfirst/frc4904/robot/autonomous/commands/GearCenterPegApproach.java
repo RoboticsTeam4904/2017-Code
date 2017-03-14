@@ -9,7 +9,7 @@ public class GearCenterPegApproach extends ChassisConstant {
 	public static final double TIME_INITIAL_APPROACH = 1.5;
 
 	public GearCenterPegApproach() {
-		super(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
+		super("GearCenterPegApproachDR", RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
 			GearCenterPegApproach.TIME_INITIAL_APPROACH);
 	}
 }
