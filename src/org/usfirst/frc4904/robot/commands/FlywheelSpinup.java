@@ -9,4 +9,20 @@ public class FlywheelSpinup extends MotorConstant {
 	public FlywheelSpinup() {
 		super("FlywheelSpinup", RobotMap.Component.flywheel, Flywheel.SHOOTING_SPEED);
 	}
+
+	@Override
+	protected void initialize() {
+		RobotMap.Component.flywheel.enableMotionController();
+		super.initialize();
+	}
+
+	@Override
+	protected void end() {
+		RobotMap.Component.flywheel.disableMotionController();
+	}
+
+	@Override
+	protected void interrupted() {
+		end();
+	}
 }

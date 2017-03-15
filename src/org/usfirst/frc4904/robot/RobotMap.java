@@ -180,7 +180,6 @@ public class RobotMap {
 		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
 		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
-		Component.flywheel.enableMotionController(); // TODO Remove once flywheel PID is tuned
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
