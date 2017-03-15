@@ -51,14 +51,14 @@ public class NathanGain extends Driver {
 					new SetEnableableModifier(true, modifier)));
 		RobotMap.Component.driverXbox.lb.onlyWhileReleased(alignAssist);
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.down, 0, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.downRight, 45, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.right, 90, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.upRight, 135, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.up, 180, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.upLeft, 225, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.left, 270, normalDrive);
-		bindDpadCommand(RobotMap.Component.driverXbox.dPad.downLeft, 315, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.down, 0, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.downRight, 45, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.right, 90, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.upRight, 135, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.up, 180, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.upLeft, 225, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.left, 270, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.downLeft, 315, normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(0).whenPressed(normalDrive);
@@ -90,9 +90,9 @@ public class NathanGain extends Driver {
 		return turnSpeed;
 	}
 
-	private void bindDpadCommand(Button direction, double angle, Command normalDrive) {
+	private void bindDPadCommand(Button direction, double angle, Command normalDrive) {
 		direction.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, angle,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		direction.whenReleased(normalDrive);
 	}
 }
