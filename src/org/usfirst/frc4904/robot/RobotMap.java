@@ -131,7 +131,6 @@ public class RobotMap {
 		public static LIDAR lidar;
 		public static MotionController chassisDriveMC;
 		public static MotionController chassisTurnMC;
-		public static AligningCamera alignCamera;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
 		public static Subsystem[] mainSubsystems;
@@ -194,7 +193,7 @@ public class RobotMap {
 			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
-		Component.gearAlignCamera = new AligningCamera(PIDSourceType.kRate);
+		Component.gearAlignCamera = new AligningCamera();
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
 		Component.lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
