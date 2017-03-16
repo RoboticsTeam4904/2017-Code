@@ -202,9 +202,10 @@ public class RobotMap {
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
 		// Motion controllers
-		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
+		Component.chassisTurnMC = new CustomPIDController(0.015, 0.0, 0, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
+		Component.chassisTurnMC.setAbsoluteTolerance(1.0);
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Main subsystems (the ones that get monitored on SmartDashboard)
