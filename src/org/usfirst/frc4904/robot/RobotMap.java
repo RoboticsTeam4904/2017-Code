@@ -80,8 +80,8 @@ public class RobotMap {
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
 			public static final int lidarEncoder = 0x607;
-			public static final int leftEncoder = 0x610;
-			public static final int rightEncoder = 0x611;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x610;
 		}
 
 		public static class Pneumatics {
