@@ -4,9 +4,9 @@ package org.usfirst.frc4904.robot.autonomous.strategies;
 import org.usfirst.frc4904.standard.custom.ChassisController;
 
 public class WiggleApproach implements ChassisController {
-	public static final double WIGGLE_SPEED = -0.3;
-	public static final double WIGGLE_PERIOD = 1.0 / 64.0;
-	public static final double WIGGLE_AMPLITUDE = 0.5;
+	public static final double WIGGLE_SPEED = -0.5;
+	public static final double WIGGLE_PERIOD = 500;
+	public static final double WIGGLE_AMPLITUDE = 0.25;
 	protected final double wiggleSpeed;
 	protected final double wigglePeriod;
 	protected final double wiggleAmplitude;
@@ -33,6 +33,6 @@ public class WiggleApproach implements ChassisController {
 
 	@Override
 	public double getTurnSpeed() {
-		return Math.sin(System.currentTimeMillis() * wigglePeriod) * wiggleAmplitude;
+		return Math.sin(System.currentTimeMillis() * ((2 * Math.PI) / wigglePeriod)) * wiggleAmplitude;
 	}
 }
