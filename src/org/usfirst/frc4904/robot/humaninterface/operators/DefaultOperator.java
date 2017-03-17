@@ -8,6 +8,7 @@ import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.FlywheelSpinupManual;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.HopperAgitate;
@@ -18,6 +19,7 @@ import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
 import org.usfirst.frc4904.standard.commands.OverrideEnable;
+import org.usfirst.frc4904.standard.commands.RunIfElse;
 import org.usfirst.frc4904.standard.commands.ThresholdCommand;
 import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -36,7 +38,10 @@ public class DefaultOperator extends Operator {
 	@Override
 	public void bindCommands() {
 		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
-		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
+		RobotMap.Component.operatorStick.button2.onlyWhileHeld(
+			new RunIfElse(new FlywheelSpinup(),
+				new FlywheelSpinupManual(() -> RobotMap.Component.teensyStick.getAxis(0)),
+				RobotMap.Component.flywheel::isNotOverridden));
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
@@ -53,6 +58,8 @@ public class DefaultOperator extends Operator {
 		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
 			-DefaultOperator.INTAKE_THRESHOLD, true).start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
+		RobotMap.Component.teensyStick.getButton(2).whenPressed(new OverrideEnable(RobotMap.Component.flywheel));
+		RobotMap.Component.teensyStick.getButton(2).whenReleased(new OverrideDisable(RobotMap.Component.flywheel));
 		RobotMap.Component.teensyStick.getButton(6).whenPressed(new OverrideEnable(RobotMap.Component.hopper));
 		RobotMap.Component.teensyStick.getButton(6)
 			.whenReleased(new OverrideDisable(RobotMap.Component.hopper));
