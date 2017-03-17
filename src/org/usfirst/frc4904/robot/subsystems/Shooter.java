@@ -2,10 +2,10 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.standard.commands.Idle;
+import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Shooter extends Subsystem {
+public class Shooter extends OverridableSubsystem {
 	public final Flywheel flywheel;
 	public final Motor indexer;
 	public static final double INDEXER_LOAD_SPEED = 1;
