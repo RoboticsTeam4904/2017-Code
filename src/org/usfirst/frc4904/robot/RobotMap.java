@@ -1,12 +1,14 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
+import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
@@ -170,6 +172,7 @@ public class RobotMap {
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
 			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
+		new RampSet(RampState.EXTENDED).start();
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter

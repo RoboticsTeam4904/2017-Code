@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.RampSet;
+import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
@@ -76,6 +76,6 @@ public class GearIO extends OverridableSubsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new RampSet(RampState.EXTENDED));
+		setDefaultCommand(new Idle(this));
 	}
 }
