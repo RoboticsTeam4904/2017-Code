@@ -80,8 +80,8 @@ public class RobotMap {
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
 			public static final int lidarEncoder = 0x607;
-			public static final int leftEncoder = 0x610;
-			public static final int rightEncoder = 0x611;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x610;
 		}
 
 		public static class Pneumatics {
@@ -142,6 +142,7 @@ public class RobotMap {
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setReverseDirection(true);
 		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.leftWheelAccelerationCap.enable();
 		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
