@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonCrossBaselineTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTime;
@@ -27,6 +28,7 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new AutonGearCenterPegTime());
 		autoChooser.addObject(new AutonGearLoadPegTime());
 		autoChooser.addObject(new AutonGearBoilerPegTime());
+		autoChooser.addObject(new AutonCrossBaselineTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
