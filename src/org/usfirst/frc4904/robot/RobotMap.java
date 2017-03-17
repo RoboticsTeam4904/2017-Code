@@ -89,8 +89,8 @@ public class RobotMap {
 			public static final int gearioGullWingsDown = 3;
 			public static final int gearioRampUp = 0;
 			public static final int gearioRampDown = 1;
-			public static final int hopperDown = 6;
-			public static final int hopperUp = 7;
+			public static final int hopperUp = 6;
+			public static final int hopperDown = 7;
 		}
 	}
 
