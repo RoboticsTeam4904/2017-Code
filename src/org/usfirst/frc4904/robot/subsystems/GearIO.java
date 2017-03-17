@@ -1,23 +1,25 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
+import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearIO extends OverridableSubsystem {
 	public final Motor intakeRoller;
 	public final DoubleSolenoid gullWings;
-	public final DoubleSolenoid ramp;
+	public final Ramp ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
-		this.ramp = ramp;
+		this.ramp = new Ramp(ramp);
 		setState(GearState.TRANSPORT);
 		setRampState(GearIO.RampState.EXTENDED);
 	}
@@ -77,5 +79,22 @@ public class GearIO extends OverridableSubsystem {
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new Idle(this));
+	}
+
+	private class Ramp extends Subsystem {
+		protected final DoubleSolenoid solenoid;
+
+		public Ramp(DoubleSolenoid solenoid) {
+			this.solenoid = solenoid;
+		}
+
+		public void set(DoubleSolenoid.Value value) {
+			solenoid.set(value);
+		}
+
+		@Override
+		protected void initDefaultCommand() {
+			setDefaultCommand(new RampSet(GearIO.RampState.EXTENDED));
+		}
 	}
 }
