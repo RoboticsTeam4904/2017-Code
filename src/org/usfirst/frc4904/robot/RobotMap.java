@@ -1,12 +1,14 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
+import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
 import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
@@ -78,8 +80,8 @@ public class RobotMap {
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
 			public static final int lidarEncoder = 0x607;
-			public static final int leftEncoder = 0x610;
-			public static final int rightEncoder = 0x611;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x610;
 		}
 
 		public static class Pneumatics {
@@ -140,6 +142,7 @@ public class RobotMap {
 		Component.rightWheelEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder);
 		Component.leftWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
 		Component.rightWheelEncoder.setDistancePerPulse(Metrics.WHEEL_INCHES_PER_PULSE);
+		Component.rightWheelEncoder.setReverseDirection(true);
 		Component.leftWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.leftWheelAccelerationCap.enable();
 		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
@@ -170,6 +173,7 @@ public class RobotMap {
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
 			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
+		new RampSet(RampState.EXTENDED).start();
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter
@@ -178,7 +182,6 @@ public class RobotMap {
 		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
 		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
-		Component.flywheel.enableMotionController(); // TODO Remove once flywheel PID is tuned
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Hopper
