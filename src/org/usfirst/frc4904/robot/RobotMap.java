@@ -83,18 +83,14 @@ public class RobotMap {
 		}
 
 		public static class Pneumatics {
-			// Shifter - blue solenoid
-			public static final int shifterUp = 6;
-			public static final int shifterDown = 7;
-			// GearIO gull wings - red solenoid
-			public static final int gearioGullWingsUp = 0;
-			public static final int gearioGullWingsDown = 1;
-			// GearIO ramp - yellow solenoid
-			public static final int gearioRampUp = 2;
-			public static final int gearioRampDown = 3;
-			// Hopper - green solenoid
-			public static final int hopperDown = 4;
-			public static final int hopperUp = 5;
+			public static final int shifterUp = 4;
+			public static final int shifterDown = 5;
+			public static final int gearioGullWingsUp = 2;
+			public static final int gearioGullWingsDown = 3;
+			public static final int gearioRampUp = 0;
+			public static final int gearioRampDown = 1;
+			public static final int hopperDown = 6;
+			public static final int hopperUp = 7;
 		}
 	}
 
