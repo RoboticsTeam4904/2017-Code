@@ -53,20 +53,20 @@ public class DefaultOperator extends Operator {
 		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
 			-DefaultOperator.INTAKE_THRESHOLD, true).start();
 		RobotMap.Component.gearIO.setRampState(GearIO.RampState.EXTENDED);
-		RobotMap.Component.teensyStick.getButton(6).whenPressed(new OverrideEnable(RobotMap.Component.hopper));
-		RobotMap.Component.teensyStick.getButton(6)
+		RobotMap.Component.teensyStick.getButton(8).whenPressed(new OverrideEnable(RobotMap.Component.hopper));
+		RobotMap.Component.teensyStick.getButton(8)
 			.whenReleased(new OverrideDisable(RobotMap.Component.hopper));
-		RobotMap.Component.teensyStick.getButton(9).onlyWhileHeld(new HopperAgitate());
-		RobotMap.Component.teensyStick.getButton(11).whenPressed(new OverrideEnable(RobotMap.Component.gearIO));
-		RobotMap.Component.teensyStick.getButton(11).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
-		RobotMap.Component.teensyStick.getButton(12)
+		RobotMap.Component.teensyStick.getButton(14).onlyWhileHeld(new HopperAgitate());
+		RobotMap.Component.teensyStick.getButton(6).whenPressed(new OverrideEnable(RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(6).whenReleased(new OverrideDisable(RobotMap.Component.gearIO));
+		RobotMap.Component.teensyStick.getButton(12).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
+		RobotMap.Component.teensyStick.getButton(11)
 			.whenPressed(new SetRampState(GearIO.RampState.EXTENDED));
-		RobotMap.Component.teensyStick.getButton(14)
+		RobotMap.Component.teensyStick.getButton(1)
 			.whenPressed(new SetEnableableModifier(false, RobotMap.Component.rightWheelAccelerationCap,
 				RobotMap.Component.leftWheelAccelerationCap));
-		RobotMap.Component.teensyStick.getButton(14).whenReleased(new SetEnableableModifier(true,
+		RobotMap.Component.teensyStick.getButton(1).whenReleased(new SetEnableableModifier(true,
 			RobotMap.Component.rightWheelAccelerationCap, RobotMap.Component.leftWheelAccelerationCap));
-		RobotMap.Component.teensyStick.getButton(13).whenPressed(new SetRampState(GearIO.RampState.RETRACTED));
-		RobotMap.Component.teensyStick.getButton(15).whenPressed(new CalibrateCameraExposure());
+		RobotMap.Component.teensyStick.getButton(10).whenPressed(new CalibrateCameraExposure());
 	}
 }
