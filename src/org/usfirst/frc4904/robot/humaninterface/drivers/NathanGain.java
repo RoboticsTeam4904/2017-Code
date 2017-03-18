@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
@@ -40,18 +41,14 @@ public class NathanGain extends Driver {
 		RobotMap.Component.driverXbox.rb
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
-		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
-		RobotMap.Component.driverXbox.dPad.up.whenReleased(normalDrive);
-		RobotMap.Component.driverXbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
-		RobotMap.Component.driverXbox.dPad.down.whenReleased(normalDrive);
-		RobotMap.Component.driverXbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
-		RobotMap.Component.driverXbox.dPad.left.whenReleased(normalDrive);
-		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
-		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.down, 0, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.downRight, 45, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.right, 90, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.upRight, 135, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.up, 180, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.upLeft, 225, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.left, 270, normalDrive);
+		bindDPadCommand(RobotMap.Component.driverXbox.dPad.downLeft, 315, normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.y
@@ -86,5 +83,11 @@ public class NathanGain extends Driver {
 		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
 			* NathanGain.TURN_SPEED_SCALE;
 		return turnSpeed;
+	}
+
+	private void bindDPadCommand(Button direction, double angle, Command normalDrive) {
+		direction.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, angle,
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
+		direction.whenReleased(normalDrive);
 	}
 }
