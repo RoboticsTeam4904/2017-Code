@@ -42,6 +42,9 @@ public class Robot extends CommandRobotBase {
 		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
 		logger.start();
+		SmartDashboard.putNumber("P", 0.025);
+		SmartDashboard.putNumber("I", 0.0);
+		SmartDashboard.putNumber("D", 0.0);
 		SmartDashboard.putNumber("Error", 0.0);
 		SmartDashboard.putNumber("Setpoint", 0.0);
 		SmartDashboard.putNumber("Sensor", 0.0);
@@ -58,9 +61,12 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		SmartDashboard.putNumber("Error", RobotMap.Component.chassisTurnMC.getError());
-		SmartDashboard.putNumber("Setpoint", RobotMap.Component.chassisTurnMC.getSetpoint());
-		SmartDashboard.putNumber("Sensor", RobotMap.Component.chassisTurnMC.getSensorValue());
+		double rand = Math.random() / 1000.0;
+		RobotMap.Component.chassisTurnMC.setPID(SmartDashboard.getNumber("P", 0.025), SmartDashboard.getNumber("I", 0.0),
+			SmartDashboard.getNumber("D", 0.0));
+		SmartDashboard.putNumber("Error", RobotMap.Component.chassisTurnMC.getError() + rand);
+		SmartDashboard.putNumber("Setpoint", RobotMap.Component.chassisTurnMC.getSetpoint() + rand);
+		SmartDashboard.putNumber("Sensor", RobotMap.Component.chassisTurnMC.getSensorValue() + rand);
 		LogKitten.wtf(RobotMap.Component.gearAlignCamera.getDegrees());
 	}
 
