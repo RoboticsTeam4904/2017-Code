@@ -13,7 +13,6 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -67,7 +66,7 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putNumber("Error", RobotMap.Component.chassisTurnMC.getError() + rand);
 		SmartDashboard.putNumber("Setpoint", RobotMap.Component.chassisTurnMC.getSetpoint() + rand);
 		SmartDashboard.putNumber("Sensor", RobotMap.Component.chassisTurnMC.getSensorValue() + rand);
-		LogKitten.wtf(RobotMap.Component.gearAlignCamera.getDegrees());
+		SmartDashboard.putNumber("Camera angle", RobotMap.Component.gearAlignCamera.getDegrees());
 	}
 
 	@Override
