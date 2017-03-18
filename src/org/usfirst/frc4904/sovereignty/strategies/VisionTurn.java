@@ -26,6 +26,6 @@ public class VisionTurn extends ChassisTurn {
 			LogKitten.w("Camera not reliable right now");
 			return true;
 		}
-		return super.isFinished() || !camera.trustable();
+		return super.isFinished();
 	}
 }
