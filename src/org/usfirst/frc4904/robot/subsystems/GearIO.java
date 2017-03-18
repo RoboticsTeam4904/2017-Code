@@ -25,8 +25,10 @@ public class GearIO extends OverridableSubsystem {
 	}
 
 	public static enum GearState {
-		INTAKE(0.75, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse), TRANSPORT(0,
-			DoubleSolenoid.Value.kForward);
+		INTAKE(0.75, GearState.GULL_WINGS_CLOSED), OUTTAKE(0, GearState.GULL_WINGS_OPEN), TRANSPORT(0,
+			GearState.GULL_WINGS_CLOSED), GEARCLEAR(1, GearState.GULL_WINGS_CLOSED);
+		private static final DoubleSolenoid.Value GULL_WINGS_CLOSED = DoubleSolenoid.Value.kForward;
+		private static final DoubleSolenoid.Value GULL_WINGS_OPEN = DoubleSolenoid.Value.kReverse;
 		private final double intakeRollerSpeed;
 		private final DoubleSolenoid.Value gullWingsValue;
 
