@@ -15,6 +15,8 @@ public class GearIO extends OverridableSubsystem {
 	public final Ramp ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
+	private static final DoubleSolenoid.Value GULL_WINGS_CLOSED = DoubleSolenoid.Value.kForward;
+	private static final DoubleSolenoid.Value GULL_WINGS_OPEN = DoubleSolenoid.Value.kReverse;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
@@ -25,8 +27,8 @@ public class GearIO extends OverridableSubsystem {
 	}
 
 	public static enum GearState {
-		INTAKE(0.75, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse), TRANSPORT(0,
-			DoubleSolenoid.Value.kForward);
+		INTAKE(0.75, GearIO.GULL_WINGS_CLOSED), OUTTAKE(0, GearIO.GULL_WINGS_OPEN), TRANSPORT(0,
+			GearIO.GULL_WINGS_CLOSED), GEARCLEAR(1, GearIO.GULL_WINGS_CLOSED);
 		private final double intakeRollerSpeed;
 		private final DoubleSolenoid.Value gullWingsValue;
 
