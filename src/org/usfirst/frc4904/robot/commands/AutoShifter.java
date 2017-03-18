@@ -68,7 +68,7 @@ public class AutoShifter extends Command {
 		}
 		// If we're flooring it and nothing's in our way and we're going down the field, shiftup.
 		float navxYaw = RobotMap.Component.navx.getYaw();
-		boolean isGoingDownTheField = Math.abs(navxYaw) <= 30 || Math.abs(navxYaw) >= 150;
+		boolean isGoingDownTheField = Math.abs(navxYaw) <= 30;
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
 		boolean isThrottleFast = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
 		if (isAboveMediumSpeed && isThrottleFast && isGoingDownTheField) {
