@@ -17,7 +17,7 @@ public class VisionTurn extends ChassisTurn {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		initialAngle = camera.getDegrees();
+		initialAngle -= camera.getDegrees();
 	}
 
 	@Override
