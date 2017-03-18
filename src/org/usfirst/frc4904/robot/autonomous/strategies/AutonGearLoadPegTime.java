@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearLoadPegTime extends CommandGroup {
-	public static final double TIME_INITIAL_APPROACH_1 = 1.8;
+	public static final double TIME_INITIAL_APPROACH_1 = 1.6;
 	public static final double TIME_TURN = 1;
 	public static final double TIME_INITIAL_APPROACH_2 = 1;
 
