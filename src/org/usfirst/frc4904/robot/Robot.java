@@ -12,6 +12,7 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,6 +67,13 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void alwaysExecute() {
 		putSDSubsystemSummary();
+		try {
+			SmartDashboard.putNumber("Boiler Angle Error", RobotMap.Component.lidar.getLidarSensor2().readSensor()[0]);
+		}
+		catch (InvalidSensorException e) {
+			SmartDashboard.putNumber("Boiler Angle Error", 180.0);
+		}
+		SmartDashboard.putNumber("Gear Angle Error", RobotMap.Component.gearAlignCamera.getDegrees());
 	}
 
 	@Override
