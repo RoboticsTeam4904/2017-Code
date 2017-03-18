@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class GearAlign extends CommandGroup {
-	protected static final int ALIGNMENT_CYCLES = 1;
+	protected static final int ALIGNMENT_CYCLES = 3;
 
 	public GearAlign() {
 		for (int i = 0; i < GearAlign.ALIGNMENT_CYCLES; i++) {
