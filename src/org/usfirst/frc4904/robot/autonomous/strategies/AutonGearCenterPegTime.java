@@ -21,7 +21,7 @@ public class AutonGearCenterPegTime extends CommandGroup {
 		addParallel(new RunFor(new GearioOuttake(), AutonConfig.DEAD_RECKON_OUTTAKE_TIME));
 		addParallel(new RunAllSequential(
 			new WaitCommand(AutonConfig.DEAD_RECKON_OUTTAKE_TIME - AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG),
-			new ChassisConstant(RobotMap.Component.chassis, 0, -AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
+			new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_OUTTAKE_BACKOFF_DRIVE_SPEED, 0,
 				AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG)));
 	}
 }
