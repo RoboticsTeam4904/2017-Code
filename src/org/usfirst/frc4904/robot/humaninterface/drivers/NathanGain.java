@@ -24,9 +24,11 @@ public class NathanGain extends Driver {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double PASSIVE_CLIMBER_SPIN_SPEED = 0.07;
+	public final DriveStraightSpeedModifier driveStraightModifier;
 
 	public NathanGain() {
 		super("NathanGain");
+		driveStraightModifier = new DriveStraightSpeedModifier(this, RobotMap.Component.chassisDriveStraightMC);
 	}
 
 	protected double scaleGain(double input, double gain, double exp) {
@@ -41,16 +43,16 @@ public class NathanGain extends Driver {
 			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.up.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.down.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.left.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90,
-			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
+			RobotMap.Component.navx, RobotMap.Component.chassisTurnMC));
 		RobotMap.Component.driverXbox.dPad.right.whenReleased(normalDrive);
 		RobotMap.Component.driverXbox.b.onlyWhileHeld(HumanInterfaceConfig.gearAlign);
 		RobotMap.Component.driverXbox.b.whenReleased(normalDrive);
@@ -83,8 +85,8 @@ public class NathanGain extends Driver {
 	@Override
 	public double getTurnSpeed() {
 		double rawTurnSpeed = RobotMap.Component.driverXbox.leftStick.getX();
-		double turnSpeed = scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP)
-			* NathanGain.TURN_SPEED_SCALE;
+		double turnSpeed = driveStraightModifier
+			.modify(scaleGain(rawTurnSpeed, NathanGain.TURN_GAIN, NathanGain.TURN_EXP) * NathanGain.TURN_SPEED_SCALE);
 		return turnSpeed;
 	}
 }

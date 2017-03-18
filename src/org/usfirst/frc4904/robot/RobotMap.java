@@ -22,7 +22,6 @@ import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
@@ -127,8 +126,8 @@ public class RobotMap {
 		public static CANEncoder lidarEncoder;
 		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
-		public static MotionController chassisDriveMC;
 		public static MotionController chassisTurnMC;
+		public static MotionController chassisDriveStraightMC;
 		public static AligningCamera alignCamera;
 		public static Flywheel flywheel;
 		public static Shooter shooter;
@@ -195,6 +194,7 @@ public class RobotMap {
 			HumanInterfaceConfig.TEENSY_STICK_NUM_BUTTONS);
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
+		Component.navx.setPIDSourceType(PIDSourceType.kDisplacement);
 		Component.gearAlignCamera = new AligningCamera(PIDSourceType.kRate);
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
@@ -207,8 +207,10 @@ public class RobotMap {
 		Component.chassisTurnMC = new CustomPIDController(0.01, 0.0, -0.02, Component.navx);
 		Component.chassisTurnMC.setInputRange(-180, 180);
 		Component.chassisTurnMC.setContinuous(true);
-		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
+		Component.chassisDriveStraightMC = new CustomPIDController(0, 0, 0, Component.navx);
+		Component.chassisDriveStraightMC.setInputRange(-180, 180);
+		Component.chassisDriveStraightMC.setOutputRange(-1, 1);
+		Component.chassisDriveStraightMC.setContinuous(true);
 		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
 				Component.hopper, Component.lidar};
