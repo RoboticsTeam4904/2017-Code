@@ -5,6 +5,7 @@ import org.usfirst.frc4904.robot.autonomous.strategies.AutonCrossBaselineTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTimeBlue;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTimeRed;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
+import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegVision;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTimeBlue;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTimeRed;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
@@ -28,6 +29,7 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		autoChooser.addObject(new AutonGearCenterPegTime());
+		autoChooser.addObject(new AutonGearCenterPegVision());
 		autoChooser.addObject(new AutonGearLoadPegTimeBlue());
 		autoChooser.addObject(new AutonGearLoadPegTimeRed());
 		autoChooser.addObject(new AutonGearBoilerPegTimeBlue());
