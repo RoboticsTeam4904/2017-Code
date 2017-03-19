@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Flywheel extends VelocitySensorMotor {
 	// TODO: Tune this
-	// public static final double SHOOTING_SPEED = 0.45;
-	public static final double SHOOTING_SPEED = 3350.0; // RPM - MAKE THIS LOWER
+	public static final double SHOOTING_SPEED = 0.45;
+	// public static final double SHOOTING_SPEED = 3350.0; // RPM - MAKE THIS LOWER
 	public static final double FLYWHEEL_P = 0.002;
 	public static final double FLYWHEEL_I = 0.0;
 	public static final double FLYWHEEL_D = -0.005;

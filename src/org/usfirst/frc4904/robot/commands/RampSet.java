@@ -10,7 +10,7 @@ public class RampSet extends Command {
 
 	public RampSet(RampState state) {
 		this.state = state;
-		requires(RobotMap.Component.gearIO);
+		requires(RobotMap.Component.gearIO.ramp);
 	}
 
 	@Override

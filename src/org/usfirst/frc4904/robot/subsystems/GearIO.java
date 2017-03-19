@@ -2,29 +2,33 @@ package org.usfirst.frc4904.robot.subsystems;
 
 
 import org.usfirst.frc4904.robot.commands.RampSet;
+import org.usfirst.frc4904.standard.commands.Idle;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import org.usfirst.frc4904.standard.subsystems.OverridableSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearIO extends OverridableSubsystem {
 	public final Motor intakeRoller;
 	public final DoubleSolenoid gullWings;
-	public final DoubleSolenoid ramp;
+	public final Ramp ramp;
 	protected GearState currentState;
 	protected RampState currentRampState;
+	private static final DoubleSolenoid.Value GULL_WINGS_CLOSED = DoubleSolenoid.Value.kForward;
+	private static final DoubleSolenoid.Value GULL_WINGS_OPEN = DoubleSolenoid.Value.kReverse;
 
 	public GearIO(Motor intakeRoller, DoubleSolenoid gullWings, DoubleSolenoid ramp) {
 		this.intakeRoller = intakeRoller;
 		this.gullWings = gullWings;
-		this.ramp = ramp;
+		this.ramp = new Ramp(ramp);
 		setState(GearState.TRANSPORT);
 		setRampState(GearIO.RampState.EXTENDED);
 	}
 
 	public static enum GearState {
-		INTAKE(0.75, DoubleSolenoid.Value.kForward), OUTTAKE(0, DoubleSolenoid.Value.kReverse), TRANSPORT(0,
-			DoubleSolenoid.Value.kForward);
+		INTAKE(0.75, GearIO.GULL_WINGS_CLOSED), OUTTAKE(0, GearIO.GULL_WINGS_OPEN), TRANSPORT(0,
+			GearIO.GULL_WINGS_CLOSED), GEARCLEAR(1, GearIO.GULL_WINGS_CLOSED);
 		private final double intakeRollerSpeed;
 		private final DoubleSolenoid.Value gullWingsValue;
 
@@ -76,6 +80,23 @@ public class GearIO extends OverridableSubsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new RampSet(RampState.EXTENDED));
+		setDefaultCommand(new Idle(this));
+	}
+
+	private class Ramp extends Subsystem {
+		protected final DoubleSolenoid solenoid;
+
+		public Ramp(DoubleSolenoid solenoid) {
+			this.solenoid = solenoid;
+		}
+
+		public void set(DoubleSolenoid.Value value) {
+			solenoid.set(value);
+		}
+
+		@Override
+		protected void initDefaultCommand() {
+			setDefaultCommand(new RampSet(GearIO.RampState.EXTENDED));
+		}
 	}
 }
