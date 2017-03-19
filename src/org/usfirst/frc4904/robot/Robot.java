@@ -4,6 +4,7 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearBoilerPegTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearCenterPegTime;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTime;
+import org.usfirst.frc4904.robot.commands.LIDARTurnbaugh;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -42,6 +43,7 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
+		(new LIDARTurnbaugh()).start();
 	}
 
 	/**
@@ -53,6 +55,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousInitialize() {
 		RobotMap.Component.navx.zeroYaw();
+		(new LIDARTurnbaugh()).start();
 	}
 
 	/**

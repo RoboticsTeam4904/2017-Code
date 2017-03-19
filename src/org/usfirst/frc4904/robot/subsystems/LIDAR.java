@@ -1,16 +1,14 @@
 package org.usfirst.frc4904.robot.subsystems;
 
 
-import org.usfirst.frc4904.robot.commands.LIDARTurnbaugh;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class LIDAR extends Subsystem {
+public class LIDAR {
 	public static double MIN_MOTOR_OUTPUT = 0.15;
 	public static double MAX_MOTOR_OUTPUT = 0.4;
 	public static double TURN_P = 0.000006; // WIP
@@ -28,6 +26,7 @@ public class LIDAR extends Subsystem {
 		lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
 		lidarMotorController = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
 			lidarEncoder);
+		lidarMotorController.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
 		lidarMotor = new VelocitySensorMotor(lidarMotorController, motor);
 		lidarPhase1Sensor = new CANSensor("LIDAR", lidarPhase1ID);
 		lidarPhase2Sensor = new CANSensor("LIDAR", lidarPhase2ID);
@@ -43,10 +42,5 @@ public class LIDAR extends Subsystem {
 
 	public VelocitySensorMotor getLidarMotor() {
 		return lidarMotor;
-	}
-
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new LIDARTurnbaugh());
 	}
 }
