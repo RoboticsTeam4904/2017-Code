@@ -4,6 +4,7 @@ package org.usfirst.frc4904.robot.subsystems;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CANSensor;
+import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
 import org.usfirst.frc4904.standard.subsystems.motor.VelocitySensorMotor;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -36,8 +37,60 @@ public class LIDAR {
 		return lidarPhase1Sensor;
 	}
 
+	public int getRotatePointAngle() {
+		try {
+			return getRotatePointAngleSafely();
+		}
+		catch (InvalidSensorException e) {
+			return 180;
+		}
+	}
+
+	public int getRotatePointAngleSafely() throws InvalidSensorException {
+		return lidarPhase1Sensor.readSensor()[0];
+	}
+
+	public int getRotatePointDistance() {
+		try {
+			return getRotatePointDistanceSafely();
+		}
+		catch (InvalidSensorException e) {
+			return 180;
+		}
+	}
+
+	public int getRotatePointDistanceSafely() throws InvalidSensorException {
+		return lidarPhase1Sensor.readSensor()[1];
+	}
+
 	public CANSensor getLidarSensor2() {
 		return lidarPhase2Sensor;
+	}
+
+	public int getBoilerCenterAngle() {
+		try {
+			return getBoilerCenterAngleSafely();
+		}
+		catch (InvalidSensorException e) {
+			return 180;
+		}
+	}
+
+	public int getBoilerCenterAngleSafely() throws InvalidSensorException {
+		return lidarPhase2Sensor.readSensor()[0];
+	}
+
+	public int getBoilerCenterDistance() {
+		try {
+			return getBoilerCenterDistanceSafely();
+		}
+		catch (InvalidSensorException e) {
+			return 180;
+		}
+	}
+
+	public int getBoilerCenterDistanceSafely() throws InvalidSensorException {
+		return lidarPhase2Sensor.readSensor()[1];
 	}
 
 	public VelocitySensorMotor getLidarMotor() {
