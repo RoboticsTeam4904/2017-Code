@@ -2,11 +2,12 @@ package org.usfirst.frc4904.robot.vision;
 
 
 import org.usfirst.frc4904.sovereignty.Fusible;
-import edu.wpi.first.wpilibj.PIDSource;
+import org.usfirst.frc4904.standard.custom.sensors.InvalidSensorException;
+import org.usfirst.frc4904.standard.custom.sensors.PIDSensor;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class AligningCamera implements PIDSource, Fusible<Double> {
+public class AligningCamera implements PIDSensor, Fusible<Double> {
 	public static final String TABLE_NAME = "Vision";
 	public static final String FIELD_DEGREES = "degrees";
 	public static final String FIELD_DISTANCE = "distance";
@@ -48,7 +49,13 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 
 	@Override
 	public double pidGet() {
-		return getDegrees();
+		try {
+			return pidGetSafely();
+		}
+		catch (InvalidSensorException e) {
+			// This will never happen (famous last words)
+			return Double.NaN;
+		}
 	}
 
 	@Override
@@ -65,5 +72,10 @@ public class AligningCamera implements PIDSource, Fusible<Double> {
 	public boolean trustable() {
 		return cameraTable.getBoolean(AligningCamera.FIELD_TRUSTABLE,
 			!Double.isNaN(getDegrees()) && !Double.isNaN(getDistance()));
+	}
+
+	@Override
+	public double pidGetSafely() throws InvalidSensorException {
+		return getDegrees();
 	}
 }
