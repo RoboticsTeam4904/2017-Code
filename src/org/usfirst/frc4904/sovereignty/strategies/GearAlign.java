@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class GearAlign extends CommandGroup {
-	protected static final int ALIGNMENT_CYCLES = 3;
+	protected static final int MAX_ALIGNMENT_CYCLES = 3;
 	protected static final double MAX_CYCLE_TIME_SECONDS = 1;
 	protected static final double INTER_CYCLE_DELAY_TIME_SECONDS = 0.25;
 	protected static final double MAXIMUM_CAMERA_DEGREE_TOLERANCE = 2.5;
 
 	public GearAlign() {
-		for (int i = 0; i < GearAlign.ALIGNMENT_CYCLES; i++) {
+		for (int i = 0; i < GearAlign.MAX_ALIGNMENT_CYCLES; i++) {
 			// The pre-turn wait command
 			Command wait = new WaitCommand(GearAlign.INTER_CYCLE_DELAY_TIME_SECONDS);
 			// The actual turn command
