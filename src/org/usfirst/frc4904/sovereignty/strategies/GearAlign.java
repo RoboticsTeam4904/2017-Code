@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class GearAlign extends CommandGroup {
 	protected static final int MAX_ALIGNMENT_CYCLES = 3;
 	protected static final double MAX_CYCLE_TIME_SECONDS = 1;
+	protected static final double MAX_TOTAL_TIME_SECONDS = 2;
 	protected static final double INTER_CYCLE_DELAY_TIME_SECONDS = 0.25;
 	protected static final double MAXIMUM_CAMERA_DEGREE_TOLERANCE = 2.5;
 
 	public GearAlign() {
+		setTimeout(GearAlign.MAX_TOTAL_TIME_SECONDS);
 		for (int i = 0; i < GearAlign.MAX_ALIGNMENT_CYCLES; i++) {
 			// The pre-turn wait command
 			Command wait = new WaitCommand(GearAlign.INTER_CYCLE_DELAY_TIME_SECONDS);
@@ -33,5 +35,10 @@ public class GearAlign extends CommandGroup {
 			addSequential(ifNotAligned);
 		}
 		addSequential(new KittenCommand("Done gear aligning (I did my best)", LogKitten.LEVEL_VERBOSE));
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return super.isFinished() || isTimedOut();
 	}
 }
