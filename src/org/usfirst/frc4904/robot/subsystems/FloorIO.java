@@ -21,7 +21,7 @@ public class FloorIO extends Subsystem {
 	}
 
 	public static enum FloorState {
-		INTAKE(0.75, FloorIO.LOWERED), OUTTAKE(-0.75, FloorIO.RAISED), TRANSPORT(0, FloorIO.RAISED);
+		INTAKE(0.75, FloorIO.LOWERED), OUTTAKE(-0.75, FloorIO.LOWERED), TRANSPORT(0, FloorIO.RAISED);
 		private final double rollerSpeed;
 		private final DoubleSolenoid.Value pistonValue;
 
