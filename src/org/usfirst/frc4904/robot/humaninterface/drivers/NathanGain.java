@@ -6,7 +6,9 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.autonomous.strategies.WiggleApproach;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.Cancel;
+import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
@@ -65,6 +67,11 @@ public class NathanGain extends Driver {
 			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(new Climb(() -> NathanGain.PASSIVE_CLIMBER_SPIN_SPEED));
 		HumanInterfaceConfig.autoShifter.start();
+		RobotMap.Component.driverXbox.a.whenPressed(new SingleOp(() -> {
+			long time = System.currentTimeMillis();
+			LogKitten.wtf("NAVX@" + time + "=" + "(" + RobotMap.Component.navx.getAngle() + ")");
+			LogKitten.wtf("CAMERA@" + time + "=" + "(" + RobotMap.Component.gearAlignCamera.getDegrees() + ")");
+		}));
 	}
 
 	@Override
