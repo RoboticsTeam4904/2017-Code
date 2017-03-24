@@ -6,6 +6,7 @@ import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
+import org.usfirst.frc4904.robot.subsystems.FloorIO;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
@@ -63,6 +64,7 @@ public class RobotMap {
 			public static final int flywheelMotorA = 6;
 			public static final int flywheelMotorB = 7;
 			public static final int indexerMotor = 8;
+			public static final int floorioRoller = 9;
 		}
 
 		public static class PWM {
@@ -93,6 +95,8 @@ public class RobotMap {
 			public static final int gearioRampDown = 1;
 			public static final int hopperUp = 6;
 			public static final int hopperDown = 7;
+			public static final int floorioPistonUp = 6;
+			public static final int floorioPistonDown = 7;
 		}
 	}
 
@@ -117,6 +121,7 @@ public class RobotMap {
 		public static TankDriveShifting chassis;
 		public static BallIO ballIO;
 		public static GearIO gearIO;
+		public static FloorIO floorIO;
 		public static Climber climber;
 		public static Hopper hopper;
 		public static CustomXbox driverXbox;
@@ -173,6 +178,10 @@ public class RobotMap {
 			Port.Pneumatics.gearioRampDown);
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		new RampSet(RampState.EXTENDED).start();
+		// FloorIO
+		Motor floorioRoller = new Motor("FloorioRoller", new CANTalon(Port.CANMotor.floorioRoller));
+		DoubleSolenoid floorioPiston = new DoubleSolenoid(Port.Pneumatics.floorioPistonUp, Port.Pneumatics.floorioPistonDown);
+		Component.floorIO = new FloorIO(floorioRoller, floorioPiston);
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter
