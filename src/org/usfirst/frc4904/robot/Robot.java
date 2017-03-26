@@ -17,12 +17,15 @@ import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	MatchRecorder logger = new MatchRecorder();
 	MatchInformer matchConfigBroadcast = new MatchInformer();
+	NetworkTable test;
+	double lastNum = 0.0;
 
 	@Override
 	public void initialize() {
@@ -77,10 +80,21 @@ public class Robot extends CommandRobotBase {
 	}
 
 	@Override
-	public void disabledInitialize() {}
+	public void disabledInitialize() {
+		NetworkTable.setUpdateRate(0.02);
+		test = NetworkTable.getTable("Test");
+		test.putBoolean("Failed", false);
+		lastNum = test.getNumber("number", Double.NaN);
+	}
 
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+		double num = test.getNumber("number", 0.0);
+		if (num != lastNum || num != lastNum + 1) {
+			System.out.println("RIP: " + lastNum + ", " + num);
+			test.putBoolean("Failed", true);
+		}
+	}
 
 	@Override
 	public void testInitialize() {}
