@@ -8,6 +8,7 @@ import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
 import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.GearClear;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.HopperAgitate;
@@ -42,7 +43,7 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button5.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
 		RobotMap.Component.operatorStick.button5.whenReleased(new RampSet(GearIO.RampState.EXTENDED));
 		RobotMap.Component.operatorStick.button6.onlyWhileHeld(new BallioFloorClear());
-		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new BallioFloorClear());
+		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new GearClear());
 		RobotMap.Component.operatorStick.button8.onlyWhileHeld(new BallioCycle());
 		RobotMap.Component.operatorStick.button9.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
 		RobotMap.Component.operatorStick.button10.whenPressed(new RampSet(GearIO.RampState.EXTENDED));
