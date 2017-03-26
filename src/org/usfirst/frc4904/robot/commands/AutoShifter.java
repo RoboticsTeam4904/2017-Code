@@ -22,7 +22,7 @@ public class AutoShifter extends Command {
 	public static final double MEDIUM_SPEED_THRESHOLD = 40;
 	public static final double MEDIUM_THROTTLE_THRESHOLD = 0.5;
 	public static final double FAST_THROTTLE_THRESHOLD = 0.75;
-	public static final double ALMOST_GOING_STRAIGHT = 30;
+	public static final double STRAIGHT_ANGLE_BUFFER = 30;
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
@@ -69,7 +69,7 @@ public class AutoShifter extends Command {
 		}
 		// If we're flooring it and nothing's in our way and we're going down the field, shift up.
 		float navxYaw = RobotMap.Component.navx.getYaw();
-		boolean isGoingDownTheField = Math.abs(navxYaw) <= AutoShifter.ALMOST_GOING_STRAIGHT;
+		boolean isGoingDownTheField = Math.abs(navxYaw) <= AutoShifter.STRAIGHT_ANGLE_BUFFER;
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
 		boolean isAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
 		if (isAboveMediumSpeed && isAboveFastThrottle && isGoingDownTheField) {
