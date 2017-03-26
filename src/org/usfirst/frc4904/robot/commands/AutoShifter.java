@@ -22,6 +22,7 @@ public class AutoShifter extends Command {
 	public static final double MEDIUM_SPEED_THRESHOLD = 40;
 	public static final double MEDIUM_THROTTLE_THRESHOLD = 0.5;
 	public static final double FAST_THROTTLE_THRESHOLD = 0.75;
+	public static final double ALMOST_GOING_STRAIGHT = 30;
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
@@ -66,12 +67,12 @@ public class AutoShifter extends Command {
 			shiftDownCommand.start();
 			return;
 		}
-		// If we're flooring it and nothing's in our way and we're going down the field, shiftup.
+		// If we're flooring it and nothing's in our way and we're going down the field, shift up.
 		float navxYaw = RobotMap.Component.navx.getYaw();
-		boolean isGoingDownTheField = Math.abs(navxYaw) <= 30;
+		boolean isGoingDownTheField = Math.abs(navxYaw) <= AutoShifter.ALMOST_GOING_STRAIGHT;
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
-		boolean isThrottleFast = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
-		if (isAboveMediumSpeed && isThrottleFast && isGoingDownTheField) {
+		boolean isAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
+		if (isAboveMediumSpeed && isAboveFastThrottle && isGoingDownTheField) {
 			LogKitten.v("Upshifting to allow the driver to floor it down the field.");
 			shiftUpCommand.start();
 			return;
