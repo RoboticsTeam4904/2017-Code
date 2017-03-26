@@ -90,6 +90,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void disabledExecute() {
 		double num = test.getNumber("number", 0.0);
+		System.out.println(num);
 		if (num != lastNum || num != lastNum + 1) {
 			System.out.println("RIP: " + lastNum + ", " + num);
 			test.putBoolean("Failed", true);
