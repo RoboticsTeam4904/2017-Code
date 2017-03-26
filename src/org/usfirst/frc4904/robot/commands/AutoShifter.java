@@ -71,8 +71,8 @@ public class AutoShifter extends Command {
 		float navxYaw = RobotMap.Component.navx.getYaw();
 		boolean isGoingDownTheField = Math.abs(navxYaw) <= AutoShifter.LOW_TURN_ANGLE;
 		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
-		boolean isThrottleFast = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
-		if (isAboveMediumSpeed && isThrottleFast && isGoingDownTheField) {
+		boolean isAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
+		if (isAboveMediumSpeed && isAboveFastThrottle && isGoingDownTheField) {
 			LogKitten.v("Upshifting to allow the driver to floor it down the field.");
 			shiftUpCommand.start();
 			return;
