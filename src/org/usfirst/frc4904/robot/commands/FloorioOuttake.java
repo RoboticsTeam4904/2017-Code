@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class FloorioOuttake extends CommandGroup {
 	public FloorioOuttake() {
 		requires(RobotMap.Component.floorIO);
-		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, FloorIO.OUTTAKE_SPEED));
-		addSequential(new WaitCommand(FloorIO.OUTTAKE_ROLLER_DELAY_SECONDS));
 		addParallel(new SingleOp(() -> RobotMap.Component.floorIO.piston.set(FloorIO.LOWERED)));
+		addSequential(new WaitCommand(FloorIO.OUTTAKE_ROLLER_DELAY_SECONDS));
+		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, FloorIO.OUTTAKE_SPEED));
 	}
 }
