@@ -7,7 +7,8 @@ import org.usfirst.frc4904.robot.commands.BallioFloorClear;
 import org.usfirst.frc4904.robot.commands.BallioIntake;
 import org.usfirst.frc4904.robot.commands.BallioOuttake;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
-import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
+import org.usfirst.frc4904.robot.commands.FloorioIntake;
+import org.usfirst.frc4904.robot.commands.FloorioOuttake;
 import org.usfirst.frc4904.robot.commands.GearClear;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
@@ -15,7 +16,6 @@ import org.usfirst.frc4904.robot.commands.HopperAgitate;
 import org.usfirst.frc4904.robot.commands.HopperSetBallio;
 import org.usfirst.frc4904.robot.commands.HopperSetShooter;
 import org.usfirst.frc4904.robot.commands.RampSet;
-import org.usfirst.frc4904.robot.commands.Shoot;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
 import org.usfirst.frc4904.standard.commands.OverrideEnable;
@@ -36,8 +36,8 @@ public class DefaultOperator extends Operator {
 
 	@Override
 	public void bindCommands() {
-		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new Shoot());
-		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FlywheelSpinup());
+		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new FloorioOuttake());
+		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FloorioIntake());
 		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new BallioIntake());
 		RobotMap.Component.operatorStick.button4.onlyWhileHeld(new BallioOuttake());
 		RobotMap.Component.operatorStick.button5.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
