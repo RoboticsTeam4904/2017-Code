@@ -29,7 +29,7 @@ public class AutonGearLoadPegVision extends CommandGroup {
 		addSequential(new GearAlign());
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonGearLoadPegVision.POST_ALIGN_APPROACH_SPEED, 0,
 			AutonGearLoadPegVision.POST_ALIGN_APPROACH_TIME));
-		addSequential(new WaitCommand(AutonGearBoilerPegVision.PRE_OUTTAKE_DELAY));
+		addSequential(new WaitCommand(AutonGearLoadPegVision.PRE_OUTTAKE_DELAY));
 		addParallel(new RunFor(new GearioOuttake(), AutonGearLoadPegVision.OUTTAKE_TIME_TOTAL));
 		addParallel(new RunAllSequential(
 			new WaitCommand(AutonGearLoadPegVision.OUTTAKE_TIME_TOTAL - AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG),
