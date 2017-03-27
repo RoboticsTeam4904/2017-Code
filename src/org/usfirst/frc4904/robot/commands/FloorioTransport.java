@@ -7,10 +7,10 @@ import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class FloorioIntake extends CommandGroup {
-	public FloorioIntake() {
+public class FloorioTransport extends CommandGroup {
+	public FloorioTransport() {
 		requires(RobotMap.Component.floorIO);
-		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, FloorIO.INTAKE_SPEED));
-		addParallel(new SingleOp(() -> RobotMap.Component.floorIO.piston.set(FloorIO.LOWERED)));
+		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, 0));
+		addParallel(new SingleOp(() -> RobotMap.Component.floorIO.piston.set(FloorIO.RAISED)));
 	}
 }
