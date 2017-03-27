@@ -4,13 +4,11 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
 import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
-import org.usfirst.frc4904.robot.subsystems.BallIO;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.FloorIO;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.robot.subsystems.GearIO.RampState;
-import org.usfirst.frc4904.robot.subsystems.Hopper;
 import org.usfirst.frc4904.robot.subsystems.LIDAR;
 import org.usfirst.frc4904.robot.subsystems.Shooter;
 import org.usfirst.frc4904.robot.vision.AligningCamera;
@@ -27,14 +25,12 @@ import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.ServoSubsystem;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -56,9 +52,6 @@ public class RobotMap {
 		}
 
 		public static class CANMotor {
-			public static final int ballioDirectionalRoller = 1;
-			public static final int ballioHopperRollers = 2;
-			public static final int ballioElevatorAndIntakeRoller = 3;
 			public static final int climbMotorA = 4;
 			public static final int climbMotorB = 5;
 			public static final int flywheelMotorA = 6;
@@ -75,7 +68,6 @@ public class RobotMap {
 			public static final int climbMotorA = 5;
 			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
-			public static final int ballioDoorServo = 8;
 			public static final int lidarMotor = 9;
 		}
 
@@ -93,8 +85,6 @@ public class RobotMap {
 			public static final int gearioGullWingsDown = 3;
 			public static final int gearioRampUp = 0;
 			public static final int gearioRampDown = 1;
-			public static final int hopperUp = 6;
-			public static final int hopperDown = 7;
 			public static final int floorioPistonUp = 6;
 			public static final int floorioPistonDown = 7;
 		}
@@ -119,11 +109,9 @@ public class RobotMap {
 		public static Motor rightWheel;
 		public static AutoSolenoidShifters shifter;
 		public static TankDriveShifting chassis;
-		public static BallIO ballIO;
 		public static GearIO gearIO;
 		public static FloorIO floorIO;
 		public static Climber climber;
-		public static Hopper hopper;
 		public static CustomXbox driverXbox;
 		public static CustomJoystick operatorStick;
 		public static TeensyController teensyStick;
@@ -159,17 +147,6 @@ public class RobotMap {
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
-		// BallIO
-		Motor ballioDirectionalRoller = new Motor("BallioDirectionalRoller",
-			new CANTalon(Port.CANMotor.ballioDirectionalRoller));
-		ballioDirectionalRoller.setInverted(true);
-		Motor ballioHopperRollers = new Motor("BallioHopperRollers", new CANTalon(Port.CANMotor.ballioHopperRollers));
-		ballioHopperRollers.setInverted(true);
-		Motor ballioElevatorAndIntakeRoller = new Motor("BallioElevatorAndIntakeRoller", new AccelerationCap(Component.pdp),
-			new CANTalon(Port.CANMotor.ballioElevatorAndIntakeRoller));
-		ServoSubsystem ballioDoorServo = new ServoSubsystem(new Servo(Port.PWM.ballioDoorServo));
-		Component.ballIO = new BallIO(ballioDirectionalRoller, ballioElevatorAndIntakeRoller, ballioHopperRollers,
-			ballioDoorServo);
 		// GearIO
 		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
@@ -192,8 +169,6 @@ public class RobotMap {
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
-		// Hopper
-		Component.hopper = new Hopper(new DoubleSolenoid(Port.Pneumatics.hopperDown, Port.Pneumatics.hopperUp));
 		// Controls
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);
@@ -220,7 +195,6 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Main subsystems (the ones that get monitored on SmartDashboard)
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
-				Component.hopper, Component.lidar};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.climber, Component.shooter, Component.lidar};
 	}
 }
