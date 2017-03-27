@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 public class TrimmablePIDController extends CustomPIDController implements Trimmable {
 	private double trimValue = 0.0;
 	private double trimIncrement = 0.0;
+	protected double trueSetpoint = 0.0;
 
 	public TrimmablePIDController(double P, double I, double D, double F, PIDSensor sensor) {
 		super(P, I, D, F, sensor);
@@ -35,7 +36,8 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 
 	@Override
 	public void setSetpoint(double setpoint) {
-		super.setSetpoint(setpoint + trimValue);
+		trueSetpoint = setpoint;
+		super.setSetpoint(trueSetpoint + trimValue);
 	}
 
 	@Override
@@ -51,7 +53,7 @@ public class TrimmablePIDController extends CustomPIDController implements Trimm
 	@Override
 	public void setTrim(double trimValue) {
 		this.trimValue = trimValue;
-		setSetpoint(setpoint);
+		super.setSetpoint(trueSetpoint + trimValue);
 	}
 
 	@Override
