@@ -29,6 +29,7 @@ public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	MatchRecorder logger = new MatchRecorder();
 	MatchInformer matchConfigBroadcast = new MatchInformer();
+	CameraServer cameraServer = new CameraServer();
 
 	@Override
 	public void initialize() {
@@ -53,6 +54,7 @@ public class Robot extends CommandRobotBase {
 		matchConfigBroadcast.start();
 		RobotMap.Component.navx.zeroYaw();
 		logger.start();
+		new Thread(cameraServer).start();
 	}
 
 	@Override
@@ -77,7 +79,6 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void autonomousExecute() {}
-	CameraServer cameraServer = new CameraServer();
 
 	/**
 	 * This function is called periodically in every robot mode
