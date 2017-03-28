@@ -1,4 +1,4 @@
-package org.usfirst.frc4904.sovereignty;
+package org.usfirst.frc4904.robot.vision;
 
 
 import java.io.IOException;
@@ -7,12 +7,14 @@ import java.net.Socket;
 import org.usfirst.frc4904.standard.LogKitten;
 
 public class CameraServer implements Runnable {
+	public final static int CAMERA_PORT = 5802;
 	protected ServerSocket socket;
-	protected double lastAngle;
+	protected double cameraAngle;
+	private final Object lock = new Object();
 
 	public CameraServer() {
 		try {
-			socket = new ServerSocket(5802);
+			socket = new ServerSocket(CameraServer.CAMERA_PORT);
 		}
 		catch (IOException ex) {
 			LogKitten.ex(ex);
@@ -33,8 +35,10 @@ public class CameraServer implements Runnable {
 						next = client.getInputStream().read();
 					}
 					client.close();
-					lastAngle = Double.parseDouble(newData.toString());
-					LogKitten.w(lastAngle);
+					synchronized (lock) {
+						cameraAngle = Double.parseDouble(newData.toString());
+					}
+					LogKitten.wtf(cameraAngle);
 				}
 			}
 			catch (IOException e) {
@@ -44,6 +48,8 @@ public class CameraServer implements Runnable {
 	}
 
 	public double read() {
-		return lastAngle;
+		synchronized (lock) {
+			return cameraAngle;
+		}
 	}
 }

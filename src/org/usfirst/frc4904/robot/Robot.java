@@ -17,7 +17,9 @@ import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.operators.BillyOperator;
 import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
+import org.usfirst.frc4904.robot.vision.CameraServer;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -75,6 +77,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void autonomousExecute() {}
+	CameraServer cameraServer = new CameraServer();
 
 	/**
 	 * This function is called periodically in every robot mode
@@ -82,6 +85,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void alwaysExecute() {
 		putSDSubsystemSummary();
+		LogKitten.wtf(cameraServer.read());
 	}
 
 	@Override
