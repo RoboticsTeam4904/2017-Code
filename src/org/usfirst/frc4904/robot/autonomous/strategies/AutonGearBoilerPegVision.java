@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearBoilerPegVision extends CommandGroup {
-	// These constants are based on those in AutonGearLoadPegTime.
-	public static final double TIME_INITIAL_APPROACH_1 = 1.65;
-	public static final double TIME_TURN = 1.05;
-	public static final double TIME_INITIAL_APPROACH_2 = 0.3;
+	public static final double TIME_INITIAL_APPROACH_1 = 1.55;
+	public static final double TIME_TURN = 0.8;
+	public static final double TIME_INITIAL_APPROACH_2 = 1.2;
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;
-	public static final double POST_ALIGN_APPROACH_TIME = 0.2;
+	public static final double POST_ALIGN_APPROACH_TIME = 1.25;
+	public static final double PRE_OUTTAKE_DELAY = 0.5;
 
 	public AutonGearBoilerPegVision(boolean isBlue) {
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
@@ -32,6 +32,7 @@ public class AutonGearBoilerPegVision extends CommandGroup {
 		addSequential(new GearAlign());
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonGearBoilerPegVision.POST_ALIGN_APPROACH_SPEED, 0,
 			AutonGearBoilerPegVision.POST_ALIGN_APPROACH_TIME));
+		addSequential(new WaitCommand(AutonGearBoilerPegVision.PRE_OUTTAKE_DELAY));
 		addParallel(new RunFor(new GearioOuttake(), AutonGearBoilerPegVision.OUTTAKE_TIME_TOTAL));
 		addParallel(new RunAllSequential(
 			new WaitCommand(AutonGearBoilerPegVision.OUTTAKE_TIME_TOTAL - AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG),
