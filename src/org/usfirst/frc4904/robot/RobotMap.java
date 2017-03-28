@@ -65,10 +65,10 @@ public class RobotMap {
 		public static class PWM {
 			public static final int indexerMotor = 6;
 			public static final int ballioDirectionalRoller = 1;
-			public static final int ballioHopperRollers = 2;
-			public static final int ballioElevatorAndIntakeRoller = 3;
-			public static final int climbMotorA = 4;
-			public static final int climbMotorB = 5;
+			public static final int ballioHopperRollers = 4;
+			public static final int ballioElevatorAndIntakeRoller = 5;
+			public static final int climbMotorA = 2;
+			public static final int climbMotorB = 3;
 			public static final int flywheelMotorA = 0;
 			public static final int flywheelMotorB = 7;
 			public static final int ballioDoorServo = 8;
