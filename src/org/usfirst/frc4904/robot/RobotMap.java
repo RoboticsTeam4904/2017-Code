@@ -79,9 +79,11 @@ public class RobotMap {
 
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
-			public static final int lidarEncoder = 0x607;
-			public static final int leftEncoder = 0x611;
-			public static final int rightEncoder = 0x610;
+			public static final int lidarPhase1 = 0x620;
+			public static final int lidarPhase2 = 0x622;
+			public static final int lidarEncoder = 0x621;
+			public static final int leftEncoder = 0x610;
+			public static final int rightEncoder = 0x611;
 		}
 
 		public static class Pneumatics {
@@ -103,6 +105,8 @@ public class RobotMap {
 		public static final double WHEEL_INCHES_PER_PULSE = Metrics.WHEEL_CIRCUMFERENCE_INCHES
 			/ Metrics.WHEEL_PULSES_PER_REVOLUTION;
 		public static final double HIGH_TO_LOW_GEAR_RATIO = 3.15;
+		public static final double ROBOT_LENGTH_INCHES = 40;
+		public static final double ROBOT_WIDTH_INCHES = 36;
 	}
 
 	public static class Component {
@@ -201,7 +205,8 @@ public class RobotMap {
 		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
 			LIDAR.TURN_F, Component.lidarEncoder);
 		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
-		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Port.CAN.lidarPhase1, Port.CAN.lidarPhase2,
+			Port.CAN.lidarEncoder);
 		// Motion controllers
 		Component.chassisTurnMC = new CustomPIDController(0.025, 0.0, 0.0, Component.navx);
 		Component.chassisTurnMC.setMinimumNominalOutput(0.24);
