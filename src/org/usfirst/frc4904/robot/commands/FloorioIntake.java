@@ -13,4 +13,10 @@ public class FloorioIntake extends CommandGroup {
 		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, FloorIO.INTAKE_SPEED));
 		addParallel(new SingleOp(() -> RobotMap.Component.floorIO.piston.set(FloorIO.LOWERED)));
 	}
+
+	@Override
+	protected void interrupted() {
+		super.interrupted();
+		new FloorioSecureGear().start();
+	}
 }
