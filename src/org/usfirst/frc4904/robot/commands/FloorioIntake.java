@@ -16,7 +16,6 @@ public class FloorioIntake extends CommandGroup {
 
 	@Override
 	protected void interrupted() {
-		super.interrupted();
 		new FloorioSecureGear().start();
 	}
 }
