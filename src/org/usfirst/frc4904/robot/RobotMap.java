@@ -155,6 +155,7 @@ public class RobotMap {
 		new RampSet(RampState.EXTENDED).start();
 		// FloorIO
 		Motor floorioRoller = new Motor("FloorioRoller", new CANTalon(Port.CANMotor.floorioRoller));
+		floorioRoller.setInverted(true);
 		DoubleSolenoid floorioPiston = new DoubleSolenoid(Port.Pneumatics.floorioPistonUp, Port.Pneumatics.floorioPistonDown);
 		Component.floorIO = new FloorIO(floorioRoller, floorioPiston);
 		// Climber
