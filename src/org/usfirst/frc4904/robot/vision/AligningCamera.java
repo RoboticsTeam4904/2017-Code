@@ -25,11 +25,6 @@ public class AligningCamera implements PIDSensor, Fusible<Double> {
 		this(sourceType, AligningCamera.TABLE_NAME);
 	}
 
-	public AligningCamera(double networkSpeed) {
-		this();
-		setNetworkSpeed(networkSpeed);
-	}
-
 	public AligningCamera() {
 		this(PIDSourceType.kDisplacement, AligningCamera.TABLE_NAME);
 	}
