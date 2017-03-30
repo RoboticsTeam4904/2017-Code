@@ -195,6 +195,7 @@ public class RobotMap {
 		Component.chassisDriveMC = new CustomPIDController(0.001, 0.0, -0.002,
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Main subsystems (the ones that get monitored on SmartDashboard)
-		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.climber, Component.shooter, Component.lidar};
+		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.climber, Component.shooter, Component.lidar,
+				Component.floorIO};
 	}
 }
