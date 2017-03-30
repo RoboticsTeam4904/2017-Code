@@ -12,10 +12,10 @@ public class FloorIO extends Subsystem {
 	public static final DoubleSolenoid.Value LOWERED = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value RAISED = DoubleSolenoid.Value.kReverse;
 	public static final double INTAKE_SPEED = -0.55;
-	public static final double OUTTAKE_ROLLER_DELAY_SECONDS = 0.1;
+	public static final double OUTTAKE_ROLLER_DELAY_SEC = 0.1;
 	public static final double OUTTAKE_SPEED = 0.5;
 	public static final double SECURE_GEAR_SPEED = -1;
-	public static final double SECURE_GEAR_TIME = 1;
+	public static final double SECURE_GEAR_TIME_SEC = 1;
 
 	public FloorIO(Motor roller, DoubleSolenoid piston) {
 		this.roller = roller;

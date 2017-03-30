@@ -12,7 +12,7 @@ public class FloorioOuttake extends CommandGroup {
 	public FloorioOuttake() {
 		requires(RobotMap.Component.floorIO);
 		addParallel(new SingleOp(() -> RobotMap.Component.floorIO.piston.set(FloorIO.LOWERED)));
-		addSequential(new WaitCommand(FloorIO.OUTTAKE_ROLLER_DELAY_SECONDS));
+		addSequential(new WaitCommand(FloorIO.OUTTAKE_ROLLER_DELAY_SEC));
 		addParallel(new MotorConstant(RobotMap.Component.floorIO.roller, FloorIO.OUTTAKE_SPEED));
 	}
 }
