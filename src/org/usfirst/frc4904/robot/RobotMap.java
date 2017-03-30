@@ -74,14 +74,16 @@ public class RobotMap {
 			public static final int climbMotorB = 6;
 			public static final int gearioIntakeRoller = 7;
 			public static final int ballioDoorServo = 8;
-			public static final int lidarMotor = 9;
+			public static final int lidarMotor = 0;
 		}
 
 		public static class CAN {
 			public static final int matchConfigBroadcast = 0x600;
-			public static final int lidarEncoder = 0x607;
-			public static final int leftEncoder = 0x611;
-			public static final int rightEncoder = 0x610;
+			public static final int leftEncoder = 0x610;
+			public static final int rightEncoder = 0x611;
+			public static final int lidarPhase1 = 0x620;
+			public static final int lidarPhase2 = 0x622;
+			public static final int lidarEncoder = 0x621;
 		}
 
 		public static class Pneumatics {
@@ -125,7 +127,6 @@ public class RobotMap {
 		public static FusibleNavX navx;
 		public static AligningCamera gearAlignCamera;
 		public static CANEncoder lidarEncoder;
-		public static CustomPIDController lidarMC;
 		public static LIDAR lidar;
 		public static MotionController chassisDriveMC;
 		public static CustomPIDController chassisTurnMC;
@@ -198,10 +199,8 @@ public class RobotMap {
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
 		Component.lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
-		Component.lidarMC = new CustomPIDController(LIDAR.TURN_P, LIDAR.TURN_I, LIDAR.TURN_D,
-			LIDAR.TURN_F, Component.lidarEncoder);
-		Component.lidarMC.setOutputRange(LIDAR.MIN_MOTOR_OUTPUT, LIDAR.MAX_MOTOR_OUTPUT);
-		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Component.lidarMC);
+		Component.lidar = new LIDAR(new Spark(Port.PWM.lidarMotor), Port.CAN.lidarPhase1, Port.CAN.lidarPhase2,
+			Port.CAN.lidarEncoder);
 		// Motion controllers
 		Component.chassisTurnMC = new CustomPIDController(0.025, 0.0, 0.0, Component.navx);
 		Component.chassisTurnMC.setMinimumNominalOutput(0.24);
@@ -212,6 +211,6 @@ public class RobotMap {
 			new EncoderPair(Component.leftWheelEncoder, Component.rightWheelEncoder));
 		// Main subsystems (the ones that get monitored on SmartDashboard)
 		Component.mainSubsystems = new Subsystem[] {Component.chassis, Component.ballIO, Component.climber, Component.shooter,
-				Component.hopper, Component.lidar};
+				Component.hopper};
 	}
 }

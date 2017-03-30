@@ -12,6 +12,7 @@ import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTimeBlue;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegTimeRed;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegVisionBlue;
 import org.usfirst.frc4904.robot.autonomous.strategies.AutonGearLoadPegVisionRed;
+import org.usfirst.frc4904.robot.commands.LIDARTurnbaugh;
 import org.usfirst.frc4904.robot.commands.MatchInformer;
 import org.usfirst.frc4904.robot.commands.MatchRecorder;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
@@ -57,6 +58,7 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
+		(new LIDARTurnbaugh()).start();
 	}
 
 	/**
@@ -68,6 +70,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousInitialize() {
 		RobotMap.Component.navx.zeroYaw();
+		(new LIDARTurnbaugh()).start();
 	}
 
 	/**
@@ -82,6 +85,8 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void alwaysExecute() {
 		putSDSubsystemSummary();
+		SmartDashboard.putNumber(SmartDashboardKey.BOILER_CENTER_ANGLE.key, RobotMap.Component.lidar.getBoilerCenterAngle());
+		SmartDashboard.putNumber(SmartDashboardKey.GEAR_PEG_CENTER_ANGLE.key, RobotMap.Component.gearAlignCamera.getDegrees());
 	}
 
 	@Override
