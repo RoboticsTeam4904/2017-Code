@@ -6,12 +6,11 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.autonomous.strategies.WiggleApproach;
 import org.usfirst.frc4904.robot.commands.Climb;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.standard.commands.Cancel;
+import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisTurnAbsolute;
 import org.usfirst.frc4904.standard.humaninput.Driver;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class NathanGain extends Driver {
@@ -36,9 +35,9 @@ public class NathanGain extends Driver {
 	@Override
 	public void bindCommands() {
 		RobotMap.Component.driverXbox.lb
-			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+			.whenPressed(new SingleOp(() -> RobotMap.Component.shifter.set(DoubleSolenoid.Value.kReverse)));
 		RobotMap.Component.driverXbox.rb
-			.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+			.whenPressed(new SingleOp(() -> RobotMap.Component.shifter.set(DoubleSolenoid.Value.kForward)));
 		Command normalDrive = new ChassisMove(RobotMap.Component.chassis, this);
 		RobotMap.Component.driverXbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180,
 			RobotMap.Component.navx, RobotMap.Component.chassisDriveMC));
@@ -58,13 +57,13 @@ public class NathanGain extends Driver {
 			.onlyWhileHeld(new ChassisMove(RobotMap.Component.chassis, new ChassisControllerGroup(this, new WiggleApproach())));
 		RobotMap.Component.driverXbox.y.whenReleased(normalDrive);
 		RobotMap.Component.teensyStick.getButton(13).whenPressed(normalDrive);
-		RobotMap.Component.teensyStick.getButton(3).whenPressed(new Cancel(HumanInterfaceConfig.autoShifter));
-		RobotMap.Component.teensyStick.getButton(3).whenReleased(HumanInterfaceConfig.autoShifter);
+		// RobotMap.Component.teensyStick.getButton(3).whenPressed(new Cancel(HumanInterfaceConfig.autoShifter));
+		// RobotMap.Component.teensyStick.getButton(3).whenReleased(HumanInterfaceConfig.autoShifter);
 		// Inverted (airplane-style) analog gain control
 		RobotMap.Component.driverXbox.x
 			.onlyWhileReleased(new Climb(() -> Math.max(0, -RobotMap.Component.driverXbox.rightStick.getY())));
 		RobotMap.Component.driverXbox.x.onlyWhileHeld(new Climb(() -> NathanGain.PASSIVE_CLIMBER_SPIN_SPEED));
-		HumanInterfaceConfig.autoShifter.start();
+		// HumanInterfaceConfig.autoShifter.start();
 	}
 
 	@Override

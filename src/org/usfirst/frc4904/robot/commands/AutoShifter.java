@@ -34,10 +34,9 @@ public class AutoShifter extends Command {
 		shiftDownCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.DOWN);
 	}
 
-	public AutoShifter() {
-		this(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder);
-	}
-
+	// public AutoShifter() {
+	// this(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder);
+	// }
 	@Override
 	protected void execute() {
 		// If the robot has shifted recently, don't shift again.
@@ -65,13 +64,13 @@ public class AutoShifter extends Command {
 			return;
 		}
 		// If we're pushing against something (throttling high but going slow), shift down.
-		boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_SPEED_THRESHOLD;
-		boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
-		if (isBelowMediumSpeed && isThrottleAboveMedium) {
-			LogKitten.v("Downshifting to push something.");
-			shiftDownCommand.start();
-			return;
-		}
+		// boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_SPEED_THRESHOLD;
+		// boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
+		// if (isBelowMediumSpeed && isThrottleAboveMedium) {
+		// LogKitten.v("Downshifting to push something.");
+		// shiftDownCommand.start();
+		// return;
+		// }
 	}
 
 	@Override

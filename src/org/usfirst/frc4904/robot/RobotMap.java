@@ -3,7 +3,6 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.robot.humaninterface.HumanInterfaceConfig;
-import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.robot.subsystems.Climber;
 import org.usfirst.frc4904.robot.subsystems.FloorIO;
 import org.usfirst.frc4904.robot.subsystems.Flywheel;
@@ -23,7 +22,7 @@ import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
+import org.usfirst.frc4904.standard.subsystems.chassis.TankDrive;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.EnableableModifier;
@@ -105,8 +104,8 @@ public class RobotMap {
 		public static EnableableModifier leftWheelAccelerationCap;
 		public static Motor leftWheel;
 		public static Motor rightWheel;
-		public static AutoSolenoidShifters shifter;
-		public static TankDriveShifting chassis;
+		public static DoubleSolenoid shifter;
+		public static TankDrive chassis;
 		public static GearIO gearIO;
 		public static FloorIO floorIO;
 		public static Climber climber;
@@ -143,8 +142,8 @@ public class RobotMap {
 		Component.rightWheel = new Motor("RightWheel", Component.rightWheelAccelerationCap,
 			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
 		Component.rightWheel.setInverted(true);
-		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
-		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		Component.shifter = new DoubleSolenoid(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
+		Component.chassis = new TankDrive("2017-Chassis", Component.leftWheel, Component.rightWheel);
 		// GearIO
 		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,

@@ -41,7 +41,7 @@ public class MatchRecorder extends Command {
 		for (Motor motor : motorsToRead) {
 			prefixedLog("Motor[" + motor.getName() + "] = " + motor.get());
 		}
-		prefixedLog("Shifters = " + RobotMap.Component.shifter.getShiftState().name());
+		prefixedLog("Shifters = " + RobotMap.Component.shifter.get());
 		prefixedLog("GearIO Gullwings = " + RobotMap.Component.gearIO.getState().name());
 		prefixedLog("GearIO Ramp = " + RobotMap.Component.gearIO.getRampState().name());
 		ticksSinceLast = 0;
