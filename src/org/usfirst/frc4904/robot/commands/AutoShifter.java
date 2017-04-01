@@ -56,7 +56,7 @@ public class AutoShifter extends Command {
 		// Figure out whether the code wants the robot to go straight by looking at the difference between motor speeds of both sides.
 		boolean isTurning = Math.abs(
 			motorThrottles[0] - motorThrottles[1]) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
-		boolean isNotAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
+		boolean isNotAboveFastThrottle = absoluteThrottle < AutoShifter.FAST_THROTTLE_THRESHOLD;
 		// If the robot is trying to turn (sharply) in place, shift down (the chassis can't turn well in high gear).
 		// (Don't do this if we're throttling it fast, to allow drifting and big-radius turns)
 		if (isTurning && isNotAboveFastThrottle) {
