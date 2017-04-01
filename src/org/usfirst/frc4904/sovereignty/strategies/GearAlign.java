@@ -14,7 +14,7 @@ public class GearAlign extends CommandGroup {
 
 	public GearAlign() {
 		for (int i = 0; i < GearAlign.ALIGNMENT_CYCLES; i++) {
-			addSequential(new WaitCommand(0.25));
+			addSequential(new WaitCommand(0.4));
 			addSequential(new RunFor(new VisionTurn(RobotMap.Component.gearAlignCamera), GearAlign.MAX_CYCLE_TIME_SECONDS));
 		}
 		addSequential(new KittenCommand("Done gear aligning (I did my best)", LogKitten.LEVEL_VERBOSE));
