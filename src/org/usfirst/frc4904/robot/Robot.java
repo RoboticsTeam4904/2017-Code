@@ -19,6 +19,7 @@ import org.usfirst.frc4904.robot.humaninterface.operators.DefaultOperator;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,6 +67,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void autonomousInitialize() {
 		RobotMap.Component.navx.zeroYaw();
+		RobotMap.Component.shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
