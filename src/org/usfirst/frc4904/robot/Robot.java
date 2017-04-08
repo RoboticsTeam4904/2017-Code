@@ -54,6 +54,7 @@ public class Robot extends CommandRobotBase {
 
 	@Override
 	public void teleopInitialize() {
+		RobotMap.Component.shifter.set(DoubleSolenoid.Value.kReverse);
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
 	}
