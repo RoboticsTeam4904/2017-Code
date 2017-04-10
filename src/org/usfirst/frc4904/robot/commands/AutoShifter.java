@@ -1,11 +1,11 @@
 package org.usfirst.frc4904.robot.commands;
 
 
-import java.util.Arrays;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.AutoSolenoidShifters;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
+import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -25,42 +25,42 @@ public class AutoShifter extends Command {
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
+	protected final Driver driver;
 	protected final ChassisShiftAsAuto shiftDownCommand;
 
-	public AutoShifter(AutoSolenoidShifters shifter, CustomEncoder leftEncoder, CustomEncoder rightEncoder) {
+	public AutoShifter(Driver driver, AutoSolenoidShifters shifter, CustomEncoder leftEncoder, CustomEncoder rightEncoder) {
 		this.shifter = shifter;
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
+		this.driver = driver;
 		shiftDownCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.DOWN);
 	}
 
-	public AutoShifter() {
-		this(RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder);
+	public AutoShifter(Driver driver) {
+		this(driver, RobotMap.Component.shifter, RobotMap.Component.leftWheelEncoder, RobotMap.Component.rightWheelEncoder);
 	}
 
 	@Override
 	protected void execute() {
 		// If the robot has shifted recently, don't shift again.
+		LogKitten.wtf(shifter.timeSinceLastManualShift() + "\t" + shifter.timeSinceLastAutoShift());
 		boolean hasManuallyShiftedRecently = shifter.timeSinceLastManualShift() <= AutoShifter.LAST_MANUAL_SHIFT_TIME_MILLIS;
 		boolean hasAutomaticallyShiftedRecently = shifter.timeSinceLastAutoShift() <= AutoShifter.LAST_AUTO_SHIFT_TIME_MILLIS;
 		if (hasManuallyShiftedRecently || hasAutomaticallyShiftedRecently) {
 			return;
 		}
-		double[] motorThrottles = RobotMap.Component.chassis.getMotorSpeeds();
 		// Calculate the average of the encoder speeds, which is the same as the overall actual forward speed because the turn speed is added to one side and subtracted from the other.
 		// Also, take the absolute value to treat forwards & backwards the same.
 		double absoluteForwardSpeed = Math.abs((leftEncoder.getRate() + rightEncoder.getRate()) / 2);
-		// Calculate the average of all motor speeds, which is the same as the overall throttle (desired forward speed) because the turn speed is added to one side and subtracted from the other.
-		// Also, take the absolute value to treat forwards & backwards the same.
-		double absoluteThrottle = Math.abs(Arrays.stream(motorThrottles).average().getAsDouble());
-		// Figure out whether the code wants the robot to go straight by looking at the difference between motor speeds of both sides.
-		boolean isTurning = Math.abs(
-			motorThrottles[0] - motorThrottles[1]) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
+		// Figure out whether the code wants the robot to go straight by looking at whether or not the driver is requesitng that we turn.
+		boolean isTurning = Math
+			.abs(driver.getTurnSpeed()) > AutoShifter.MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION;
+		double absoluteThrottle = Math.abs(driver.getY());
 		boolean isNotAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
 		// If the robot is trying to turn (sharply) in place, shift down (the chassis can't turn well in high gear).
 		// (Don't do this if we're throttling it fast, to allow drifting and big-radius turns)
 		if (isTurning && isNotAboveFastThrottle) {
-			LogKitten.v("Downshifting to make turning easier.");
+			LogKitten.wtf("Downshifting to make turning easier.");
 			shiftDownCommand.start();
 			return;
 		}
@@ -68,7 +68,7 @@ public class AutoShifter extends Command {
 		boolean isBelowMediumSpeed = absoluteForwardSpeed < AutoShifter.MEDIUM_SPEED_THRESHOLD;
 		boolean isThrottleAboveMedium = absoluteThrottle > AutoShifter.MEDIUM_THROTTLE_THRESHOLD;
 		if (isBelowMediumSpeed && isThrottleAboveMedium) {
-			LogKitten.v("Downshifting to push something.");
+			LogKitten.wtf("Downshifting to push something.");
 			shiftDownCommand.start();
 			return;
 		}

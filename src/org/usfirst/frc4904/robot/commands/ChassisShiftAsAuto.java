@@ -48,15 +48,6 @@ public class ChassisShiftAsAuto extends Command {
 	}
 
 	@Override
-	protected void execute() {}
-
-	@Override
-	protected void interrupted() {}
-
-	@Override
-	protected void end() {}
-
-	@Override
 	protected boolean isFinished() {
 		return false; // Encoders stay in whatever state until shifted elsewhere.
 	}
