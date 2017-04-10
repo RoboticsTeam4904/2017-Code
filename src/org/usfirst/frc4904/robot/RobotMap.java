@@ -52,20 +52,20 @@ public class RobotMap {
 		}
 
 		public static class CANMotor {
-			public static final int flywheelMotorA = 6;
-			public static final int flywheelMotorB = 7;
-			public static final int indexerMotor = 8;
-			public static final int floorioRoller = 1;
+			public static int leftDriveA = 11;
+			public static int leftDriveB = 12;
+			public static int rightDriveA = 13;
+			public static int rightDriveB = 14;
+			public static final int gearioIntakeRoller = 15;
 		}
 
 		public static class PWM {
-			public static final int leftDriveA = 1;
-			public static final int leftDriveB = 2;
-			public static final int rightDriveA = 3;
-			public static final int rightDriveB = 4;
-			public static final int climbMotorA = 5;
-			public static final int climbMotorB = 6;
-			public static final int gearioIntakeRoller = 7;
+			public static final int indexerMotor = 6;
+			public static final int floorioRoller = 1;
+			public static final int climbMotorA = 2;
+			public static final int climbMotorB = 3;
+			public static final int flywheelMotorA = 0;
+			public static final int flywheelMotorB = 7;
 			public static final int lidarMotor = 9;
 		}
 
@@ -77,14 +77,14 @@ public class RobotMap {
 		}
 
 		public static class Pneumatics {
-			public static final int shifterUp = 4;
-			public static final int shifterDown = 5;
-			public static final int gearioGullWingsUp = 2;
-			public static final int gearioGullWingsDown = 3;
-			public static final int gearioRampUp = 0;
-			public static final int gearioRampDown = 1;
-			public static final int floorioPistonUp = 6;
-			public static final int floorioPistonDown = 7;
+			public static final int shifterUp = 6;
+			public static final int shifterDown = 7;
+			public static final int gearioGullWingsUp = 0;
+			public static final int gearioGullWingsDown = 1;
+			public static final int gearioRampUp = 2;
+			public static final int gearioRampDown = 3;
+			public static final int floorioPistonUp = 5;
+			public static final int floorioPistonDown = 4;
 		}
 	}
 
@@ -138,15 +138,16 @@ public class RobotMap {
 		Component.rightWheelAccelerationCap = new EnableableModifier(new AccelerationCap(Component.pdp));
 		Component.rightWheelAccelerationCap.enable();
 		Component.leftWheel = new Motor("LeftWheel", Component.leftWheelAccelerationCap,
-			new VictorSP(Port.PWM.leftDriveA), new VictorSP(Port.PWM.leftDriveB));
+			new CANTalon(Port.CANMotor.leftDriveA), new CANTalon(Port.CANMotor.leftDriveB));
 		Component.leftWheel.setInverted(true);
 		Component.rightWheel = new Motor("RightWheel", Component.rightWheelAccelerationCap,
-			new VictorSP(Port.PWM.rightDriveA), new VictorSP(Port.PWM.rightDriveB));
+			new CANTalon(Port.CANMotor.rightDriveA), new CANTalon(Port.CANMotor.rightDriveB));
 		Component.rightWheel.setInverted(true);
 		Component.shifter = new AutoSolenoidShifters(Port.Pneumatics.shifterUp, Port.Pneumatics.shifterDown);
 		Component.chassis = new TankDriveShifting("2017-Chassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		// GearIO
-		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", new VictorSP(Port.PWM.gearioIntakeRoller));
+		CANTalon gearioIntakeRollerTalon = new CANTalon(Port.CANMotor.gearioIntakeRoller);
+		Motor gearioIntakeRoller = new Motor("GearioIntakeRoller", gearioIntakeRollerTalon);
 		DoubleSolenoid gearioGullWings = new DoubleSolenoid(Port.Pneumatics.gearioGullWingsUp,
 			Port.Pneumatics.gearioGullWingsDown);
 		DoubleSolenoid gearioRamp = new DoubleSolenoid(Port.Pneumatics.gearioRampUp,
@@ -154,19 +155,19 @@ public class RobotMap {
 		Component.gearIO = new GearIO(gearioIntakeRoller, gearioGullWings, gearioRamp);
 		new RampSet(RampState.EXTENDED).start();
 		// FloorIO
-		Motor floorioRoller = new Motor("FloorioRoller", new CANTalon(Port.CANMotor.floorioRoller));
+		Motor floorioRoller = new Motor("FloorioRoller", new CANTalon(Port.PWM.floorioRoller));
 		floorioRoller.setInverted(true);
 		DoubleSolenoid floorioPiston = new DoubleSolenoid(Port.Pneumatics.floorioPistonUp, Port.Pneumatics.floorioPistonDown);
 		Component.floorIO = new FloorIO(floorioRoller, floorioPiston);
 		// Climber
 		Component.climber = new Climber(new VictorSP(Port.PWM.climbMotorA), new VictorSP(Port.PWM.climbMotorB));
 		// Shooter
-		CANTalon flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
-		CANTalon flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
-		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
+		VictorSP flywheelMotorA = new VictorSP(Port.PWM.flywheelMotorA);
+		VictorSP flywheelMotorB = new VictorSP(Port.PWM.flywheelMotorB);
+		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", gearioIntakeRollerTalon);
 		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
-		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
+		Motor indexer = new Motor("Indexer", new VictorSP(Port.PWM.indexerMotor));
 		Component.shooter = new Shooter(Component.flywheel, indexer);
 		// Controls
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
