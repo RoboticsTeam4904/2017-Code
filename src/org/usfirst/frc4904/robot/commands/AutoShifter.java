@@ -20,18 +20,22 @@ public class AutoShifter extends Command {
 	public static final double LAST_AUTO_SHIFT_TIME_MILLIS = 250;
 	public static final double MAX_WHEEL_SPEED_VALUE_DIFFERENCE_INDICATING_STRAIGHT_MOTION = 0.5;
 	public static final double MEDIUM_SPEED_THRESHOLD = 40;
+	public static final double SLOW_THROTTLE_THRESHOLD = 0.25;
 	public static final double MEDIUM_THROTTLE_THRESHOLD = 0.5;
 	public static final double FAST_THROTTLE_THRESHOLD = 0.75;
+	public static final double STRAIGHT_ANGLE_BUFFER = 30;
 	protected final CustomEncoder leftEncoder;
 	protected final CustomEncoder rightEncoder;
 	protected final AutoSolenoidShifters shifter;
 	protected final ChassisShiftAsAuto shiftDownCommand;
+	protected final ChassisShiftAsAuto shiftUpCommand;
 
 	public AutoShifter(AutoSolenoidShifters shifter, CustomEncoder leftEncoder, CustomEncoder rightEncoder) {
 		this.shifter = shifter;
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
 		shiftDownCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.DOWN);
+		shiftUpCommand = new ChassisShiftAsAuto(shifter, SolenoidShifters.ShiftState.UP);
 	}
 
 	public AutoShifter() {
@@ -62,6 +66,24 @@ public class AutoShifter extends Command {
 		if (isTurning && isNotAboveFastThrottle) {
 			LogKitten.v("Downshifting to make turning easier.");
 			shiftDownCommand.start();
+			return;
+		}
+		// If we're trying to go too slow, downshift.
+		boolean isBelowSlowThrottle = absoluteThrottle < AutoShifter.SLOW_THROTTLE_THRESHOLD;
+		if (isBelowSlowThrottle) {
+			LogKitten.v("Downshifting to allow for go slow.");
+			shiftDownCommand.start();
+			return;
+		}
+		// If we're flooring it and nothing's in our way and we're going down the field, shift up.
+		float navxYaw = RobotMap.Component.navx.getYaw();
+		boolean isGoingDownTheField = Math.abs(navxYaw) <= AutoShifter.STRAIGHT_ANGLE_BUFFER
+			|| Math.abs(navxYaw) >= 180 - AutoShifter.STRAIGHT_ANGLE_BUFFER;
+		boolean isAboveMediumSpeed = absoluteForwardSpeed > AutoShifter.MEDIUM_SPEED_THRESHOLD;
+		boolean isAboveFastThrottle = absoluteThrottle > AutoShifter.FAST_THROTTLE_THRESHOLD;
+		if (isAboveMediumSpeed && isAboveFastThrottle && isGoingDownTheField) {
+			LogKitten.v("Upshifting to allow the driver to floor it down the field.");
+			shiftUpCommand.start();
 			return;
 		}
 		// If we're pushing against something (throttling high but going slow), shift down.
