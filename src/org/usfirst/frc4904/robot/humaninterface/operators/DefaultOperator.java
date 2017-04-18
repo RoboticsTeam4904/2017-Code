@@ -5,9 +5,11 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.commands.CalibrateCameraExposure;
 import org.usfirst.frc4904.robot.commands.FloorioIntake;
 import org.usfirst.frc4904.robot.commands.FloorioOuttake;
+import org.usfirst.frc4904.robot.commands.FlywheelSpinup;
 import org.usfirst.frc4904.robot.commands.GearClear;
 import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
+import org.usfirst.frc4904.robot.commands.IndexerLoad;
 import org.usfirst.frc4904.robot.commands.RampSet;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
@@ -31,8 +33,10 @@ public class DefaultOperator extends Operator {
 	public void bindCommands() {
 		RobotMap.Component.operatorStick.button1.onlyWhileHeld(new FloorioOuttake());
 		RobotMap.Component.operatorStick.button2.onlyWhileHeld(new FloorioIntake());
-		RobotMap.Component.operatorStick.button5.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
-		RobotMap.Component.operatorStick.button5.whenReleased(new RampSet(GearIO.RampState.EXTENDED));
+		RobotMap.Component.operatorStick.button3.onlyWhileHeld(new FlywheelSpinup());
+		RobotMap.Component.operatorStick.button4.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
+		RobotMap.Component.operatorStick.button4.whenReleased(new RampSet(GearIO.RampState.EXTENDED));
+		RobotMap.Component.operatorStick.button5.onlyWhileHeld(new IndexerLoad());
 		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new GearClear());
 		RobotMap.Component.operatorStick.button9.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
 		RobotMap.Component.operatorStick.button10.whenPressed(new RampSet(GearIO.RampState.EXTENDED));
