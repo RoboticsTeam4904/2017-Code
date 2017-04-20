@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class DistanceAutonGearLoadPegVision extends CommandGroup {
-	public static final double INCHES_INITIAL_APPROACH_1 = 0; // SHOULD BE NEGATIVE FOR GEARIO
+	public static final double INCHES_INITIAL_APPROACH_1 = -114; // SHOULD BE NEGATIVE FOR GEARIO
 	public static final double DEGREES_TURN = -60;
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;
-	public static final double POST_ALIGN_APPROACH_INCHES = 0; // SHOULD BE NEGATIVE FOR GEARIO
+	public static final double POST_ALIGN_APPROACH_INCHES = -33; // SHOULD BE NEGATIVE FOR GEARIO
 	public static final double PRE_OUTTAKE_DELAY = 0.5;
 
 	public DistanceAutonGearLoadPegVision(boolean isBlue) {
