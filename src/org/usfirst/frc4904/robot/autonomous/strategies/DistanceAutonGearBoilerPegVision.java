@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class DistanceAutonGearBoilerPegVision extends CommandGroup {
-	public static final double INCHES_INITIAL_APPROACH_1 = 0;
+	public static final double INCHES_INITIAL_APPROACH_1 = -111;
 	public static final double DEGREES_TURN = 60;
-	public static final double INCHES_INITIAL_APPROACH_2 = 0;
+	public static final double INCHES_INITIAL_APPROACH_2 = -39;
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;
