@@ -36,15 +36,12 @@ public class MatchRecorder extends Command {
 		prefixedLog("NavX y acceleration = " + RobotMap.Component.navx.getWorldLinearAccelY());
 		prefixedLog("Right Encoder get = " + RobotMap.Component.rightWheelEncoder.get());
 		prefixedLog("Left Encoder get = " + RobotMap.Component.leftWheelEncoder.get());
-		Motor[] motorsToRead = {RobotMap.Component.leftWheel, RobotMap.Component.rightWheel,
-				RobotMap.Component.ballIO.directionalRoller, RobotMap.Component.ballIO.elevatorAndIntakeRoller,
-				RobotMap.Component.ballIO.hopperRollers, RobotMap.Component.climber, RobotMap.Component.gearIO.intakeRoller,
-				RobotMap.Component.lidar};
+		Motor[] motorsToRead = {RobotMap.Component.leftWheel, RobotMap.Component.rightWheel, RobotMap.Component.climber,
+				RobotMap.Component.gearIO.intakeRoller, RobotMap.Component.lidar};
 		for (Motor motor : motorsToRead) {
 			prefixedLog("Motor[" + motor.getName() + "] = " + motor.get());
 		}
 		prefixedLog("Shifters = " + RobotMap.Component.shifter.getShiftState().name());
-		prefixedLog("Hopper = " + RobotMap.Component.hopper.getState().name());
 		prefixedLog("GearIO Gullwings = " + RobotMap.Component.gearIO.getState().name());
 		prefixedLog("GearIO Ramp = " + RobotMap.Component.gearIO.getRampState().name());
 		ticksSinceLast = 0;
