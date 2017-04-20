@@ -19,7 +19,6 @@ import org.usfirst.frc4904.standard.custom.controllers.TeensyController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.CANTalonEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.EncoderPair;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
@@ -74,6 +73,7 @@ public class RobotMap {
 			public static final int lidarEncoder = 0x607;
 			public static final int leftEncoder = 0x611;
 			public static final int rightEncoder = 0x610;
+			public static final int flywheelEncoder = 0x612;
 		}
 
 		public static class Pneumatics {
@@ -163,7 +163,7 @@ public class RobotMap {
 		// Shooter
 		CANTalon flywheelMotorA = new CANTalon(Port.CANMotor.flywheelMotorA);
 		CANTalon flywheelMotorB = new CANTalon(Port.CANMotor.flywheelMotorB);
-		CustomEncoder flywheelEncoder = new CANTalonEncoder("FlywheelEncoder", flywheelMotorA);
+		CustomEncoder flywheelEncoder = new CANEncoder("FlywheelEncoder", Port.CAN.flywheelEncoder, true);
 		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
