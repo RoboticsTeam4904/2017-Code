@@ -29,6 +29,10 @@ public class AligningCamera implements PIDSensor, Fusible<Double> {
 		this(PIDSourceType.kDisplacement, AligningCamera.TABLE_NAME);
 	}
 
+	public void setNetworkSpeed(double speed) {
+		NetworkTable.setUpdateRate(speed);
+	}
+
 	public double getDegrees() {
 		return cameraTable.getNumber(AligningCamera.FIELD_DEGREES, Double.NaN);
 	}

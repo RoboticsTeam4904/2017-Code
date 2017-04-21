@@ -180,6 +180,7 @@ public class RobotMap {
 		// Sensors
 		Component.navx = new FusibleNavX(SerialPort.Port.kMXP);
 		Component.gearAlignCamera = new AligningCamera();
+		Component.gearAlignCamera.setNetworkSpeed(0.02);
 		// LIDAR
 		Component.lidarEncoder = new CANEncoder("LIDAREncoder", Port.CAN.lidarEncoder);
 		Component.lidarEncoder.setPIDSourceType(PIDSourceType.kRate);
