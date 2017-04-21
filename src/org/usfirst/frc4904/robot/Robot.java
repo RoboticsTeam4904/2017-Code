@@ -36,22 +36,22 @@ public class Robot extends CommandRobotBase {
 	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addObject(new AutonCrossBaselineTime());
 		autoChooser.addObject(new AutonGearCenterPegTime());
-		autoChooser.addObject(new DistanceAutonGearCenterPegVision());
-		autoChooser.addObject(new AutonGearLoadPegTimeBlue());
-		autoChooser.addObject(new AutonGearLoadPegTimeRed());
-		autoChooser.addObject(new DistanceAutonGearLoadPegVisionBlue());
-		autoChooser.addObject(new DistanceAutonGearLoadPegVisionRed());
 		autoChooser.addObject(new AutonGearBoilerPegTimeBlue());
 		autoChooser.addObject(new AutonGearBoilerPegTimeRed());
-		autoChooser.addObject(new DistanceAutonGearBoilerPegVisionBlue());
-		autoChooser.addObject(new DistanceAutonGearBoilerPegVisionRed());
-		autoChooser.addObject(new AutonCrossBaselineTime());
+		autoChooser.addObject(new AutonGearLoadPegTimeBlue());
+		autoChooser.addObject(new AutonGearLoadPegTimeRed());
+		autoChooser.addObject(new AutonGearCenterPegVision());
 		autoChooser.addObject(new AutonGearBoilerPegVisionBlue());
 		autoChooser.addObject(new AutonGearBoilerPegVisionRed());
 		autoChooser.addObject(new AutonGearLoadPegVisionBlue());
 		autoChooser.addObject(new AutonGearLoadPegVisionRed());
-		autoChooser.addObject(new AutonGearCenterPegVision());
+		autoChooser.addObject(new DistanceAutonGearCenterPegVision());
+		autoChooser.addObject(new DistanceAutonGearBoilerPegVisionBlue());
+		autoChooser.addObject(new DistanceAutonGearBoilerPegVisionRed());
+		autoChooser.addObject(new DistanceAutonGearLoadPegVisionBlue());
+		autoChooser.addObject(new DistanceAutonGearLoadPegVisionRed());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
