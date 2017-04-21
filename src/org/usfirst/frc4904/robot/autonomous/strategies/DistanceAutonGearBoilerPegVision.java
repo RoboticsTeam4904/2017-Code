@@ -19,7 +19,7 @@ public class DistanceAutonGearBoilerPegVision extends CommandGroup {
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;
-	public static final double POST_ALIGN_APPROACH_INCHES = 0; // SHOULD BE NEGATIVE FOR GEARIO
+	public static final double POST_ALIGN_APPROACH_TIME = 1.25; // SHOULD BE NEGATIVE FOR GEARIO
 	public static final double PRE_OUTTAKE_DELAY = 0.5;
 
 	public DistanceAutonGearBoilerPegVision(boolean isBlue) {
@@ -42,13 +42,10 @@ public class DistanceAutonGearBoilerPegVision extends CommandGroup {
 		addSequential(new GearAlign());
 		// Actually get to the peg
 		addSequential(
-			new ChassisMoveDistance(RobotMap.Component.chassis, DistanceAutonGearBoilerPegVision.POST_ALIGN_APPROACH_INCHES,
-				RobotMap.Component.chassisDriveMC));
-		// Pause before outtake
+			new ChassisConstant(RobotMap.Component.chassis, 0, DistanceAutonGearBoilerPegVision.POST_ALIGN_APPROACH_SPEED, 0,
+				DistanceAutonGearBoilerPegVision.POST_ALIGN_APPROACH_TIME));
 		addSequential(new WaitCommand(DistanceAutonGearBoilerPegVision.PRE_OUTTAKE_DELAY));
-		// Outtake
 		addParallel(new RunFor(new GearioOuttake(), DistanceAutonGearBoilerPegVision.OUTTAKE_TIME_TOTAL));
-		// Go away
 		addParallel(new RunAllSequential(
 			new WaitCommand(
 				DistanceAutonGearBoilerPegVision.OUTTAKE_TIME_TOTAL - AutonConfig.DEAD_RECKON_TIME_BACK_TO_CLEAR_PEG),
