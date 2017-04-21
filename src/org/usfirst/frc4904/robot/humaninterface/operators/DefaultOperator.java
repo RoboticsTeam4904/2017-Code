@@ -11,9 +11,11 @@ import org.usfirst.frc4904.robot.commands.GearioIntake;
 import org.usfirst.frc4904.robot.commands.GearioOuttake;
 import org.usfirst.frc4904.robot.commands.IndexerLoad;
 import org.usfirst.frc4904.robot.commands.RampSet;
+import org.usfirst.frc4904.robot.subsystems.Flywheel;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.OverrideDisable;
 import org.usfirst.frc4904.standard.commands.OverrideEnable;
+import org.usfirst.frc4904.standard.commands.SingleOp;
 import org.usfirst.frc4904.standard.commands.ThresholdCommand;
 import org.usfirst.frc4904.standard.commands.motor.speedmodifiers.SetEnableableModifier;
 import org.usfirst.frc4904.standard.humaninput.Operator;
@@ -40,6 +42,9 @@ public class DefaultOperator extends Operator {
 		RobotMap.Component.operatorStick.button7.onlyWhileHeld(new GearClear());
 		RobotMap.Component.operatorStick.button9.whenPressed(new RampSet(GearIO.RampState.RETRACTED));
 		RobotMap.Component.operatorStick.button10.whenPressed(new RampSet(GearIO.RampState.EXTENDED));
+		RobotMap.Component.operatorStick.button12
+			.whenPressed(
+				new SingleOp(() -> Flywheel.SHOOTING_SPEED = RobotMap.Component.operatorStick.getThrottle() * -0.1 + 0.5));
 		new ThresholdCommand<Double>(new GearioIntake(), RobotMap.Component.operatorStick::getY,
 			DefaultOperator.INTAKE_THRESHOLD).start();
 		new ThresholdCommand<Double>(new GearioOuttake(), RobotMap.Component.operatorStick::getY,
