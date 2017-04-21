@@ -52,7 +52,6 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addObject(new AutonGearLoadPegVisionBlue());
 		autoChooser.addObject(new AutonGearLoadPegVisionRed());
 		autoChooser.addObject(new AutonGearCenterPegVision());
-		autoChooser.addObject(new AutonCrossBaselineTime());
 		// Configure driver chooser
 		driverChooser.addDefault(new NathanGain());
 		// Configure operator chooser
