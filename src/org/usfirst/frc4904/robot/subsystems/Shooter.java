@@ -12,7 +12,7 @@ public class Shooter extends Subsystem {
 	public static final double INDEXER_LOAD_SPEED = 1;
 	public static final double INDEXER_UNLOAD_SPEED = -0.5;
 	public static final double INDEXER_UNLOAD_TIME = 0.2;
-	public static final double WINDEXER_LOAD_SPEED = 1;
+	public static final double WINDEXER_LOAD_SPEED = 0.45;
 
 	public Shooter(Flywheel flywheel, Motor indexer, Motor windexer) {
 		this.flywheel = flywheel;
