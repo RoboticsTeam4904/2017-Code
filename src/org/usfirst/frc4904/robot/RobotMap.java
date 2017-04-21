@@ -56,6 +56,7 @@ public class RobotMap {
 			public static final int flywheelMotorB = 7;
 			public static final int indexerMotor = 8;
 			public static final int floorioRoller = 1;
+			public static final int windexerMotor = 9;
 		}
 
 		public static class PWM {
@@ -167,7 +168,8 @@ public class RobotMap {
 		flywheelEncoder.setDistancePerPulse(Flywheel.ENCODER_PPS_TO_RPM);
 		Component.flywheel = new Flywheel(flywheelMotorA, flywheelMotorB, flywheelEncoder);
 		Motor indexer = new Motor("Indexer", new CANTalon(Port.CANMotor.indexerMotor));
-		Component.shooter = new Shooter(Component.flywheel, indexer);
+		Motor windexer = new Motor("Windexer", new CANTalon(Port.CANMotor.windexerMotor));
+		Component.shooter = new Shooter(Component.flywheel, indexer, windexer);
 		// Controls
 		Component.driverXbox = new CustomXbox(Port.HumanInput.xboxController);
 		Component.driverXbox.setDeadZone(HumanInterfaceConfig.XBOX_DEADZONE);

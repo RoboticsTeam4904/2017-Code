@@ -8,13 +8,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Shooter extends Subsystem {
 	public final Flywheel flywheel;
 	public final Motor indexer;
+	public final Motor windexer;
 	public static final double INDEXER_LOAD_SPEED = 1;
 	public static final double INDEXER_UNLOAD_SPEED = -0.5;
 	public static final double INDEXER_UNLOAD_TIME = 0.2;
+	public static final double WINDEXER_LOAD_SPEED = 0.65;
 
-	public Shooter(Flywheel flywheel, Motor indexer) {
+	public Shooter(Flywheel flywheel, Motor indexer, Motor windexer) {
 		this.flywheel = flywheel;
 		this.indexer = indexer;
+		this.windexer = windexer;
 	}
 
 	@Override
