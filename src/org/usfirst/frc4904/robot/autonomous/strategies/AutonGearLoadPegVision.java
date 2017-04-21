@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class AutonGearLoadPegVision extends CommandGroup {
 	public static final double TIME_INITIAL_APPROACH_1 = 2.1;
 	public static final double TIME_TURN = 0.7;
+	public static final double TIME_INITIAL_APPROACH_2 = 0.4;
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;
@@ -25,6 +26,8 @@ public class AutonGearLoadPegVision extends CommandGroup {
 		addSequential(
 			new ChassisConstant(RobotMap.Component.chassis, 0, 0,
 				AutonConfig.DEAD_RECKON_TURN_SPEED * (isBlue ? 1.0 : -1.0), AutonGearLoadPegVision.TIME_TURN));
+		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonConfig.DEAD_RECKON_DRIVE_SPEED, 0,
+			AutonGearLoadPegVision.TIME_INITIAL_APPROACH_2));
 		addSequential(new WaitCommand(AutonGearLoadPegVision.PRE_ALIGN_DELAY));
 		addSequential(new GearAlign());
 		addSequential(new ChassisConstant(RobotMap.Component.chassis, 0, AutonGearLoadPegVision.POST_ALIGN_APPROACH_SPEED, 0,
