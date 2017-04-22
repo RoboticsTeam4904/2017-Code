@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class GearAlign extends CommandGroup {
 	protected static final double PAUSE_BETWEEN_ALIGNMENT_CYCLES = 0.4;
-	protected static final int ALIGNMENT_CYCLES = 3;
+	protected static final int ALIGNMENT_CYCLES = 2;
 	protected static final int MAX_CYCLE_TIME_SECONDS = 1;
 
 	public GearAlign() {
