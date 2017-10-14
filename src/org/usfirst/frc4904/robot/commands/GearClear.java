@@ -1,11 +1,15 @@
 package org.usfirst.frc4904.robot.commands;
 
-
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.robot.subsystems.GearIO;
 import org.usfirst.frc4904.standard.commands.motor.MotorConstant;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * clears the gear tray
+ *
+ */
 public class GearClear extends CommandGroup {
 	public static final double GEAR_CLEAR_FLYWHEEL_SPEED = -0.35;
 
