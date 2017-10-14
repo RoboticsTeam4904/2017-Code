@@ -16,4 +16,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar" sourcepath="USERLIBS_DIR/navx_frc-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 </classpath>
