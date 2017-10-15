@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearLoadPegVision extends CommandGroup {
 	public static final double TIME_INITIAL_APPROACH_1 = 2.1;
-	public static final double TIME_TURN = 0.8;
+	public static final double TIME_TURN = 0.75;
 	public static final double OUTTAKE_TIME_TOTAL = 3;
 	public static final double PRE_ALIGN_DELAY = 0.5;
 	public static final double POST_ALIGN_APPROACH_SPEED = -0.3;

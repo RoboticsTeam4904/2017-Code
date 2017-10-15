@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonGearLoadPegTime extends CommandGroup {
 	public static final double TIME_INITIAL_APPROACH_1 = 2.1;
-	public static final double TIME_TURN = 0.8;
+	public static final double TIME_TURN = 0.75;
 	public static final double TIME_INITIAL_APPROACH_2 = 1;
 
 	public AutonGearLoadPegTime(boolean isBlue) {
