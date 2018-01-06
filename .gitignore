@@ -2,3 +2,12 @@ build
 dist
 bin
 sysProps.xml
+/README.md
+.gradle/
+.idea/
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+/.settings/
+!/build.gradle
